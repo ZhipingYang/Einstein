@@ -1,0 +1,55 @@
+{
+  "name": "UITestHelper",
+  "version": "0.1.0",
+  "summary": "UITest helper",
+  "description": "UITest extension and solution",
+  "homepage": "https://github.com/ZhipingYang/UITestHelper",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Daniel Yang": "xcodeyang@gmail.com"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source": {
+    "git": "https://github.com/ZhipingYang/UITestHelper.git",
+    "tag": "0.1.0"
+  },
+  "requires_arc": true,
+  "swift_versions": "5.0",
+  "default_subspecs": [
+    "Core",
+    "EXtension"
+  ],
+  "dependencies": {
+    "Then": [
+
+    ]
+  },
+  "subspecs": [
+    {
+      "name": "Core",
+      "source_files": "class/core/*.swift",
+      "frameworks": "UIKit"
+    },
+    {
+      "name": "EXtension",
+      "source_files": "class/extension/*.swift",
+      "ios": {
+        "frameworks": [
+          "UIKit",
+          "XCTest"
+        ]
+      },
+      "dependencies": {
+        "UITestHelper/Core": [
+
+        ]
+      }
+    }
+  ],
+  "swift_version": "5.0"
+}

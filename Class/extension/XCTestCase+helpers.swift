@@ -108,7 +108,7 @@ public extension XCTestCase {
     }
     
     func hideAlertsIfNeeded() {
-        let systemAlerts = Springboard.springboard.alerts
+        let systemAlerts = XCUIApplication(bundleIdentifier: "com.apple.springboard").alerts
         let alerts = systemAlerts.count<=0 ? app.alerts : systemAlerts
         let alert = alerts.firstMatch
         
@@ -142,5 +142,20 @@ public extension XCTestCase {
     
     func testTry(count: Int = 3, timeout: TimeInterval, until: (() -> Bool)) {
         
-    }    
+    }
+    
+    func deleteMyAppIfNeed() {
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard").then {
+            $0.activate()
+        }
+        let appName = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String
+        let icons = springboard.icons.matching(identifier: appName ?? "Demo")
+        for index in 0..<icons.count {
+            let icon = icons.firstMatch
+            if index == 0 { icon.waitUntilExistsAssert().press(forDuration: 4) }
+            icon.buttons["DeleteButton"].tapIfExists(timeout: 1)
+            springboard.alerts.buttons["Delete"].tapIfExists(timeout: 1)
+        }
+    }
+
 }

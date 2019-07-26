@@ -15,7 +15,7 @@ import Then
 public extension XCUIElement {
     
     @discardableResult
-    func waitUntil(predicate: Predicate, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {
+    func waitUntil(predicate: EasyPredicate, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {
         // return self directly
         switch predicate {
         case .exists(let e) where e == exists:
@@ -26,36 +26,38 @@ public extension XCUIElement {
         }
         // waiting
         let test = XCTestCase().then { $0.continueAfterFailure = true }
-        let promise = test.expectation(for: predicate.convert, evaluatedWith: self, handler: handler)
+        let promise = test.expectation(for: predicate.rawValue.toPredicate, evaluatedWith: self, handler: handler)
         XCTWaiter().wait(for: [promise], timeout: timeout)
         return self
     }
     
     @discardableResult
-    func waitUntilAssert(predicate: Predicate, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {
+    func waitUntilAssert(predicate: EasyPredicate, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {
         return waitUntil(predicate: predicate, timeout: timeout, handler: handler).then {
             switch predicate {
             case .exists(let exists):
                 XCTAssert(self.exists == exists, "Element should \(exists ? "exist" : "inexist"): \($0)")
             case .isEnabled(let isEnabled):
                 XCTAssert(self.isEnabled == isEnabled, "Element should \(isEnabled ? "enabled" : "disabled"): \($0)")
+            case .other(_):
+                break
             }
         }
     }
 
     @discardableResult
     func waitUntilExists(timeout: TimeInterval = 10) -> XCUIElement {
-        return waitUntil(predicate: Predicate.exists(true), timeout: timeout)
+        return waitUntil(predicate: EasyPredicate.exists(true), timeout: timeout)
     }
 
     @discardableResult
     func waitUntilExistsAssert(timeout: TimeInterval = 10) -> XCUIElement {
-        return waitUntilAssert(predicate: Predicate.exists(true), timeout: timeout)
+        return waitUntilAssert(predicate: EasyPredicate.exists(true), timeout: timeout)
     }
     
     @discardableResult
     func waitUntilEnable(timeout: TimeInterval = 10) -> XCUIElement {
-        return waitUntil(predicate: Predicate.isEnabled(true), timeout: timeout)
+        return waitUntil(predicate: EasyPredicate.isEnabled(true), timeout: timeout)
     }
     
     /// Wait until it's available and then type a text into it.
@@ -110,7 +112,7 @@ public extension XCUIElement {
     
     @discardableResult
     func forceTap(timeout: TimeInterval = 10) -> XCUIElement {
-        return waitUntil(predicate: Predicate.isEnabled(true), timeout: timeout).then {
+        return waitUntil(predicate: EasyPredicate.isEnabled(true), timeout: timeout).then {
             let vector = CGVector(dx: 0.5, dy: 0.5)
             $0.isHittable ? tap() : coordinate(withNormalizedOffset: vector).tap()
         }
@@ -126,7 +128,7 @@ public extension XCUIElement {
 
 public extension Collection where Iterator.Element: XCUIElement {
     
-    func waitUntil(predicate: Predicate, timeout: TimeInterval = 10) -> XCUIElement? {
+    func waitUntil(predicate: EasyPredicate, timeout: TimeInterval = 10) -> XCUIElement? {
         
         for _ in 1...Int(timeout) {
             let valid = self.first {
@@ -140,7 +142,7 @@ public extension Collection where Iterator.Element: XCUIElement {
             
             // NSCompoundPredicate
             let test = XCTestCase().then { $0.continueAfterFailure = true }
-            let promise = test.expectation(for: predicate.convert, evaluatedWith: first, handler: nil)
+            let promise = test.expectation(for: predicate.rawValue.toPredicate, evaluatedWith: first, handler: nil)
             XCTWaiter().wait(for: [promise], timeout: 1)
         }
         return nil

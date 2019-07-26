@@ -9,8 +9,8 @@
 import XCTest
 
 /*
- MARK: - RawRepresentable
- Retrieving an `XCUIElement` from RawRepresentable value which also been used as accessibility identifier.
+ MARK: - RawRepresentable extension
+ Get the `XCUIElement` from RawRepresentable's RawValue which also been used as accessibilityIdentifier
 */
 public extension RawRepresentable where Self.RawValue == String {
     
@@ -44,31 +44,49 @@ public extension RawRepresentable where Self.RawValue == String {
 }
 
 
-// MARK: - RawRepresentable, Element.RawValue == String
+// MARK: - RawRepresentables extension
 public extension Sequence where Element: RawRepresentable, Element.RawValue == String {
     
+    /// get the elements which match with identifiers and predicates limited in timeout
+    ///
+    /// - Parameters:
+    ///   - subpredicates: predicates as the match rules
+    ///   - logic: relation of predicates
+    ///   - timeout: if timeout == 0, return the elements immediately otherwise retry until timeout
+    /// - Returns: get the elements
+    func anyElements(subpredicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: Int) -> [XCUIElement] {
+        let elements = map { $0.query.element(predicates: subpredicates, logic: logic) }
+        if elements.count > 0 || timeout <= 0 {
+            return elements
+        } else {
+            sleep(1)
+            return anyElements(subpredicates: subpredicates, logic: logic, timeout: timeout - 1)
+        }
+    }
+
     /// get all elements match the predicates
     ///
     /// - Parameters:
     ///   - subpredicates: predicates as the match rules
     ///   - logic: relation of predicates
     /// - Returns: get the elements
-    func elements(subpredicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> [XCUIElement] {
-        let elements = self.map { rawRepresentable -> XCUIElement in
-            let query = XCUIApplication().descendants(matching: .any).matching(identifier: rawRepresentable.rawValue)
-            return query.element(withIdentifier: rawRepresentable, predicates: subpredicates, logic: logic)
-        }
-        return elements
+    func anyElements(subpredicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> [XCUIElement] {
+        return anyElements(subpredicates: subpredicates, logic: logic, timeout: 0)
     }
 
     /// get the first element was matched predicate
     func firstEmenet(predicate: EasyPredicate) -> XCUIElement? {
-        return elements(subpredicates: [predicate]).first
+        return anyElements(subpredicates: [predicate]).first
     }
 }
 
 
-// MARK: - String as RawRepresentable self
+/*
+ MARK: - String extension
+ Note: string value can be a RawRepresentable and String at the same time
+ for example:
+ `let element: XCUIElement = "SomeString".element`
+ */
 extension String: RawRepresentable {
     public var rawValue: String { return self }
     public init?(rawValue: String) {

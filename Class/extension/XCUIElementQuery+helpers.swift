@@ -15,4 +15,9 @@ extension XCUIElementQuery {
         subpredicates.append(idPredicate)
         return element(matching: NSCompoundPredicate(type: logic, subpredicates: subpredicates))
     }
+    
+    func element(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement {
+        let subpredicates = predicates.map { $0.rawValue.toPredicate }
+        return element(matching: NSCompoundPredicate(type: logic, subpredicates: subpredicates))
+    }
 }

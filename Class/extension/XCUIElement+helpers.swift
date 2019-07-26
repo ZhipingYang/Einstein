@@ -139,25 +139,15 @@ public extension XCUIElement {
     }
 }
 
-public extension Collection where Iterator.Element: XCUIElement {
-    
-    func waitUntil(predicate: EasyPredicate, timeout: TimeInterval = 10) -> XCUIElement? {
-        
-        for _ in 1...Int(timeout) {
-            let valid = self.first {
-                switch predicate {
-                case .exists(let e) where e == $0.exists:       return true
-                case .isEnabled(let i) where i == $0.isEnabled: return true
-                default: return false
-                }
-            }
-            if let valid = valid { return valid }
-            
-            // NSCompoundPredicate
-            let test = XCTestCase().then { $0.continueAfterFailure = true }
-            let promise = test.expectation(for: predicate.rawValue.toPredicate, evaluatedWith: first, handler: nil)
-            XCTWaiter().wait(for: [promise], timeout: 1)
-        }
-        return nil
-    }
-}
+//public extension Collection where Iterator.Element: XCUIElement {
+//
+//    func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and, timeout: TimeInterval = 10) -> XCUIElement? {
+//        let test = XCTestCase().then { $0.continueAfterFailure = true }
+//        let predicate = NSCompoundPredicate(type: logic, subpredicates: predicates.map { $0.rawValue.toPredicate })
+//        let promises = map { test.expectation(for: predicate, evaluatedWith: $0, handler: nil) }
+//        XCTWaiter().wait(for: promises, timeout: timeout)
+//        return first(where: { (element) -> Bool in
+//            element.predica
+//        })
+//    }
+//}

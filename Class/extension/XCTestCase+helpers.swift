@@ -40,13 +40,13 @@ public extension XCTestCase {
     ///   - arguments: An array of RawRepresentable iterms that will be passed on as arguments
     ///   - counter: The retry counter for trying to startup the app (Default is 10)
     ///   - wait: The number of seconds to wait. Slower test machines might require a longer wait
-    func tryLaunch<T>(arguments: [T], count counter: Int = 10, wait: UInt32 = 2) where T: RawRepresentable {
+    func tryLaunch<T: RawRepresentable>(arguments: [T], count counter: Int = 10, wait: UInt32 = 2) where T.RawValue == String {
         sleep(wait)
         XCUIApplication().terminate()
         sleep(wait)
         
         app = XCUIApplication().then {
-            $0.launchArguments = arguments.map { para in para.rawValue as! String }
+            $0.launchArguments = arguments.map { para in para.rawValue }
             $0.launch()
         }
         sleep(wait)
@@ -87,7 +87,10 @@ public extension XCTestCase {
         XCUIApplication().terminate()
         sleep(wait)
     }
+}
 
+public extension XCTestCase {
+    
     func isSimulator() -> Bool {
         return TARGET_OS_SIMULATOR != 0
     }
@@ -139,11 +142,7 @@ public extension XCTestCase {
         settingsApp.tables.cells["Airplane Mode"].children(matching: .switch).firstMatch.setSwitch(on: true)
         app.activate()
     }
-    
-    func testTry(count: Int = 3, timeout: TimeInterval, until: (() -> Bool)) {
         
-    }
-    
     func deleteMyAppIfNeed() {
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard").then {
             $0.activate()
@@ -157,5 +156,4 @@ public extension XCTestCase {
             springboard.alerts.buttons["Delete"].tapIfExists(timeout: 1)
         }
     }
-
 }

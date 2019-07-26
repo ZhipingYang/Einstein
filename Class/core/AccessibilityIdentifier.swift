@@ -10,12 +10,13 @@
 
 import UIKit
 
-
+// MARK: - pretty rawVlaue as a keypath string of object
 public protocol PrettyRawValue: RawRepresentable where RawValue == String {
     var prettyRawValue: RawValue { get }
 }
+
 public extension PrettyRawValue {
-    var prettyRawValue: RawValue {
+    var prettyRawValue: String {
         let paths = String(reflecting: self).split(separator: ".").dropFirst()
         if String(paths.last ?? "") != rawValue {
             return rawValue
@@ -24,9 +25,7 @@ public extension PrettyRawValue {
     }
 }
 
-
-
-
+// MARK: - accessibilityIdentifier assignment
 infix operator >>>
 public func >>> <T: RawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) where T.RawValue == String {
     lhs?.accessibilityIdentifier = rhs.rawValue
@@ -45,17 +44,7 @@ extension UIAccessibilityIdentification {
 }
 
 
-
-extension String: RawRepresentable {
-    public var rawValue: String { return self }
-    public init?(rawValue: String) {
-        self = rawValue
-    }
-}
-
-
-
-
+// demo for test
 struct AccessibilityID {}
 extension AccessibilityID {
     enum Home1: String {
@@ -69,17 +58,17 @@ extension AccessibilityID {
     }
 }
 
-let path1 = AccessibilityID.Home1.setting.rawValue
-// "HomeSetting1"
-
-let path2_1 = AccessibilityID.Home2.setting.rawValue
-// "setting"
-let path2_2 = AccessibilityID.Home2.setting.prettyRawValue
-// "AccessibilityID_Home2_setting"
-
-let path3 = AccessibilityID.Home3.setting.prettyRawValue
-// "HomeSetting3"
-
+//let path1 = AccessibilityID.Home1.setting.rawValue
+//// "HomeSetting1"
+//
+//let path2_1 = AccessibilityID.Home2.setting.rawValue
+//// "setting"
+//let path2_2 = AccessibilityID.Home2.setting.prettyRawValue
+//// "AccessibilityID_Home2_setting"
+//
+//let path3 = AccessibilityID.Home3.setting.prettyRawValue
+//// "HomeSetting3"
+//
 //let view = UIView()
 //view >>> AccessibilityID.Home2.setting
 //print(view.accessibilityIdentifier ?? "null")

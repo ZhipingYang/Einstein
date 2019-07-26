@@ -17,7 +17,7 @@
 		3B3691ABBAF058C00EDABF79F5C1C8FE /* Pods-Demo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 938C7E1A54FAEC10DA49730DA4BA41C9 /* Pods-Demo-dummy.m */; };
 		3E22AA055CFB3005FB1257B077249D90 /* EasyPredicate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE68ADF57B01EE32EF31BFF304E1ECA9 /* EasyPredicate.swift */; };
 		3EB8AD2B275166C16654E3F04FB7E81B /* Pods-DemoTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4920C56CA9E6126E648166C7EDDFA8 /* Pods-DemoTests-dummy.m */; };
-		54DDFD26AA28E9728E50672C8DD09F2C /* RawRepresentable+XCUIElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148E3FB2CEF6CB24A107D26966797382 /* RawRepresentable+XCUIElement.swift */; };
+		54DDFD26AA28E9728E50672C8DD09F2C /* RawRepresentable+helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148E3FB2CEF6CB24A107D26966797382 /* RawRepresentable+helpers.swift */; };
 		5FF051B615EFED132532DAA5F9683017 /* Then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BAE322709946E3A7D334F75FBBF32ED /* Then.framework */; };
 		62A09143611DFF13E9614E7E97F21207 /* UITestHelper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB25E6D0C518A1919DB679CD187D2F9 /* UITestHelper-dummy.m */; };
 		725554F217377AE70835AAD0DC375972 /* Pods-Demo-DemoUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5982964000C6EB68548D80D063F4C791 /* Pods-Demo-DemoUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -85,7 +85,7 @@
 		0416CB2D4C2BC126AB828C43B0C079D1 /* Then.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Then.modulemap; sourceTree = "<group>"; };
 		089B17D2B2CE3D5FB242D55CE13C1FC1 /* AccessibilityIdentifier.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AccessibilityIdentifier.swift; path = Class/core/AccessibilityIdentifier.swift; sourceTree = "<group>"; };
 		1156017E16AAC9E12B53AFE19D0DA173 /* Pods-DemoTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DemoTests.modulemap"; sourceTree = "<group>"; };
-		148E3FB2CEF6CB24A107D26966797382 /* RawRepresentable+XCUIElement.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "RawRepresentable+XCUIElement.swift"; path = "Class/extension/RawRepresentable+XCUIElement.swift"; sourceTree = "<group>"; };
+		148E3FB2CEF6CB24A107D26966797382 /* RawRepresentable+helpers.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "RawRepresentable+helpers.swift"; path = "Class/extension/RawRepresentable+helpers.swift"; sourceTree = "<group>"; };
 		18B2292DE92191C797479FFAB7CE902B /* UITestHelper-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UITestHelper-prefix.pch"; sourceTree = "<group>"; };
 		1CB25E6D0C518A1919DB679CD187D2F9 /* UITestHelper-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UITestHelper-dummy.m"; sourceTree = "<group>"; };
 		1CBAF704A81C0462024FB8859C97FAF0 /* UITestHelper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UITestHelper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -257,9 +257,9 @@
 		858A19E96EC4DB379233DB87623C413E /* EXtension */ = {
 			isa = PBXGroup;
 			children = (
-				148E3FB2CEF6CB24A107D26966797382 /* RawRepresentable+XCUIElement.swift */,
-				FD1B02FBF376117789FC2A1FB8D7732C /* XCTestCase+helpers.swift */,
+				148E3FB2CEF6CB24A107D26966797382 /* RawRepresentable+helpers.swift */,
 				F9DDE3CCB2446ACF30EA6D6DBDDA9D62 /* XCUIElement+helpers.swift */,
+				FD1B02FBF376117789FC2A1FB8D7732C /* XCTestCase+helpers.swift */,
 				F75BF744CED3FD8E1991D84A2238124C /* XCUIElementQuery+helpers.swift */,
 			);
 			name = EXtension;
@@ -635,7 +635,7 @@
 			files = (
 				81CB5474097235FBE21BD9A0FC968FAA /* AccessibilityIdentifier.swift in Sources */,
 				3E22AA055CFB3005FB1257B077249D90 /* EasyPredicate.swift in Sources */,
-				54DDFD26AA28E9728E50672C8DD09F2C /* RawRepresentable+XCUIElement.swift in Sources */,
+				54DDFD26AA28E9728E50672C8DD09F2C /* RawRepresentable+helpers.swift in Sources */,
 				62A09143611DFF13E9614E7E97F21207 /* UITestHelper-dummy.m in Sources */,
 				E952F78C99762678F861DD11AF58B0D9 /* XCTestCase+helpers.swift in Sources */,
 				13F7B518E86FF03B9BDF8AEBF0F43E65 /* XCUIElement+helpers.swift in Sources */,

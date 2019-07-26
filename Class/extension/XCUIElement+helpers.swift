@@ -15,6 +15,19 @@ import Then
 public extension XCUIElement {
     
     @discardableResult
+    func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {
+        if predicates.count <= 0 { fatalError("predicates cannpt be empty!") }
+        
+        let subpredicates = predicates.map{ $0.rawValue.toPredicate }
+        let compoundPredicate = NSCompoundPredicate(type: logic, subpredicates: subpredicates)
+        
+        let test = XCTestCase().then { $0.continueAfterFailure = true }
+        let promise = test.expectation(for: compoundPredicate, evaluatedWith: self, handler: handler)
+        XCTWaiter().wait(for: [promise], timeout: timeout)
+        return self
+    }
+
+    @discardableResult
     func waitUntil(predicate: EasyPredicate, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {
         // return self directly
         switch predicate {

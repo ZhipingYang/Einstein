@@ -9,5 +9,10 @@
 import XCTest
 
 extension XCUIElementQuery {
-    
+    func element<T: RawRepresentable>(withIdentifier identifier: T, predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement where T.RawValue == String {
+        let idPredicate = NSPredicate(format: "identifier == \(identifier.rawValue)")
+        var subpredicates = predicates.map { $0.rawValue.toPredicate }
+        subpredicates.append(idPredicate)
+        return element(matching: NSCompoundPredicate(type: logic, subpredicates: subpredicates))
+    }
 }

@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: center string of Regular expression
 
-enum ComparisonOperator: RawRepresentable {
+public enum ComparisonOperator: RawRepresentable {
     case equals
     case beginsWith
     case contains
@@ -19,7 +19,7 @@ enum ComparisonOperator: RawRepresentable {
     case matches
     case other(comparisonOperator: String)
     
-    var rawValue: String {
+    public var rawValue: String {
         switch self {
         case .equals: return "=="
         case .beginsWith: return "BEGINSWITH"
@@ -45,50 +45,57 @@ enum ComparisonOperator: RawRepresentable {
     }
 }
 
-public struct PredicateRawValue: Equatable {
-    
-    private var key: String = ""
-    private var value: String = ""
-    private var comparisonOperator: ComparisonOperator = .equals
-    private var _regularStr: String?
-    public var regularStr: String {
-        if let regular = _regularStr { return regular }
-        return "\(key) \(comparisonOperator.rawValue) \(value)"
-    }
-    public var toPredicate: NSPredicate {
-        return NSPredicate(format: regularStr)
-    }
+public enum PredicateKey: String {
+    case exists
+    case isEnabled
+    case isHittable
+    case identifier
+    case label
+    case isSelected
+}
 
-    init(withKey key: String, value: String, comparisonOperator: ComparisonOperator) {
-        self.key = key
-        self.value = value
-        self.comparisonOperator = comparisonOperator
-    }
-    
-    init(_ regular: String) {
-        self._regularStr = regular
+public enum PredicateRawValue {
+    case keyBool(key: PredicateKey, comparison: ComparisonOperator, value: Bool)
+    case keyString(key: PredicateKey, comparison: ComparisonOperator, value: String)
+    case custom(regular: String)
+}
+
+extension PredicateRawValue: Equatable {
+    // Equatable
+    public static func ==(l: PredicateRawValue, r: PredicateRawValue) -> Bool {
+        return l.regularString == r.regularString
     }
     
     // static cases
     static var exists: PredicateRawValue {
-        return PredicateRawValue(withKey: "exists", value: "true", comparisonOperator: .equals)
+        return PredicateRawValue.keyBool(key: .exists, comparison: .equals, value: true)
     }
     static var notExists: PredicateRawValue {
-        return PredicateRawValue(withKey: "exists", value: "false", comparisonOperator: .equals)
+        return PredicateRawValue.keyBool(key: .exists, comparison: .equals, value: false)
     }
     static var enable: PredicateRawValue {
-        return PredicateRawValue(withKey: "isEnabled", value: "true", comparisonOperator: .equals)
+        return PredicateRawValue.keyBool(key: .isEnabled, comparison: .equals, value: true)
     }
     static var disable: PredicateRawValue {
-        return PredicateRawValue(withKey: "isEnabled", value: "false", comparisonOperator: .equals)
+        return PredicateRawValue.keyBool(key: .isEnabled, comparison: .equals, value: false)
     }
     
-    // Equatable
-    public static func ==(l: PredicateRawValue, r: PredicateRawValue) -> Bool {
-        return l.regularStr == r.regularStr
+    // methods
+    var regularString: String {
+        switch self {
+        case .keyBool(let key, let comparison, let value):
+            return "\(key.rawValue) \(comparison.rawValue) \(value)"
+        case .keyString(let key, let comparison, let value):
+            return "\(key.rawValue) \(comparison.rawValue) \(value)"
+        case .custom(let regular):
+            return regular
+        }
+    }
+    
+    var toPredicate: NSPredicate {
+        return NSPredicate(format: regularString)
     }
 }
-
 
 public enum EasyPredicate: RawRepresentable {
     
@@ -102,7 +109,7 @@ public enum EasyPredicate: RawRepresentable {
         case PredicateRawValue.notExists: self = .exists(false)
         case PredicateRawValue.enable:    self = .isEnabled(true)
         case PredicateRawValue.disable:   self = .isEnabled(false)
-        default: self = .other(rawValue.regularStr)
+        default: self = .other(rawValue.regularString)
         }
     }
     
@@ -113,7 +120,7 @@ public enum EasyPredicate: RawRepresentable {
         case .isEnabled(let value):
             return value ? PredicateRawValue.enable : PredicateRawValue.disable
         case .other(let value):
-            return PredicateRawValue(value)
+            return PredicateRawValue.custom(regular: value)
         }
     }
 }

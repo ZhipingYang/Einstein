@@ -12,7 +12,7 @@ import XCTest
  MARK: - RawRepresentable extension
  Get the `XCUIElement` from RawRepresentable's RawValue which also been used as accessibilityIdentifier
 */
-public extension RawRepresentable where Self.RawValue == String {
+public extension RawRepresentable where RawValue == String {
     
     var element: XCUIElement {
         // store query to aviod getter be called again

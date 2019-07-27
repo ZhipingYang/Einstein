@@ -46,12 +46,7 @@ public enum ComparisonOperator: RawRepresentable {
 }
 
 public enum PredicateKey: String {
-    case exists
-    case isEnabled
-    case isHittable
-    case identifier
-    case label
-    case isSelected
+    case exists, isEnabled, isHittable, identifier, label, isSelected
 }
 
 public enum PredicateRawValue {
@@ -79,6 +74,24 @@ extension PredicateRawValue: Equatable {
     static var disable: PredicateRawValue {
         return PredicateRawValue.keyBool(key: .isEnabled, comparison: .equals, value: false)
     }
+    static var selected: PredicateRawValue {
+        return PredicateRawValue.keyBool(key: .isSelected, comparison: .equals, value: true)
+    }
+    static var unselected: PredicateRawValue {
+        return PredicateRawValue.keyBool(key: .isSelected, comparison: .equals, value: false)
+    }
+    static var hittable: PredicateRawValue {
+        return PredicateRawValue.keyBool(key: .isHittable, comparison: .equals, value: true)
+    }
+    static var unhittable: PredicateRawValue {
+        return PredicateRawValue.keyBool(key: .isHittable, comparison: .equals, value: false)
+    }
+    static func identifier(_ value: String) -> PredicateRawValue {
+        return PredicateRawValue.keyString(key: .identifier, comparison: .equals, value: value)
+    }
+    static func label(comparison: ComparisonOperator, value: String) -> PredicateRawValue {
+        return PredicateRawValue.keyString(key: .label, comparison: comparison, value: value)
+    }
     
     // methods
     var regularString: String {
@@ -101,7 +114,9 @@ public enum EasyPredicate: RawRepresentable {
     
     case exists(_ exists: Bool)
     case isEnabled(_ isEnabled: Bool)
-    case other(_ rawValue: String)
+    case label(comparison: ComparisonOperator, value: String)
+    case identifier(_ identifier: String)
+    case other(_ ragular: String)
     
     public init?(rawValue: PredicateRawValue) {
         switch rawValue {
@@ -121,6 +136,10 @@ public enum EasyPredicate: RawRepresentable {
             return value ? PredicateRawValue.enable : PredicateRawValue.disable
         case .other(let value):
             return PredicateRawValue.custom(regular: value)
+        case .label(let comparison, let value):
+            return PredicateRawValue.label(comparison: comparison, value: value)
+        case .identifier(let value):
+            return PredicateRawValue.identifier(value)
         }
     }
 }

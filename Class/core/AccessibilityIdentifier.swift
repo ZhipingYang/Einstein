@@ -26,6 +26,7 @@ public extension PrettyRawValue {
 }
 
 // MARK: - accessibilityIdentifier assignment
+/// method 1
 infix operator >>>
 public func >>> <T: RawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) where T.RawValue == String {
     lhs?.accessibilityIdentifier = rhs.rawValue
@@ -34,6 +35,7 @@ public func >>> <T: PrettyRawValue>(lhs: UIAccessibilityIdentification?, rhs: T)
     lhs?.accessibilityIdentifier = rhs.prettyRawValue
 }
 
+/// method 2
 extension UIAccessibilityIdentification {
     func accessibilityID<T: RawRepresentable>(_ r: T) where T.RawValue == String {
         self.accessibilityIdentifier = r.rawValue
@@ -42,33 +44,3 @@ extension UIAccessibilityIdentification {
         self.accessibilityIdentifier = r.prettyRawValue
     }
 }
-
-
-// demo for test
-struct AccessibilityID {}
-extension AccessibilityID {
-    enum Home1: String {
-        case setting = "HomeSetting1"
-    }
-    enum Home2: String, PrettyRawValue {
-        case setting
-    }
-    enum Home3: String, PrettyRawValue {
-        case setting = "HomeSetting3"
-    }
-}
-
-//let path1 = AccessibilityID.Home1.setting.rawValue
-//// "HomeSetting1"
-//
-//let path2_1 = AccessibilityID.Home2.setting.rawValue
-//// "setting"
-//let path2_2 = AccessibilityID.Home2.setting.prettyRawValue
-//// "AccessibilityID_Home2_setting"
-//
-//let path3 = AccessibilityID.Home3.setting.prettyRawValue
-//// "HomeSetting3"
-//
-//let view = UIView()
-//view >>> AccessibilityID.Home2.setting
-//print(view.accessibilityIdentifier ?? "null")

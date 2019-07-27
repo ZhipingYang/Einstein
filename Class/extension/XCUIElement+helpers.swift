@@ -52,8 +52,21 @@ public extension XCUIElement {
                 XCTAssert(self.exists == exists, "Element should \(exists ? "exist" : "inexist"): \($0)")
             case .isEnabled(let isEnabled):
                 XCTAssert(self.isEnabled == isEnabled, "Element should \(isEnabled ? "enabled" : "disabled"): \($0)")
-            case .other(_):
-                break
+            case .label(let comparison, let value):
+                switch comparison {
+                case .equals:
+                    XCTAssert(value == label, "label:\(label) is not equal with \(value)")
+                case .beginsWith:
+                    XCTAssert(label.hasPrefix(value), "label:\(label) is not prefix with \(value)")
+                case .contains:
+                    XCTAssert(label.contains(value), "label:\(label) is not contains with \(value)")
+                case .endsWith:
+                    XCTAssert(label.hasSuffix(value), "label:\(label) is not suffix with \(value)")
+                default: break
+                }
+            case .identifier(let identifier):
+                XCTAssert(identifier == self.identifier, "identifier:\(self.identifier) is not equal with \(identifier)")
+            case .other(_): break
             }
         }
     }
@@ -138,16 +151,3 @@ public extension XCUIElement {
         }
     }
 }
-
-//public extension Collection where Iterator.Element: XCUIElement {
-//
-//    func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and, timeout: TimeInterval = 10) -> XCUIElement? {
-//        let test = XCTestCase().then { $0.continueAfterFailure = true }
-//        let predicate = NSCompoundPredicate(type: logic, subpredicates: predicates.map { $0.rawValue.toPredicate })
-//        let promises = map { test.expectation(for: predicate, evaluatedWith: $0, handler: nil) }
-//        XCTWaiter().wait(for: promises, timeout: timeout)
-//        return first(where: { (element) -> Bool in
-//            element.predica
-//        })
-//    }
-//}

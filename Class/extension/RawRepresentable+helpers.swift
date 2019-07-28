@@ -8,6 +8,20 @@
 
 import XCTest
 
+
+/*
+ MARK: - String extension
+ Note: string value can be a RawRepresentable and String at the same time
+ for example:
+ `let element: XCUIElement = "SomeString".element`
+ */
+extension String: RawRepresentable {
+    public var rawValue: String { return self }
+    public init?(rawValue: String) {
+        self = rawValue
+    }
+}
+
 /*
  MARK: - RawRepresentable extension
  Get the `XCUIElement` from RawRepresentable's RawValue which also been used as accessibilityIdentifier
@@ -77,19 +91,5 @@ public extension Sequence where Element: RawRepresentable, Element.RawValue == S
     /// get the first element was matched predicate
     func firstEmenet(predicate: EasyPredicate) -> XCUIElement? {
         return anyElements(subpredicates: [predicate]).first
-    }
-}
-
-
-/*
- MARK: - String extension
- Note: string value can be a RawRepresentable and String at the same time
- for example:
- `let element: XCUIElement = "SomeString".element`
- */
-extension String: RawRepresentable {
-    public var rawValue: String { return self }
-    public init?(rawValue: String) {
-        self = rawValue
     }
 }

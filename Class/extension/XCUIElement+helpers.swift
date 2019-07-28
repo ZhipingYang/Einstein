@@ -18,7 +18,7 @@ public extension XCUIElement {
     func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {
         if predicates.count <= 0 { fatalError("predicates cannpt be empty!") }
         
-        let subpredicates = predicates.map{ $0.rawValue.toPredicate }
+        let subpredicates = predicates.map { $0.rawValue.toPredicate }
         let compoundPredicate = NSCompoundPredicate(type: logic, subpredicates: subpredicates)
         
         let test = XCTestCase().then { $0.continueAfterFailure = true }
@@ -35,6 +35,12 @@ public extension XCUIElement {
             return self
         case .isEnabled(let i) where i == isEnabled:
             return self
+        case .identifier(let id) where id == identifier:
+            return self
+        case .isHittable(let h) where h == isHittable:
+            return self
+        case .isSelected(let s) where s == isSelected:
+            return self
         default: break
         }
         // waiting
@@ -44,14 +50,22 @@ public extension XCUIElement {
         return self
     }
     
+    func assert(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement {
+        return self
+    }
+    
     @discardableResult
     func waitUntilAssert(predicate: EasyPredicate, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {
         return waitUntil(predicate: predicate, timeout: timeout, handler: handler).then {
             switch predicate {
-            case .exists(let exists):
-                XCTAssert(self.exists == exists, "Element should \(exists ? "exist" : "inexist"): \($0)")
-            case .isEnabled(let isEnabled):
-                XCTAssert(self.isEnabled == isEnabled, "Element should \(isEnabled ? "enabled" : "disabled"): \($0)")
+            case .exists(let e):
+                XCTAssert(exists == e, "Element should be \(e ? "exist" : "inexist"): \($0)")
+            case .isEnabled(let e):
+                XCTAssert(isEnabled == e, "Element should be \(e ? "enabled" : "disabled"): \($0)")
+            case .isHittable(let h):
+                XCTAssert(isHittable == h, "Element should be \(h ? "hittable" : "unhittable"): \($0)")
+            case .isSelected(let s):
+                XCTAssert(isSelected == s, "Element should be \(s ? "selected" : "unselected"): \($0)")
             case .label(let comparison, let value):
                 switch comparison {
                 case .equals:
@@ -64,9 +78,10 @@ public extension XCUIElement {
                     XCTAssert(label.hasSuffix(value), "label:\(label) is not suffix with \(value)")
                 default: break
                 }
-            case .identifier(let identifier):
-                XCTAssert(identifier == self.identifier, "identifier:\(self.identifier) is not equal with \(identifier)")
+            case .identifier(let i):
+                XCTAssert(identifier == i, "identifier:\(identifier) is not equal with \(i)")
             case .other(_): break
+                // TODO: asset log
             }
         }
     }

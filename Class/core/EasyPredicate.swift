@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: center string of Regular expression
 
-public enum ComparisonOperator: RawRepresentable {
+public enum Comparison: RawRepresentable {
     case equals
     case beginsWith
     case contains
@@ -50,8 +50,8 @@ public enum PredicateKey: String {
 }
 
 public enum PredicateRawValue {
-    case keyBool(key: PredicateKey, comparison: ComparisonOperator, value: Bool)
-    case keyString(key: PredicateKey, comparison: ComparisonOperator, value: String)
+    case keyBool(key: PredicateKey, comparison: Comparison, value: Bool)
+    case keyString(key: PredicateKey, comparison: Comparison, value: String)
     case custom(regular: String)
 }
 
@@ -63,34 +63,34 @@ extension PredicateRawValue: Equatable {
     
     // static cases
     static var exists: PredicateRawValue {
-        return PredicateRawValue.keyBool(key: .exists, comparison: .equals, value: true)
+        return .keyBool(key: .exists, comparison: .equals, value: true)
     }
     static var notExists: PredicateRawValue {
-        return PredicateRawValue.keyBool(key: .exists, comparison: .equals, value: false)
+        return .keyBool(key: .exists, comparison: .equals, value: false)
     }
     static var enable: PredicateRawValue {
-        return PredicateRawValue.keyBool(key: .isEnabled, comparison: .equals, value: true)
+        return .keyBool(key: .isEnabled, comparison: .equals, value: true)
     }
     static var disable: PredicateRawValue {
-        return PredicateRawValue.keyBool(key: .isEnabled, comparison: .equals, value: false)
+        return .keyBool(key: .isEnabled, comparison: .equals, value: false)
     }
     static var selected: PredicateRawValue {
-        return PredicateRawValue.keyBool(key: .isSelected, comparison: .equals, value: true)
+        return .keyBool(key: .isSelected, comparison: .equals, value: true)
     }
     static var unselected: PredicateRawValue {
-        return PredicateRawValue.keyBool(key: .isSelected, comparison: .equals, value: false)
+        return .keyBool(key: .isSelected, comparison: .equals, value: false)
     }
     static var hittable: PredicateRawValue {
-        return PredicateRawValue.keyBool(key: .isHittable, comparison: .equals, value: true)
+        return .keyBool(key: .isHittable, comparison: .equals, value: true)
     }
     static var unhittable: PredicateRawValue {
-        return PredicateRawValue.keyBool(key: .isHittable, comparison: .equals, value: false)
+        return .keyBool(key: .isHittable, comparison: .equals, value: false)
     }
     static func identifier(_ value: String) -> PredicateRawValue {
-        return PredicateRawValue.keyString(key: .identifier, comparison: .equals, value: value)
+        return .keyString(key: .identifier, comparison: .equals, value: value)
     }
-    static func label(comparison: ComparisonOperator, value: String) -> PredicateRawValue {
-        return PredicateRawValue.keyString(key: .label, comparison: comparison, value: value)
+    static func label(comparison: Comparison, value: String) -> PredicateRawValue {
+        return .keyString(key: .label, comparison: comparison, value: value)
     }
     
     // methods
@@ -114,16 +114,18 @@ public enum EasyPredicate: RawRepresentable {
     
     case exists(_ exists: Bool)
     case isEnabled(_ isEnabled: Bool)
-    case label(comparison: ComparisonOperator, value: String)
+    case isHittable(_ isHittable: Bool)
+    case isSelected(_ isSelected: Bool)
+    case label(comparison: Comparison, value: String)
     case identifier(_ identifier: String)
     case other(_ ragular: String)
     
     public init?(rawValue: PredicateRawValue) {
         switch rawValue {
-        case PredicateRawValue.exists:    self = .exists(true)
-        case PredicateRawValue.notExists: self = .exists(false)
-        case PredicateRawValue.enable:    self = .isEnabled(true)
-        case PredicateRawValue.disable:   self = .isEnabled(false)
+        case .exists:    self = .exists(true)
+        case .notExists: self = .exists(false)
+        case .enable:    self = .isEnabled(true)
+        case .disable:   self = .isEnabled(false)
         default: self = .other(rawValue.regularString)
         }
     }
@@ -131,15 +133,19 @@ public enum EasyPredicate: RawRepresentable {
     public var rawValue: PredicateRawValue {
         switch self {
         case .exists(let value):
-            return value ? PredicateRawValue.exists : PredicateRawValue.notExists
+            return value ? .exists : .notExists
         case .isEnabled(let value):
-            return value ? PredicateRawValue.enable : PredicateRawValue.disable
+            return value ? .enable : .disable
         case .other(let value):
-            return PredicateRawValue.custom(regular: value)
+            return .custom(regular: value)
         case .label(let comparison, let value):
-            return PredicateRawValue.label(comparison: comparison, value: value)
+            return .label(comparison: comparison, value: value)
         case .identifier(let value):
-            return PredicateRawValue.identifier(value)
+            return .identifier(value)
+        case .isHittable(let value):
+            return value ? .hittable : .unhittable
+        case .isSelected(let value):
+            return value ? .selected : .unselected
         }
     }
 }

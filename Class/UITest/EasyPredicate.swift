@@ -13,6 +13,7 @@ import XCTest
 
 public enum Comparison: RawRepresentable {
     case equals
+    case notEqualTo
     case beginsWith
     case contains
     case endsWith
@@ -23,6 +24,7 @@ public enum Comparison: RawRepresentable {
     public var rawValue: String {
         switch self {
         case .equals: return "=="
+        case .notEqualTo: return "!="
         case .beginsWith: return "BEGINSWITH"
         case .contains: return "CONTAINS"
         case .endsWith: return "ENDSWITH"
@@ -36,6 +38,7 @@ public enum Comparison: RawRepresentable {
     public init(rawValue: String) {
         switch rawValue {
         case "==": self = .equals
+        case "!=": self = .notEqualTo
         case "BEGINSWITH": self = .beginsWith
         case "CONTAINS": self = .contains
         case "ENDSWITH": self = .endsWith
@@ -46,13 +49,16 @@ public enum Comparison: RawRepresentable {
     }
 }
 
-public enum PredicateKey: String {
-    case exists, isEnabled, isHittable, isSelected, identifier, label, elementType
+public enum PredicateKey {
+    public enum bool: String    { case exists, isEnabled, isHittable, isSelected }
+    public enum string: String  { case identifier, label }
+    public enum type: String    { case elementType }
 }
 
 public enum PredicateRawValue {
-    case keyBool(key: PredicateKey, comparison: Comparison, value: Bool)
-    case keyString(key: PredicateKey, comparison: Comparison, value: String)
+    case bool(key: PredicateKey.bool, comparison: Comparison, value: Bool)
+    case string(key: PredicateKey.string, comparison: Comparison, value: String)
+    case type(value: XCUIElement.ElementType)
     case custom(regular: String)
 }
 
@@ -62,26 +68,20 @@ extension PredicateRawValue: Equatable {
         return l.regularString == r.regularString
     }
     
-    // methods
-    var predicateKey: PredicateKey? {
+    public var regularString: String {
         switch self {
-        case .keyBool(let key, _, _): return key
-        case .keyString(let key, _, _): return key
-        default: return nil }
-    }
-
-    var regularString: String {
-        switch self {
-        case .keyBool(let key, let comparison, let value):
+        case .bool(let key, let comparison, let value):
             return "\(key.rawValue) \(comparison.rawValue) \(value)"
-        case .keyString(let key, let comparison, let value):
+        case .string(let key, let comparison, let value):
             return "\(key.rawValue) \(comparison.rawValue) \(value)"
+        case .type(let value):
+            return "\(PredicateKey.type.elementType.rawValue) \(Comparison.equals.rawValue) \(value.rawValue)"
         case .custom(let regular):
             return regular
         }
     }
     
-    var toPredicate: NSPredicate {
+    public var toPredicate: NSPredicate {
         return NSPredicate(format: regularString)
     }
 }
@@ -99,25 +99,18 @@ public enum EasyPredicate: RawRepresentable {
     
     public init?(rawValue: PredicateRawValue) {
         switch rawValue {
-        case .keyBool(let key, _, let value):
+        case .bool(let key, _, let value):
             switch key {
             case .exists:       self = .exists(value)
             case .isEnabled:    self = .isEnabled(value)
             case .isSelected:   self = .isSelected(value)
             case .isHittable:   self = .isHittable(value)
-            default: return nil
             }
-        case PredicateRawValue.keyString(let key, let comparison, let value):
+        case .type(let value):  self = .type(value)
+        case .string(let key, let comparison, let value):
             switch key {
             case .label:        self = .label(comparison: comparison, value: value)
             case .identifier:   self = .identifier(value)
-            case .elementType:
-                guard let _rawValue = UInt(value), let _type = XCUIElement.ElementType(rawValue: _rawValue) else {
-                    fatalError("Element Type setting wrong!")
-                    return nil
-                }
-                self = .type(_type)
-            default: return nil
             }
         case .custom(let regular): self = .other(regular)
         }
@@ -126,19 +119,19 @@ public enum EasyPredicate: RawRepresentable {
     public var rawValue: PredicateRawValue {
         switch self {
         case .exists(let value):
-            return .keyBool(key: .exists, comparison: .equals, value: value)
+            return .bool(key: .exists, comparison: .equals, value: value)
         case .isEnabled(let value):
-            return .keyBool(key: .isEnabled, comparison: .equals, value: value)
+            return .bool(key: .isEnabled, comparison: .equals, value: value)
         case .isHittable(let value):
-            return .keyBool(key: .isHittable, comparison: .equals, value: value)
+            return .bool(key: .isHittable, comparison: .equals, value: value)
         case .isSelected(let value):
-            return .keyBool(key: .isSelected, comparison: .equals, value: value)
+            return .bool(key: .isSelected, comparison: .equals, value: value)
         case .label(let comparison, let value):
-            return .keyString(key: .label, comparison: comparison, value: value)
+            return .string(key: .label, comparison: comparison, value: value)
         case .identifier(let value):
-            return .keyString(key: .identifier, comparison: .equals, value: value)
+            return .string(key: .identifier, comparison: .equals, value: value)
         case .type(let value):
-            return .keyString(key: .elementType, comparison: .equals, value: "\(value.rawValue)")
+            return .type(value: value)
         case .other(let value):
             return .custom(regular: value)
         }

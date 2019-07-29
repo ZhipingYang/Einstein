@@ -494,7 +494,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="zpw-K7-nsT">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="199.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="199"/>
                                                     <date key="date" timeIntervalSinceReferenceDate="586072246.82094204">
                                                         <!--2019-07-29 05:50:46 +0000-->
                                                     </date>
@@ -516,7 +516,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ydj-tm-Va6">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="199.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="199"/>
                                                 </pickerView>
                                             </subviews>
                                             <constraints>

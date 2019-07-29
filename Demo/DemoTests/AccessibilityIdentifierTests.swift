@@ -6,7 +6,6 @@
 //  Copyright © 2019 Daniel Yang. All rights reserved.
 //
 
-import UIKit
 import XCTest
 import UITestHelper
 

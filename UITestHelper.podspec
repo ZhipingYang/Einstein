@@ -15,18 +15,18 @@ Pod::Spec.new do |s|
   s.swift_version = '5.0'
   s.ios.deployment_target = '9.0'
 
-  s.default_subspecs = 'Core', 'EXtension'
+  s.default_subspecs = 'Share', 'UITest'
   s.dependency 'Then'
 
-  s.subspec 'Core' do |c|
-      c.source_files = 'class/core/*.swift'
-      c.framework = "UIKit"
+  s.subspec 'Share' do |sh|
+      sh.source_files = 'class/share/*.swift'
+      sh.framework = "UIKit"
   end
 
-  s.subspec 'EXtension' do |ex|
-      ex.source_files = 'class/extension/*.swift'
-      ex.ios.framework = "UIKit", "XCTest"
-      ex.dependency 'UITestHelper/Core'
+  s.subspec 'UITest' do |t|
+      t.source_files = 'class/uitest/**/*.swift'
+      t.ios.framework = "UIKit", "XCTest"
+      t.dependency 'UITestHelper/Share'
   end
 
 end

@@ -21,8 +21,8 @@
   "requires_arc": true,
   "swift_versions": "5.0",
   "default_subspecs": [
-    "Core",
-    "EXtension"
+    "Share",
+    "UITest"
   ],
   "dependencies": {
     "Then": [
@@ -31,13 +31,13 @@
   },
   "subspecs": [
     {
-      "name": "Core",
-      "source_files": "class/core/*.swift",
+      "name": "Share",
+      "source_files": "class/share/*.swift",
       "frameworks": "UIKit"
     },
     {
-      "name": "EXtension",
-      "source_files": "class/extension/*.swift",
+      "name": "UITest",
+      "source_files": "class/uitest/**/*.swift",
       "ios": {
         "frameworks": [
           "UIKit",
@@ -45,7 +45,7 @@
         ]
       },
       "dependencies": {
-        "UITestHelper/Core": [
+        "UITestHelper/Share": [
 
         ]
       }

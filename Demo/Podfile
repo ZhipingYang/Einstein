@@ -5,11 +5,11 @@ target 'Demo' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  pod 'UITestHelper/Core', :path => '../'
+  pod 'UITestHelper/Share', :path => '../'
 
   target 'DemoTests' do
     inherit! :search_paths
-    # Pods for testing
+    pod 'UITestHelper', :path => '../'
   end
 
   target 'DemoUITests' do

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import XCTest
 
 // MARK: center string of Regular expression
 

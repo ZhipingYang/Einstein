@@ -2,17 +2,17 @@ PODS:
   - Then (2.5.0)
   - UITestHelper (0.1.0):
     - Then
-    - UITestHelper/Core (= 0.1.0)
-    - UITestHelper/EXtension (= 0.1.0)
-  - UITestHelper/Core (0.1.0):
+    - UITestHelper/Share (= 0.1.0)
+    - UITestHelper/UITest (= 0.1.0)
+  - UITestHelper/Share (0.1.0):
     - Then
-  - UITestHelper/EXtension (0.1.0):
+  - UITestHelper/UITest (0.1.0):
     - Then
-    - UITestHelper/Core
+    - UITestHelper/Share
 
 DEPENDENCIES:
   - UITestHelper (from `../`)
-  - UITestHelper/Core (from `../`)
+  - UITestHelper/Share (from `../`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -24,8 +24,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Then: 0157115e883545c77967b452fe74a1d25fb796e1
-  UITestHelper: 4d877b73dc71e694461e53425755dd5ac3cbf425
+  UITestHelper: 45edc8e99d7d18ea9fa73a295ac47c885562bf99
 
-PODFILE CHECKSUM: 15dc240125e52a66817709fef73dfebd724bd515
+PODFILE CHECKSUM: 1fdfa2799072679634d5b9cbc1d2f2ac32618048
 
 COCOAPODS: 1.7.5

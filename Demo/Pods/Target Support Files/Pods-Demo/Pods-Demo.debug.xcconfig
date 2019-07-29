@@ -1,7 +1,7 @@
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Then" "${PODS_CONFIGURATION_BUILD_DIR}/UITestHelper-Core"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Then" "${PODS_CONFIGURATION_BUILD_DIR}/UITestHelper-Share"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Then/Then.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/UITestHelper-Core/UITestHelper.framework/Headers"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Then/Then.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/UITestHelper-Share/UITestHelper.framework/Headers"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
 OTHER_LDFLAGS = $(inherited) -framework "Then" -framework "UIKit" -framework "UITestHelper"
 OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS

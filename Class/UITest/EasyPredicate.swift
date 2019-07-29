@@ -47,7 +47,7 @@ public enum Comparison: RawRepresentable {
 }
 
 public enum PredicateKey: String {
-    case exists, isEnabled, isHittable, identifier, label, isSelected, elementType
+    case exists, isEnabled, isHittable, isSelected, identifier, label, elementType
 }
 
 public enum PredicateRawValue {
@@ -60,41 +60,6 @@ extension PredicateRawValue: Equatable {
     // Equatable
     public static func ==(l: PredicateRawValue, r: PredicateRawValue) -> Bool {
         return l.regularString == r.regularString
-    }
-    
-    // static cases
-    static var exists: PredicateRawValue {
-        return .keyBool(key: .exists, comparison: .equals, value: true)
-    }
-    static var notExists: PredicateRawValue {
-        return .keyBool(key: .exists, comparison: .equals, value: false)
-    }
-    static var enable: PredicateRawValue {
-        return .keyBool(key: .isEnabled, comparison: .equals, value: true)
-    }
-    static var disable: PredicateRawValue {
-        return .keyBool(key: .isEnabled, comparison: .equals, value: false)
-    }
-    static var selected: PredicateRawValue {
-        return .keyBool(key: .isSelected, comparison: .equals, value: true)
-    }
-    static var unselected: PredicateRawValue {
-        return .keyBool(key: .isSelected, comparison: .equals, value: false)
-    }
-    static var hittable: PredicateRawValue {
-        return .keyBool(key: .isHittable, comparison: .equals, value: true)
-    }
-    static var unhittable: PredicateRawValue {
-        return .keyBool(key: .isHittable, comparison: .equals, value: false)
-    }
-    static func identifier(_ value: String) -> PredicateRawValue {
-        return .keyString(key: .identifier, comparison: .equals, value: value)
-    }
-    static func label(comparison: Comparison, value: String) -> PredicateRawValue {
-        return .keyString(key: .label, comparison: comparison, value: value)
-    }
-    static func type(_ value: String) -> PredicateRawValue {
-        return .keyString(key: .elementType, comparison: .equals, value: value)
     }
     
     // methods
@@ -134,36 +99,51 @@ public enum EasyPredicate: RawRepresentable {
     
     public init?(rawValue: PredicateRawValue) {
         switch rawValue {
-        case .exists:    self = .exists(true)
-        case .notExists: self = .exists(false)
-        case .enable:    self = .isEnabled(true)
-        case .disable:   self = .isEnabled(false)
-        case .selected: self = .isSelected(true)
-        case .unselected: self = .isSelected(false)
-        case .hittable: self = .isHittable(true)
-        case .unhittable: self = .isHittable(false)
-        default: self = .other(rawValue.regularString)
+        case .keyBool(let key, _, let value):
+            switch key {
+            case .exists:       self = .exists(value)
+            case .isEnabled:    self = .isEnabled(value)
+            case .isSelected:   self = .isSelected(value)
+            case .isHittable:   self = .isHittable(value)
+            default: return nil
+            }
+        case PredicateRawValue.keyString(let key, let comparison, let value):
+            switch key {
+            case .label:        self = .label(comparison: comparison, value: value)
+            case .identifier:   self = .identifier(value)
+            case .elementType:
+                guard let _rawValue = UInt(value), let _type = XCUIElement.ElementType(rawValue: _rawValue) else {
+                    fatalError("Element Type setting wrong!")
+                    return nil
+                }
+                self = .type(_type)
+            default: return nil
+            }
+        case .custom(let regular): self = .other(regular)
         }
     }
     
     public var rawValue: PredicateRawValue {
         switch self {
         case .exists(let value):
-            return value ? .exists : .notExists
+            return .keyBool(key: .exists, comparison: .equals, value: value)
         case .isEnabled(let value):
-            return value ? .enable : .disable
+            return .keyBool(key: .isEnabled, comparison: .equals, value: value)
+        case .isHittable(let value):
+            return .keyBool(key: .isHittable, comparison: .equals, value: value)
+        case .isSelected(let value):
+            return .keyBool(key: .isSelected, comparison: .equals, value: value)
+        case .label(let comparison, let value):
+            return .keyString(key: .label, comparison: comparison, value: value)
+        case .identifier(let value):
+            return .keyString(key: .identifier, comparison: .equals, value: value)
+        case .type(let value):
+            return .keyString(key: .elementType, comparison: .equals, value: "\(value.rawValue)")
         case .other(let value):
             return .custom(regular: value)
-        case .label(let comparison, let value):
-            return .label(comparison: comparison, value: value)
-        case .identifier(let value):
-            return .identifier(value)
-        case .isHittable(let value):
-            return value ? .hittable : .unhittable
-        case .isSelected(let value):
-            return value ? .selected : .unselected
-        case .type(let value):
-            return .type("\(value)")
         }
     }
 }
+
+
+

@@ -15,10 +15,10 @@ extension AccessibilityID {
     enum Home1: String {
         case setting = "HomeSetting1"
     }
-    enum Home2: String, PrettyRawValue {
+    enum Home2: String, PrettyRawRepresentable {
         case setting
     }
-    enum Home3: String, PrettyRawValue {
+    enum Home3: String, PrettyRawRepresentable {
         case setting = "HomeSetting3"
     }
 }

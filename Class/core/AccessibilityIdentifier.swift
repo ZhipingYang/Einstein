@@ -1,5 +1,3 @@
-//: [Previous](@previous)
-
 //
 //  AccessibilityIdentifier.swift
 //  DemoUITests
@@ -11,11 +9,11 @@
 import UIKit
 
 // MARK: - pretty rawVlaue as a keypath string of object
-public protocol PrettyRawValue: RawRepresentable where RawValue == String {
+public protocol PrettyRawRepresentable: RawRepresentable where RawValue == String {
     var prettyRawValue: RawValue { get }
 }
 
-public extension PrettyRawValue {
+public extension PrettyRawRepresentable {
     var prettyRawValue: String {
         let paths = String(reflecting: self).split(separator: ".").dropFirst()
         if String(paths.last ?? "") != rawValue {
@@ -31,7 +29,7 @@ infix operator >>>
 public func >>> <T: RawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) where T.RawValue == String {
     lhs?.accessibilityIdentifier = rhs.rawValue
 }
-public func >>> <T: PrettyRawValue>(lhs: UIAccessibilityIdentification?, rhs: T) {
+public func >>> <T: PrettyRawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) {
     lhs?.accessibilityIdentifier = rhs.prettyRawValue
 }
 
@@ -40,7 +38,7 @@ extension UIAccessibilityIdentification {
     func accessibilityID<T: RawRepresentable>(_ r: T) where T.RawValue == String {
         self.accessibilityIdentifier = r.rawValue
     }
-    func accessibilityID<T: PrettyRawValue>(_ r: T) {
+    func accessibilityID<T: PrettyRawRepresentable>(_ r: T) {
         self.accessibilityIdentifier = r.prettyRawValue
     }
 }

@@ -82,6 +82,8 @@ public extension XCUIElement {
                 XCTAssert(identifier == i, "identifier:\(identifier) is not equal with \(i)")
             case .other(_): break
                 // TODO: asset log
+            case .type(_): break
+                // TODO: asset log
             }
         }
     }

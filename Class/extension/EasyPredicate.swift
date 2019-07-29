@@ -46,7 +46,7 @@ public enum Comparison: RawRepresentable {
 }
 
 public enum PredicateKey: String {
-    case exists, isEnabled, isHittable, identifier, label, isSelected
+    case exists, isEnabled, isHittable, identifier, label, isSelected, elementType
 }
 
 public enum PredicateRawValue {
@@ -92,8 +92,18 @@ extension PredicateRawValue: Equatable {
     static func label(comparison: Comparison, value: String) -> PredicateRawValue {
         return .keyString(key: .label, comparison: comparison, value: value)
     }
+    static func type(_ value: String) -> PredicateRawValue {
+        return .keyString(key: .elementType, comparison: .equals, value: value)
+    }
     
     // methods
+    var predicateKey: PredicateKey? {
+        switch self {
+        case .keyBool(let key, _, _): return key
+        case .keyString(let key, _, _): return key
+        default: return nil }
+    }
+
     var regularString: String {
         switch self {
         case .keyBool(let key, let comparison, let value):
@@ -118,6 +128,7 @@ public enum EasyPredicate: RawRepresentable {
     case isSelected(_ isSelected: Bool)
     case label(comparison: Comparison, value: String)
     case identifier(_ identifier: String)
+    case type(_ type: XCUIElement.ElementType)
     case other(_ ragular: String)
     
     public init?(rawValue: PredicateRawValue) {
@@ -126,6 +137,10 @@ public enum EasyPredicate: RawRepresentable {
         case .notExists: self = .exists(false)
         case .enable:    self = .isEnabled(true)
         case .disable:   self = .isEnabled(false)
+        case .selected: self = .isSelected(true)
+        case .unselected: self = .isSelected(false)
+        case .hittable: self = .isHittable(true)
+        case .unhittable: self = .isHittable(false)
         default: self = .other(rawValue.regularString)
         }
     }
@@ -146,6 +161,8 @@ public enum EasyPredicate: RawRepresentable {
             return value ? .hittable : .unhittable
         case .isSelected(let value):
             return value ? .selected : .unselected
+        case .type(let value):
+            return .type("\(value)")
         }
     }
 }

@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import ObjectiveC
 
 /**
  associated object

@@ -15,10 +15,9 @@
 		DB07506222EA023F002679F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB07506022EA023F002679F8 /* Main.storyboard */; };
 		DB07506422EA0240002679F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB07506322EA0240002679F8 /* Assets.xcassets */; };
 		DB07506722EA0240002679F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB07506522EA0240002679F8 /* LaunchScreen.storyboard */; };
-		DB07507222EA0240002679F8 /* DemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB07507122EA0240002679F8 /* DemoTests.swift */; };
+		DB07507222EA0240002679F8 /* AccessibilityIdentifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB07507122EA0240002679F8 /* AccessibilityIdentifierTests.swift */; };
 		DB07507D22EA0240002679F8 /* DemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB07507C22EA0240002679F8 /* DemoUITests.swift */; };
 		DB07508D22EA034A002679F8 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB07508C22EA034A002679F8 /* TabbarController.swift */; };
-		DB58D21722EB518F00609931 /* AccessibilityID.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB58D21622EB518F00609931 /* AccessibilityID.swift */; };
 		DBF11CFE22EA0679009E274D /* FistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF11CFD22EA0679009E274D /* FistViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,13 +53,12 @@
 		DB07506622EA0240002679F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB07506822EA0240002679F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB07506D22EA0240002679F8 /* DemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB07507122EA0240002679F8 /* DemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTests.swift; sourceTree = "<group>"; };
+		DB07507122EA0240002679F8 /* AccessibilityIdentifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifierTests.swift; sourceTree = "<group>"; };
 		DB07507322EA0240002679F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB07507822EA0240002679F8 /* DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB07507C22EA0240002679F8 /* DemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoUITests.swift; sourceTree = "<group>"; };
 		DB07507E22EA0240002679F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB07508C22EA034A002679F8 /* TabbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
-		DB58D21622EB518F00609931 /* AccessibilityID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityID.swift; sourceTree = "<group>"; };
 		DBF11CFD22EA0679009E274D /* FistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FistViewController.swift; sourceTree = "<group>"; };
 		F264C3B90651B45785F4470E /* Pods_Demo_DemoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Demo_DemoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F576738FFB5410D0091D3B8D /* Pods-DemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTests.release.xcconfig"; path = "Target Support Files/Pods-DemoTests/Pods-DemoTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -144,7 +142,6 @@
 			isa = PBXGroup;
 			children = (
 				DB07505C22EA023F002679F8 /* AppDelegate.swift */,
-				DB58D21622EB518F00609931 /* AccessibilityID.swift */,
 				DB07505E22EA023F002679F8 /* ViewController.swift */,
 				DBF11CFD22EA0679009E274D /* FistViewController.swift */,
 				DB07508C22EA034A002679F8 /* TabbarController.swift */,
@@ -159,7 +156,7 @@
 		DB07507022EA0240002679F8 /* DemoTests */ = {
 			isa = PBXGroup;
 			children = (
-				DB07507122EA0240002679F8 /* DemoTests.swift */,
+				DB07507122EA0240002679F8 /* AccessibilityIdentifierTests.swift */,
 				DB07507322EA0240002679F8 /* Info.plist */,
 			);
 			path = DemoTests;
@@ -415,7 +412,6 @@
 			files = (
 				DBF11CFE22EA0679009E274D /* FistViewController.swift in Sources */,
 				DB07505F22EA023F002679F8 /* ViewController.swift in Sources */,
-				DB58D21722EB518F00609931 /* AccessibilityID.swift in Sources */,
 				DB07508D22EA034A002679F8 /* TabbarController.swift in Sources */,
 				DB07505D22EA023F002679F8 /* AppDelegate.swift in Sources */,
 			);
@@ -425,7 +421,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB07507222EA0240002679F8 /* DemoTests.swift in Sources */,
+				DB07507222EA0240002679F8 /* AccessibilityIdentifierTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

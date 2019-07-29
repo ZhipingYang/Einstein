@@ -8,7 +8,7 @@
 
 import UIKit
 
-// MARK: - pretty rawVlaue as a keypath string of object
+// MARK: - pretty RawRepresentable as a keypath string of object
 public protocol PrettyRawRepresentable: RawRepresentable where RawValue == String {
     var prettyRawValue: RawValue { get }
 }
@@ -34,7 +34,7 @@ public func >>> <T: PrettyRawRepresentable>(lhs: UIAccessibilityIdentification?,
 }
 
 /// method 2
-extension UIAccessibilityIdentification {
+public extension UIAccessibilityIdentification {
     func accessibilityID<T: RawRepresentable>(_ r: T) where T.RawValue == String {
         self.accessibilityIdentifier = r.rawValue
     }

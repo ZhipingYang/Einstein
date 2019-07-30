@@ -23,7 +23,7 @@ public enum Comparison: RawRepresentable {
     
     public var rawValue: String {
         switch self {
-        case .equals: return "=="
+        case .equals: return "="
         case .notEqualTo: return "!="
         case .beginsWith: return "BEGINSWITH"
         case .contains: return "CONTAINS"
@@ -37,7 +37,7 @@ public enum Comparison: RawRepresentable {
     /// Initialize comparison operator with string.
     public init(rawValue: String) {
         switch rawValue {
-        case "==": self = .equals
+        case "=": self = .equals
         case "!=": self = .notEqualTo
         case "BEGINSWITH": self = .beginsWith
         case "CONTAINS": self = .contains
@@ -78,7 +78,7 @@ extension PredicateRawValue: Equatable {
         case .bool(let key, let comparison, let value):
             return "\(key.rawValue) \(comparison.rawValue) \(value ? "true" : "false")"
         case .string(let key, let comparison, let value):
-            return "\(key.rawValue) \(comparison.rawValue) \(value)"
+            return "\(key.rawValue) \(comparison.rawValue) '\(value)'"
         case .type(let value):
             return "\(PredicateKey.type.elementType.rawValue) \(Comparison.equals.rawValue) \(value.rawValue)"
         case .custom(let regular):

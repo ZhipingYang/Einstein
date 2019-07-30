@@ -43,18 +43,19 @@ class EasyPredicateTests: XCTestCase {
             EasyPredicate.isEnabled(false),
             EasyPredicate.isHittable(false),
             EasyPredicate.isSelected(false),
-//            EasyPredicate.label(comparison: .equals, value: "abcdefg"),
-//            EasyPredicate.label(comparison: .beginsWith, value: "ab"),
-//            EasyPredicate.label(comparison: .endsWith, value: "fg"),
-//            EasyPredicate.label(comparison: .contains, value: "cde"),
-//            EasyPredicate.label(comparison: .other("!="), value: ""),
-//            EasyPredicate.identifier("hello"),
+            EasyPredicate.label(comparison: .equals, value: "abcdefg"),
+            EasyPredicate.label(comparison: .beginsWith, value: "ab"),
+            EasyPredicate.label(comparison: .endsWith, value: "fg"),
+            EasyPredicate.label(comparison: .contains, value: "cde"),
+            EasyPredicate.label(comparison: .other("!="), value: ""),
+            EasyPredicate.identifier("hello"),
+            // TODO: why ? how ?
 //            EasyPredicate.type(.window)
         ]
         
         let array = [item0, item1] as NSArray
         testPredicates.forEach { predicate in
-            group(text: "test: \(predicate.rawValue.regularString)", closure: { _ in
+            group(text: "🙏: EasyPredicate -> \(predicate.rawValue.regularString)", closure: { _ in
                 array.testPredicateFilter(predicate: predicate, block: { (ps, p) in
                     assert(ps.count == 1)
                     assert(ps.first?.label == "abcdefg")
@@ -70,7 +71,7 @@ class EasyPredicateTests: XCTestCase {
             })
         }
         
-        group(text: "testGroup", closure: { _ in
+        group(text: "🙏: TestEasyPredicateGroup", closure: { _ in
             array.testPredicateGroupFilter(predicates: [.exists(true), .exists(false)], logic: .and) { (ps, p) in
                 assert(ps.isEmpty)
             }
@@ -78,7 +79,6 @@ class EasyPredicateTests: XCTestCase {
                 assert(ps.count == 2)
             }
         })
-        
     }
 }
 

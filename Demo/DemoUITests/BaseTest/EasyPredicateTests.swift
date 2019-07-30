@@ -46,12 +46,12 @@ class EasyPredicateTests: XCTestCase {
             EasyPredicate.isEnabled(false),
             EasyPredicate.isHittable(false),
             EasyPredicate.isSelected(false),
-            EasyPredicate.label(comparison: .equals, value: "abcdefg"),
-            EasyPredicate.label(comparison: .notEqual, value: ""),
-            EasyPredicate.label(comparison: .beginsWith, value: "ab"),
-            EasyPredicate.label(comparison: .endsWith, value: "fg"),
-            EasyPredicate.label(comparison: .contains, value: "cde"),
-            EasyPredicate.label(comparison: .other("!="), value: ""),
+            EasyPredicate.label(.equals, "abcdefg"),
+            EasyPredicate.label(.notEqual, ""),
+            EasyPredicate.label(.beginsWith, "ab"),
+            EasyPredicate.label(.endsWith, "fg"),
+            EasyPredicate.label(.contains, "cde"),
+            EasyPredicate.label(.other("!="), ""),
             EasyPredicate.identifier("identifier"),
             EasyPredicate.type(.window)
         ]

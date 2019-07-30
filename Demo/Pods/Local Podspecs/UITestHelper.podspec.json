@@ -43,11 +43,6 @@
           "UIKit",
           "XCTest"
         ]
-      },
-      "dependencies": {
-        "UITestHelper/Share": [
-
-        ]
       }
     }
   ],

@@ -26,7 +26,6 @@ Pod::Spec.new do |s|
   s.subspec 'UITest' do |t|
       t.source_files = 'class/uitest/**/*.swift'
       t.ios.framework = "UIKit", "XCTest"
-      t.dependency 'UITestHelper/Share'
   end
 
 end

@@ -8,7 +8,6 @@ PODS:
     - Then
   - UITestHelper/UITest (0.1.0):
     - Then
-    - UITestHelper/Share
 
 DEPENDENCIES:
   - UITestHelper (from `../`)
@@ -24,7 +23,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Then: 0157115e883545c77967b452fe74a1d25fb796e1
-  UITestHelper: 45edc8e99d7d18ea9fa73a295ac47c885562bf99
+  UITestHelper: 98e3e29c3c64ac927c640e0c32ead70af44732fe
 
 PODFILE CHECKSUM: eaaf0abf5412826f83d9f218d8a7ef6ee3f4cc69
 

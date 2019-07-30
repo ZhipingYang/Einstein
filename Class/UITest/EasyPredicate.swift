@@ -97,7 +97,7 @@ public enum EasyPredicate: RawRepresentable {
     case isEnabled(_ isEnabled: Bool)
     case isHittable(_ isHittable: Bool)
     case isSelected(_ isSelected: Bool)
-    case label(comparison: Comparison, value: String)
+    case label(_ comparison: Comparison, _ value: String)
     case identifier(_ identifier: String)
     case type(_ type: XCUIElement.ElementType)
     case other(_ ragular: String)
@@ -114,7 +114,7 @@ public enum EasyPredicate: RawRepresentable {
         case .type(let value):  self = .type(value)
         case .string(let key, let comparison, let value):
             switch key {
-            case .label:        self = .label(comparison: comparison, value: value)
+            case .label:        self = .label(comparison, value)
             case .identifier:   self = .identifier(value)
             }
         case .custom(let regular): self = .other(regular)

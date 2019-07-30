@@ -21,6 +21,8 @@
 		DB1C1A1E22EFDCDD00B86D56 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1C1A1D22EFDCDD00B86D56 /* SecondViewController.swift */; };
 		DB1C1A2122F040EB00B86D56 /* EasyPredicateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1C1A1F22EFE82400B86D56 /* EasyPredicateTests.swift */; };
 		DBF11CFE22EA0679009E274D /* FistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF11CFD22EA0679009E274D /* FistViewController.swift */; };
+		DBF7A5B922F0B27B002539E7 /* UIWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF7A5B822F0B27B002539E7 /* UIWebViewController.swift */; };
+		DBF7A5BB22F0B287002539E7 /* WKWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF7A5BA22F0B287002539E7 /* WKWebViewController.swift */; };
 		ED069E735DB57B09B7985F53 /* Pods_Demo_DemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7B2EE74760968262FD17124 /* Pods_Demo_DemoTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +69,8 @@
 		DB1C1A1D22EFDCDD00B86D56 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		DB1C1A1F22EFE82400B86D56 /* EasyPredicateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyPredicateTests.swift; sourceTree = "<group>"; };
 		DBF11CFD22EA0679009E274D /* FistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FistViewController.swift; sourceTree = "<group>"; };
+		DBF7A5B822F0B27B002539E7 /* UIWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWebViewController.swift; sourceTree = "<group>"; };
+		DBF7A5BA22F0B287002539E7 /* WKWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKWebViewController.swift; sourceTree = "<group>"; };
 		F264C3B90651B45785F4470E /* Pods_Demo_DemoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Demo_DemoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F576738FFB5410D0091D3B8D /* Pods-DemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTests.release.xcconfig"; path = "Target Support Files/Pods-DemoTests/Pods-DemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		F7223C32FD7B39CA7FA94291 /* Pods-DemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTests.debug.xcconfig"; path = "Target Support Files/Pods-DemoTests/Pods-DemoTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -157,6 +161,8 @@
 				DBF11CFD22EA0679009E274D /* FistViewController.swift */,
 				DB1C1A1D22EFDCDD00B86D56 /* SecondViewController.swift */,
 				DB07508C22EA034A002679F8 /* TabbarController.swift */,
+				DBF7A5B822F0B27B002539E7 /* UIWebViewController.swift */,
+				DBF7A5BA22F0B287002539E7 /* WKWebViewController.swift */,
 				DB07506022EA023F002679F8 /* Main.storyboard */,
 				DB07506322EA0240002679F8 /* Assets.xcassets */,
 				DB07506522EA0240002679F8 /* LaunchScreen.storyboard */,
@@ -450,7 +456,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB1C1A1E22EFDCDD00B86D56 /* SecondViewController.swift in Sources */,
+				DBF7A5B922F0B27B002539E7 /* UIWebViewController.swift in Sources */,
 				DBF11CFE22EA0679009E274D /* FistViewController.swift in Sources */,
+				DBF7A5BB22F0B287002539E7 /* WKWebViewController.swift in Sources */,
 				DB07505F22EA023F002679F8 /* ViewController.swift in Sources */,
 				DB18939A22EF42F50010E6AD /* AccesibiltyDemoID.swift in Sources */,
 				DB07508D22EA034A002679F8 /* TabbarController.swift in Sources */,

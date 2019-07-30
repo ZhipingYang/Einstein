@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -125,6 +126,9 @@
                                                 <constraint firstItem="deQ-4X-7aE" firstAttribute="leading" secondItem="GFf-ml-h9U" secondAttribute="leading" constant="20" id="lyj-SX-KMO"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="G9I-uM-A77" kind="show" id="uph-rh-ruh"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="60" id="pSo-Ip-bBv">
                                         <rect key="frame" x="0.0" y="236" width="414" height="60"/>
@@ -145,6 +149,9 @@
                                                 <constraint firstItem="3d9-9t-Ob8" firstAttribute="leading" secondItem="19K-Lz-bkc" secondAttribute="leading" constant="20" id="LSG-H6-P0W"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="7Kd-1K-JmH" kind="show" id="02V-Qr-TKz"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -174,6 +181,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="saq-FB-yES" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="419" y="420"/>
+        </scene>
+        <!--UIWebView-->
+        <scene sceneID="PoF-3F-8c3">
+            <objects>
+                <viewController id="G9I-uM-A77" customClass="UIWebViewController" customModule="Demo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0aY-wd-Rpl">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="9bb-ve-g0w"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="UIWebView" id="OLr-OA-iZc"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BcR-bB-Pjs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="114" y="1150"/>
+        </scene>
+        <!--WKWebView-->
+        <scene sceneID="Rga-U7-CW4">
+            <objects>
+                <viewController id="7Kd-1K-JmH" customClass="WKWebViewController" customModule="Demo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NQH-aH-Dqm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="aer-Tw-O7t"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="WKWebView" id="SaJ-10-3mN"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3qx-fM-KLx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="826" y="1150"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="cMU-3q-7XR">

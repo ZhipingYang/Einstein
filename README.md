@@ -125,16 +125,19 @@ str3 -> "LoginAccessID_Forget_phoneNumber"
 #### 1.2 set UIKit's accessibilityIdentifier by enums's rawValue
 
 ```
+// system way
+signInPhoneTextField.accessibilityIdentifier = "LoginAccessID_SignIn_phoneNumber"
+
 // method1: define infix operator >>>
-signInButton >>> LoginAccessID.SignIn.phoneNumber
+signInPhoneTextField >>> LoginAccessID.SignIn.phoneNumber
 
 // method2: extension the protocol UIAccessibilityIdentification
-getMessageBtn.accessibilityID(LoginAccessID.Forget.phoneNumber)
+forgetPhoneTextField.accessibilityID(LoginAccessID.Forget.phoneNumber)
 
-print(signInButton.accessibilityIdentifier)
+print(signInPhoneTextField.accessibilityIdentifier)
 // "phoneNumber"
 
-print(getMessageBtn.accessibilityIdentifier)
+print(forgetPhoneTextField.accessibilityIdentifier)
 // "LoginAccessID_Forget_phoneNumber"
 ```
 
@@ -158,7 +161,7 @@ SignInPage.signIn.element.tap().assert(predicate: .isEnabled(true))
 ### 2. EasyPredicate
 > **Note:** <br>
 > EasyPredicate's RawValue is `PredicateRawValue` (a another enum to manage logic and convert NSPredicate). <br>
-> Although `NSPredicate` is powerfull but the developer interface is not good enough, We can try to convert the hard code style into the object-oriented style, there's the often used cases I'd listed below.
+> there's the often used cases I'd listed below.
 
 ```swift
 public enum EasyPredicate: RawRepresentable {   
@@ -172,7 +175,7 @@ public enum EasyPredicate: RawRepresentable {
     case other(_ ragular: String)
 }
 ```
-get the element from XCUIElementQuery under several of rules
+> Although `NSPredicate` is powerfull but the developer interface is not good enough, We can try to convert the hard code style into the object-oriented style as below
 
 ```swift
 // use EasyPredicate

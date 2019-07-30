@@ -1,0 +1,9 @@
+osx_image: xcode10.2
+language: objective-c
+
+# Build with tests
+script:
+- pod repo update
+- pod lib lint --allow-warnings
+- xcodebuild -workspace Demo/Demo.xcworkspace -scheme DemoTests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6' test
+- xcodebuild -workspace Demo/Demo.xcworkspace -scheme DemoUITests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6' test

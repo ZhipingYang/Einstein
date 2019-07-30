@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import UITestHelper
 
 class FistViewController: UITableViewController {
 
+    @IBOutlet weak var pushItem: UIBarButtonItem!
+    
     @IBOutlet weak var buttonLabel: UILabel!
     @IBOutlet weak var button: UIButton!
 
@@ -42,8 +45,36 @@ class FistViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        pushItem >>> AccessibilityDemoID.BarItem.Push
 
-        // Do any additional setup after loading the view.
+        buttonLabel >>> AccessibilityDemoID.Interface.buttonLabel
+        button >>> AccessibilityDemoID.Interface.button
+        
+        segmentLabel >>> AccessibilityDemoID.Interface.segmentLabel
+        segment >>> AccessibilityDemoID.Interface.segment
+        
+        sliderLabel >>> AccessibilityDemoID.Interface.sliderLabel
+        slider >>> AccessibilityDemoID.Interface.slider
+        
+        switchLabel >>> AccessibilityDemoID.Interface.switchLabel
+        `switch` >>> AccessibilityDemoID.Interface.switch
+
+        stepperLabel >>> AccessibilityDemoID.Interface.stepperLabel
+        stepper >>> AccessibilityDemoID.Interface.stepper
+        
+        progressLabel >>> AccessibilityDemoID.Show.progressLabel
+        progress >>> AccessibilityDemoID.Show.progress
+        
+        activityLabel >>> AccessibilityDemoID.Show.activityLabel
+//        activity.accessibiliiden >>> AccessibilityDemoID.Show.activity
+        
+        pageControlLabel  >>> AccessibilityDemoID.Show.pageControlLabel
+        pageControl >>> AccessibilityDemoID.Show.pageControl
+        
+        datePicker >>> AccessibilityDemoID.Big.datePicker
+        picker >>> AccessibilityDemoID.Big.pickerView
+        
     }
     
 

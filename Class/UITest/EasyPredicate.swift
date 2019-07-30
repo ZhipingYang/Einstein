@@ -19,7 +19,7 @@ public enum Comparison: RawRepresentable {
     case endsWith
     case like
     case matches
-    case other(comparisonOperator: String)
+    case other(String)
     
     public var rawValue: String {
         switch self {
@@ -44,7 +44,7 @@ public enum Comparison: RawRepresentable {
         case "ENDSWITH": self = .endsWith
         case "LIKE": self = .like
         case "MATCHES": self = .matches
-        default: self = .other(comparisonOperator: rawValue)
+        default: self = .other(rawValue)
         }
     }
 }
@@ -55,7 +55,12 @@ public enum PredicateKey {
     public enum type: String    { case elementType }
 }
 
-public enum PredicateRawValue {
+public enum PredicateRawValue: RawRepresentable {
+    public var rawValue: String { return regularString }
+    public init?(rawValue: String) {
+        self = .custom(regular: rawValue)
+    }
+    
     case bool(key: PredicateKey.bool, comparison: Comparison, value: Bool)
     case string(key: PredicateKey.string, comparison: Comparison, value: String)
     case type(value: XCUIElement.ElementType)
@@ -71,7 +76,7 @@ extension PredicateRawValue: Equatable {
     public var regularString: String {
         switch self {
         case .bool(let key, let comparison, let value):
-            return "\(key.rawValue) \(comparison.rawValue) \(value)"
+            return "\(key.rawValue) \(comparison.rawValue) \(value ? "true" : "false")"
         case .string(let key, let comparison, let value):
             return "\(key.rawValue) \(comparison.rawValue) \(value)"
         case .type(let value):

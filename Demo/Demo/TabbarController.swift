@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import UITestHelper
 
 class TabbarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        toolbarItems?.first >>> AccessibilityDemoID.TabItem.first
+        toolbarItems?.last >>> AccessibilityDemoID.TabItem.second
     }
 }
 

@@ -11,29 +11,15 @@ import UITestHelper
 
 struct AccessibilityTestID {}
 extension AccessibilityTestID {
-    enum Home1: String {
-        case setting = "HomeSetting1"
-    }
-    enum Home2: String, PrettyRawRepresentable {
-        case setting
-    }
-    enum Home3: String, PrettyRawRepresentable {
-        case setting = "HomeSetting3"
-    }
+    enum Home1: String { case setting = "HomeSetting1" }
+    enum Home2: String, PrettyRawRepresentable { case setting }
+    enum Home3: String, PrettyRawRepresentable { case setting = "HomeSetting3" }
 }
 
-class DemoTests: XCTestCase {
+class AccessibilityIdentifierTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-    }
-    
-    func testExample() {
-
+    func testEnumExample() {
+        
         XCTContext.runActivity(named: "AccessibilityIdentifierTests_Eunm") { _ in
             let path1 = AccessibilityTestID.Home1.setting.rawValue
             assert(path1 == "HomeSetting1")
@@ -47,6 +33,9 @@ class DemoTests: XCTestCase {
             let path3 = AccessibilityTestID.Home3.setting.prettyRawValue
             assert(path3 == "HomeSetting3")
         }
+    }
+    
+    func testViewExample() {
         
         XCTContext.runActivity(named: "AccessibilityIdentifierTests_View") { _ in
             let view1 = UIView()
@@ -56,6 +45,14 @@ class DemoTests: XCTestCase {
             let view2 = UIView()
             view2.accessibilityID(AccessibilityTestID.Home2.setting)
             assert(view2.accessibilityIdentifier == "AccessibilityTestID_Home2_setting")
+            
+            let view3 = UIView()
+            view3 >>> AccessibilityTestID.Home3.setting
+            assert(view3.accessibilityIdentifier == "HomeSetting3")
+            
+            let view4 = UIView()
+            view4.accessibilityID(AccessibilityTestID.Home3.setting)
+            assert(view4.accessibilityIdentifier == "HomeSetting3")
         }
     }
 }

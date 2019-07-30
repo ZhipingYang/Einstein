@@ -8,7 +8,6 @@ target 'Demo' do
   pod 'UITestHelper/Share', :path => '../'
 
   target 'DemoTests' do
-    inherit! :search_paths
     pod 'UITestHelper', :path => '../'
   end
 

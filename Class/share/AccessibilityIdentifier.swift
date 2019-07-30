@@ -8,7 +8,40 @@
 
 import UIKit
 
-// MARK: - pretty RawRepresentable as a keypath string of object
+//
+/*
+ MARK: - pretty RawRepresentable as a keypath string of object
+ 
+ NOTE: the priority level
+ DefineRawValue > FollowPrettyProtocolButNotDefineRawValue > NoProtocolAndNoDefine
+ 
+ check the result as follow case:
+ 
+ struct AccessibilityID {
+    enum Home1: String {
+        case setting = "HomeSetting1"
+    }
+    enum Home2: String, PrettyRawValue {
+        case setting
+    }
+    enum Home3: String, PrettyRawValue {
+        case setting = "HomeSetting3"
+    }
+ }
+
+ let path1 = AccessibilityID.Home1.setting.rawValue
+ // "HomeSetting1"
+ 
+ let path2_1 = AccessibilityID.Home2.setting.rawValue
+ // "setting"
+ 
+ let path2_2 = AccessibilityID.Home2.setting.prettyRawValue
+ // "AccessibilityID_Home2_setting"
+ 
+ let path3 = AccessibilityID.Home3.setting.prettyRawValue
+ // "HomeSetting3"
+
+ */
 public protocol PrettyRawRepresentable: RawRepresentable where RawValue == String {
     var prettyRawValue: RawValue { get }
 }

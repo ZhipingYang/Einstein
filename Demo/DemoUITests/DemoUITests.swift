@@ -6,29 +6,29 @@
 //  Copyright © 2019 Daniel Yang. All rights reserved.
 //
 
-import XCTest
-import UITestHelper
-
-class DemoUITests: XCTestCase {
-
-    override func setUp() {
-        super.setUp()
-        continueAfterFailure = true
-        group(text: "Delete app before app launch") { _ in
-            self.deleteMyAppIfNeed()
-        }
-        app.launch()
-    }
-
-    override func tearDown() {
-        group(text: "Delete App") { _ in
-            XCUIApplication().terminate()
-            self.deleteMyAppIfNeed()
-        }
-        super.tearDown()
-    }
-
-    func testExample() {
-        
-    }
-}
+//import XCTest
+//import UITestHelper
+//
+//class DemoUITests: XCTestCase {
+//
+//    override func setUp() {
+//        super.setUp()
+//        continueAfterFailure = true
+//        group(text: "Delete app before app launch") { _ in
+//            self.deleteMyAppIfNeed()
+//        }
+//        app.launch()
+//    }
+//
+//    override func tearDown() {
+//        group(text: "Delete App") { _ in
+//            XCUIApplication().terminate()
+//            self.deleteMyAppIfNeed()
+//        }
+//        super.tearDown()
+//    }
+//
+//    func testExample() {
+//
+//    }
+//}

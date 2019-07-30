@@ -15,7 +15,7 @@ extension XCUIElementQuery {
         let subpredicates = predicates.map { $0.rawValue.toPredicate }
         return matching(NSCompoundPredicate(type: logic, subpredicates: subpredicates))
     }
-
+    
     func element(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement {
         let subpredicates = predicates.map { $0.rawValue.toPredicate }
         return element(matching: NSCompoundPredicate(type: logic, subpredicates: subpredicates))
@@ -25,3 +25,4 @@ extension XCUIElementQuery {
         return element(predicates: [predicate], logic: .and)
     }
 }
+

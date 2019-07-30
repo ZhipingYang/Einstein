@@ -34,7 +34,7 @@ public extension XCTestCase {
  Helper extension for various function to help with writing UI tests.
  */
 public extension XCTestCase {
-
+    
     /// Try to force launch the application. This structure tries to ovecome the issues described at https://forums.developer.apple.com/thread/15780
     ///
     /// - Parameters:
@@ -143,7 +143,7 @@ public extension XCTestCase {
         settingsApp.tables.cells["Airplane Mode"].children(matching: .switch).firstMatch.setSwitch(on: true)
         app.activate()
     }
-        
+    
     func deleteMyAppIfNeed() {
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard").then {
             $0.activate()
@@ -158,3 +158,4 @@ public extension XCTestCase {
         }
     }
 }
+

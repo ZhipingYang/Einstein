@@ -25,7 +25,7 @@ extension String: RawRepresentable {
 /*
  MARK: - RawRepresentable extension
  Get the `XCUIElement` from RawRepresentable's RawValue which also been used as accessibilityIdentifier
-*/
+ */
 public extension RawRepresentable where RawValue == String {
     
     var element: XCUIElement {
@@ -36,7 +36,7 @@ public extension RawRepresentable where RawValue == String {
         }
         return qry.firstMatch
     }
-
+    
     var query: XCUIElementQuery {
         return queryFor(identifier: self)
     }
@@ -77,19 +77,11 @@ public extension Sequence where Element: RawRepresentable, Element.RawValue == S
             return anyElements(subpredicates: subpredicates, logic: logic, timeout: timeout - 1)
         }
     }
-
-    /// get all elements match the predicates
-    ///
-    /// - Parameters:
-    ///   - subpredicates: predicates as the match rules
-    ///   - logic: relation of predicates
-    /// - Returns: get the elements
-    func anyElements(subpredicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> [XCUIElement] {
-        return anyElements(subpredicates: subpredicates, logic: logic, timeout: 0)
-    }
-
+    
     /// get the first element was matched predicate
-    func firstEmenet(predicate: EasyPredicate) -> XCUIElement? {
-        return anyElements(subpredicates: [predicate]).first
+    func anyElements(predicate: EasyPredicate) -> XCUIElement? {
+        return anyElements(subpredicates: [predicate], logic: .and, timeout: 0).first
     }
 }
+
+

@@ -19,8 +19,7 @@ extension AccessibilityTestID {
 class AccessibilityIdentifierTests: XCTestCase {
     
     func testEnumExample() {
-        
-        XCTContext.runActivity(named: "AccessibilityIdentifierTests_Eunm") { _ in
+        XCTContext.runActivity(named: "🙏: AccessibilityIdentifierTests -> Eunm") { _ in
             let path1 = AccessibilityTestID.Home1.setting.rawValue
             assert(path1 == "HomeSetting1")
             
@@ -36,8 +35,7 @@ class AccessibilityIdentifierTests: XCTestCase {
     }
     
     func testViewExample() {
-        
-        XCTContext.runActivity(named: "AccessibilityIdentifierTests_View") { _ in
+        XCTContext.runActivity(named: "🙏: AccessibilityIdentifierTests -> View") { _ in
             let view1 = UIView()
             view1 >>> AccessibilityTestID.Home2.setting
             assert(view1.accessibilityIdentifier == "AccessibilityTestID_Home2_setting")

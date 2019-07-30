@@ -9,6 +9,7 @@
 import XCTest
 import UITestHelper
 
+/// mock XCUIElement to test EasyPredicate
 @objcMembers class EasyPredicateTestItem: NSObject {
     var exists: Bool = true
     var isEnabled: Bool = true
@@ -27,6 +28,7 @@ class EasyPredicateTests: XCTestCase {
     }
     
     func testExample() {
+        // compare two items diff
         let item0 = EasyPredicateTestItem()
         let item1 = EasyPredicateTestItem().then {
             $0.exists = false
@@ -38,12 +40,14 @@ class EasyPredicateTests: XCTestCase {
             $0.elementType = .window
         }
         
+        // test case array
         let testPredicates = [
             EasyPredicate.exists(false),
             EasyPredicate.isEnabled(false),
             EasyPredicate.isHittable(false),
             EasyPredicate.isSelected(false),
             EasyPredicate.label(comparison: .equals, value: "abcdefg"),
+            EasyPredicate.label(comparison: .notEqual, value: ""),
             EasyPredicate.label(comparison: .beginsWith, value: "ab"),
             EasyPredicate.label(comparison: .endsWith, value: "fg"),
             EasyPredicate.label(comparison: .contains, value: "cde"),
@@ -52,7 +56,9 @@ class EasyPredicateTests: XCTestCase {
             EasyPredicate.type(.window)
         ]
         
+        // NSPredicate's API supports NSArray but not Array in swift
         let array = [item0, item1] as NSArray
+        
         testPredicates.forEach { predicate in
             group(text: "🙏: EasyPredicate -> \(predicate.rawValue.regularString)", closure: { _ in
                 array.testPredicateFilter(predicate: predicate, block: { (ps, p) in

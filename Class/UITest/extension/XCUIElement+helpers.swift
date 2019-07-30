@@ -9,11 +9,11 @@
 import XCTest
 import Then
 
-/**
- Helper extension for performing functions on an element
- */
+
+// MARK: - Base
 public extension XCUIElement {
     
+    // MARK: - wait
     @discardableResult
     func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {
         if predicates.count <= 0 { fatalError("predicates cannpt be empty!") }
@@ -26,88 +26,56 @@ public extension XCUIElement {
         XCTWaiter().wait(for: [promise], timeout: timeout)
         return self
     }
-
+    
     @discardableResult
     func waitUntil(predicate: EasyPredicate, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {
-        // return self directly
-        switch predicate {
-        case .exists(let e) where e == exists:
-            return self
-        case .isEnabled(let i) where i == isEnabled:
-            return self
-        case .identifier(let id) where id == identifier:
-            return self
-        case .isHittable(let h) where h == isHittable:
-            return self
-        case .isSelected(let s) where s == isSelected:
-            return self
-        default: break
-        }
-        // waiting
-        let test = XCTestCase().then { $0.continueAfterFailure = true }
-        let promise = test.expectation(for: predicate.rawValue.toPredicate, evaluatedWith: self, handler: handler)
-        XCTWaiter().wait(for: [promise], timeout: timeout)
-        return self
+        return waitUntil(predicates: [predicate], logic: .and, timeout: timeout, handler: handler)
     }
     
-    func assert(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement {
-        return self
-    }
-    
-    @discardableResult
-    func waitUntilAssert(predicate: EasyPredicate, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {
-        return waitUntil(predicate: predicate, timeout: timeout, handler: handler).then {
-            switch predicate {
-            case .exists(let e):
-                XCTAssert(exists == e, "Element should be \(e ? "exist" : "inexist"): \($0)")
-            case .isEnabled(let e):
-                XCTAssert(isEnabled == e, "Element should be \(e ? "enabled" : "disabled"): \($0)")
-            case .isHittable(let h):
-                XCTAssert(isHittable == h, "Element should be \(h ? "hittable" : "unhittable"): \($0)")
-            case .isSelected(let s):
-                XCTAssert(isSelected == s, "Element should be \(s ? "selected" : "unselected"): \($0)")
-            case .label(let comparison, let value):
-                switch comparison {
-                case .equals:
-                    XCTAssert(value == label, "label:\(label) is not equal with \(value)")
-                case .beginsWith:
-                    XCTAssert(label.hasPrefix(value), "label:\(label) is not prefix with \(value)")
-                case .contains:
-                    XCTAssert(label.contains(value), "label:\(label) is not contains with \(value)")
-                case .endsWith:
-                    XCTAssert(label.hasSuffix(value), "label:\(label) is not suffix with \(value)")
-                default: break
-                }
-            case .identifier(let i):
-                XCTAssert(identifier == i, "identifier:\(identifier) is not equal with \(i)")
-            case .other(_): break
-                // TODO: asset log
-            case .type(_): break
-                // TODO: asset log
-            }
-        }
-    }
-
     @discardableResult
     func waitUntilExists(timeout: TimeInterval = 10) -> XCUIElement {
         return waitUntil(predicate: EasyPredicate.exists(true), timeout: timeout)
     }
-
+    
     @discardableResult
-    func waitUntilExistsAssert(timeout: TimeInterval = 10) -> XCUIElement {
-        return waitUntilAssert(predicate: EasyPredicate.exists(true), timeout: timeout)
+    func wait(_ s: UInt32 = 1) -> XCUIElement {
+        sleep(s)
+        return self
+    }
+    
+    // MARK: - assert
+    func assert(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement {
+        if predicates.first == nil { fatalError("predicates can't be empty") }
+        
+        let predicate = NSCompoundPredicate(type: logic, subpredicates: predicates.map {
+            $0.rawValue.toPredicate
+        })
+        let filteredElements = ([self] as NSArray).filtered(using: predicate)
+        if filteredElements.isEmpty {
+            let predicateStr = predicates.map { "\n <\($0.rawValue.regularString)>" }.joined()
+            assertionFailure("\(self) is not satisfied: \(predicateStr)")
+        }
+        return self
+    }
+    
+    func assert(predicate: EasyPredicate) -> XCUIElement {
+        return assert(predicates: [predicate])
     }
     
     @discardableResult
-    func waitUntilEnable(timeout: TimeInterval = 10) -> XCUIElement {
-        return waitUntil(predicate: EasyPredicate.isEnabled(true), timeout: timeout)
+    func waitUntilExistsAssert(timeout: TimeInterval = 10) -> XCUIElement {
+        return waitUntil(predicate: EasyPredicate.exists(true), timeout: timeout).assert(predicate: .exists(true))
     }
+}
+
+// MARK: - Extension
+public extension XCUIElement {
     
     /// Wait until it's available and then type a text into it.
     @discardableResult
     func tapAndType(text: String, timeout: TimeInterval = 10) -> XCUIElement {
         waitUntilExists(timeout: timeout).tap()
-        sleep(1) //Wait for keyboard... test?
+        sleep(1) // Wait for keyboard... test?
         typeText(text)
         return self
     }
@@ -116,7 +84,7 @@ public extension XCUIElement {
     @discardableResult
     func clearAndType(text: String, timeout: TimeInterval = 10) -> XCUIElement {
         waitUntilExists(timeout: timeout)
-        sleep(1) //Wait for keyboard...
+        sleep(1) // Wait for keyboard...
         coordinate(withNormalizedOffset: CGVector(dx: 0.99, dy: 0.99)).tap()
         
         let stringValue = (value as? String) ?? ""
@@ -135,18 +103,12 @@ public extension XCUIElement {
     }
     
     @discardableResult
-    func wait(_ s: UInt32 = 1) -> XCUIElement {
-        sleep(s)
-        return self
-    }
-
-    @discardableResult
     func setSwitch(on: Bool, timeout: TimeInterval = 10) -> XCUIElement  {
         waitUntilExists(timeout: timeout)
         if elementType == .`switch` {
             if (!on && "\(value ?? "0")" == "1") || (on && "\(value ?? "0")" != "1") {
                 tap()
-            }            
+            }
         } else {
             XCTAssert(false, "Element is not a switch: \(self)")
         }
@@ -168,3 +130,34 @@ public extension XCUIElement {
         }
     }
 }
+
+extension Sequence where Element: XCUIElement {
+    
+    /// get the elements which match with identifiers and predicates limited in timeout
+    ///
+    /// - Parameters:
+    ///   - subpredicates: predicates as the match rules
+    ///   - logic: relation of predicates
+    ///   - timeout: if timeout == 0, return the elements immediately otherwise retry until timeout
+    /// - Returns: get the elements
+    func anyElements(subpredicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: Int) -> [Element] {
+        if subpredicates.count <= 0 { fatalError("predicates cannpt be empty!") }
+        
+        let predicate = NSCompoundPredicate(type: logic, subpredicates: subpredicates.map {
+            $0.rawValue.toPredicate
+        })
+        let filteredElements = (map { $0 } as NSArray).filtered(using: predicate)
+        if filteredElements.count > 0 || timeout <= 0 {
+            return filteredElements as! [Element]
+        } else {
+            sleep(1)
+            return anyElements(subpredicates: subpredicates, logic: logic, timeout: timeout - 1)
+        }
+    }
+    
+    /// get the first element was matched predicate
+    func anyElements(predicate: EasyPredicate) -> Element? {
+        return anyElements(subpredicates: [predicate], logic: .and, timeout: 0).first
+    }
+}
+

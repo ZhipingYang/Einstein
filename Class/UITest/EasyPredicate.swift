@@ -13,7 +13,7 @@ import XCTest
 
 public enum Comparison: RawRepresentable {
     case equals
-    case notEqualTo
+    case notEqual
     case beginsWith
     case contains
     case endsWith
@@ -24,7 +24,7 @@ public enum Comparison: RawRepresentable {
     public var rawValue: String {
         switch self {
         case .equals: return "="
-        case .notEqualTo: return "!="
+        case .notEqual: return "!="
         case .beginsWith: return "BEGINSWITH"
         case .contains: return "CONTAINS"
         case .endsWith: return "ENDSWITH"
@@ -38,7 +38,7 @@ public enum Comparison: RawRepresentable {
     public init(rawValue: String) {
         switch rawValue {
         case "=": self = .equals
-        case "!=": self = .notEqualTo
+        case "!=": self = .notEqual
         case "BEGINSWITH": self = .beginsWith
         case "CONTAINS": self = .contains
         case "ENDSWITH": self = .endsWith
@@ -142,6 +142,3 @@ public enum EasyPredicate: RawRepresentable {
         }
     }
 }
-
-
-

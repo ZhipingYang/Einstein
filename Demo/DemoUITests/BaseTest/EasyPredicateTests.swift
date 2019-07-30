@@ -16,7 +16,7 @@ import UITestHelper
     var isSelected: Bool = true
     var label: NSString = ""
     var identifier: NSString = ""
-    var type: XCUIElement.ElementType = .button
+    var elementType: XCUIElement.ElementType = .button
 }
 
 class EasyPredicateTests: XCTestCase {
@@ -34,8 +34,8 @@ class EasyPredicateTests: XCTestCase {
             $0.isHittable = false
             $0.isSelected = false
             $0.label = "abcdefg"
-            $0.identifier = "hello"
-            $0.type = .window
+            $0.identifier = "identifier"
+            $0.elementType = .window
         }
         
         let testPredicates = [
@@ -48,9 +48,8 @@ class EasyPredicateTests: XCTestCase {
             EasyPredicate.label(comparison: .endsWith, value: "fg"),
             EasyPredicate.label(comparison: .contains, value: "cde"),
             EasyPredicate.label(comparison: .other("!="), value: ""),
-            EasyPredicate.identifier("hello"),
-            // TODO: why ? how ?
-//            EasyPredicate.type(.window)
+            EasyPredicate.identifier("identifier"),
+            EasyPredicate.type(.window)
         ]
         
         let array = [item0, item1] as NSArray

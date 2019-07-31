@@ -76,6 +76,8 @@ end
 # Using
 
 - AccessibilityIdentifier
+	- project target
+	- UITest target
 - EasyPredicate
 - Extensions
 
@@ -86,7 +88,8 @@ end
 ><blockquote>
 
 <details><summary> Expand for steps details </summary>
-
+<br>
+	
 - 1.1 Define the enums
 	- set rawValue in String
 	- append PrettyRawRepresentable if need
@@ -169,6 +172,7 @@ SignInPage.signIn.element.assert(predicate: .isEnabled(true)).tap()
 ><blockquote>
 
 <details><summary> Expand for EasyPredicate's cases </summary>
+<br>
 
 ```swift
 public enum EasyPredicate: RawRepresentable {   
@@ -223,7 +227,7 @@ extension String: RawRepresentable {
 
 ### 3.2 extension RawRepresentable
 
-<details>
+<details open>
   <summary> Expand for RawRepresentable extension </summary>
 
 ```swift
@@ -264,7 +268,7 @@ public extension Sequence where Element: RawRepresentable, Element.RawValue == S
 
 ### 3.3 extension XCUIElement
 
-<details>
+<details open>
   <summary> Expand for XCUIElement (Base) </summary>
 
 ```swift
@@ -344,7 +348,7 @@ extension Sequence where Element: XCUIElement {
 
 ### 3.4 extension XCUIElementQuery
 
-<details>
+<details open>
   <summary> Expand for XCUIElementQuery extension </summary>
 
 ```swift
@@ -370,7 +374,7 @@ extension XCUIElementQuery {
 
 ### 3.5 extension XCTestCase
 
-<details>
+<details open>
   <summary> Expand for XCTestCase (runtime) </summary>
 
 ```swift

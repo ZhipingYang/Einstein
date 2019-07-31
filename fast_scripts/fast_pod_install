@@ -3,4 +3,5 @@ cd $SCRIPT_DIR
 echo "current path:"
 pwd
 
-pod trunk push UITestHelper.podspec --verbose --allow-warnings
+cd ../Demo
+pod install

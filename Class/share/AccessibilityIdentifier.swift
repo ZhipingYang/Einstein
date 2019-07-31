@@ -56,8 +56,16 @@ public extension PrettyRawRepresentable {
     }
 }
 
-// MARK: - accessibilityIdentifier assignment
-/// method 1
+/*
+ MARK: - accessibilityIdentifier assignment
+ 
+ method 1
+ 
+ use case:
+ settingButton >>> AccessibilityID.Home1.setting // "HomeSetting1"
+ settingButton >>> AccessibilityID.Home2.setting // "AccessibilityID_Home2_setting"
+ settingButton >>> AccessibilityID.Home3.setting // "HomeSetting3"
+ */
 infix operator >>>
 public func >>> <T: RawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) where T.RawValue == String {
     lhs?.accessibilityIdentifier = rhs.rawValue
@@ -66,7 +74,12 @@ public func >>> <T: PrettyRawRepresentable>(lhs: UIAccessibilityIdentification?,
     lhs?.accessibilityIdentifier = rhs.prettyRawValue
 }
 
-/// method 2
+/*
+ method 2
+ 
+ use case:
+ settingButton.accessibilityID(AccessibilityID.Home1.setting) // "HomeSetting1"
+ */
 public extension UIAccessibilityIdentification {
     func accessibilityID<T: RawRepresentable>(_ r: T) where T.RawValue == String {
         self.accessibilityIdentifier = r.rawValue

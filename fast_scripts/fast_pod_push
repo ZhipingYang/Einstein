@@ -3,5 +3,5 @@ cd $SCRIPT_DIR
 echo "current path:"
 pwd
 
-cd Demo
-pod install
+cd ../
+pod trunk push Einstein.podspec --verbose --allow-warnings

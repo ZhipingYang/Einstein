@@ -9,8 +9,7 @@
 import Foundation
 import XCTest
 
-// MARK: center string of Regular expression
-
+/// infix string of Regular expression
 public enum Comparison: RawRepresentable {
     case equals
     case notEqual
@@ -34,7 +33,6 @@ public enum Comparison: RawRepresentable {
         }
     }
     
-    /// Initialize comparison operator with string.
     public init(rawValue: String) {
         switch rawValue {
         case "=": self = .equals
@@ -49,12 +47,14 @@ public enum Comparison: RawRepresentable {
     }
 }
 
+/// PredicateKey
 public enum PredicateKey {
     public enum bool: String    { case exists, isEnabled, isHittable, isSelected }
     public enum string: String  { case identifier, label }
     public enum type: String    { case elementType }
 }
 
+/// PredicateRawValue
 public enum PredicateRawValue: RawRepresentable {
     public var rawValue: String { return regularString }
     public init?(rawValue: String) {
@@ -67,6 +67,7 @@ public enum PredicateRawValue: RawRepresentable {
     case custom(regular: String)
 }
 
+// MARK: - PredicateRawValue's extension methods
 extension PredicateRawValue: Equatable {
     // Equatable
     public static func ==(l: PredicateRawValue, r: PredicateRawValue) -> Bool {
@@ -91,6 +92,12 @@ extension PredicateRawValue: Equatable {
     }
 }
 
+/*
+ MARK: - EasyPredicate
+ 
+ Although `NSPredicate` is powerfull but the developer interface is not good enough,
+ We can try to convert the hard code style into the object-oriented style as below.
+ */
 public enum EasyPredicate: RawRepresentable {
     
     case exists(_ exists: Bool)

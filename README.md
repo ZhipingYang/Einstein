@@ -74,13 +74,13 @@ target 'XXXProject' do
 end
 ```
 
-## Using
+# Using
 
 - AccessibilityIdentifier
 - EasyPredicate
 - Extensions
 
-### 1. AccessibilityIdentifier
+## 1. AccessibilityIdentifier
 
 > **Note:** all the UIKit's accessibilityIdentifier is a preperty of the protocol `UIAccessibilityIdentification` and all enum's rawValue is default to follow `RawRepresentable`
 
@@ -91,7 +91,7 @@ end
 	- method1: infix operator
 	- method2: UIAccessibilityIdentification's extension
 
-#### 1.1 Define the enums
+### 1.1 Define the enums
 
 ```swift 
 struct LoginAccessID {
@@ -122,9 +122,9 @@ str3 -> "LoginAccessID_Forget_phoneNumber"
 ```
 [see more: PrettyRawRepresentable](https://github.com/ZhipingYang/Einstein/blob/master/Class/share/AccessibilityIdentifier.swift#L45)
 
-#### 1.2 set UIKit's accessibilityIdentifier by enums's rawValue
+### 1.2 set UIKit's accessibilityIdentifier by enums's rawValue
 
-```
+```swift
 // system way
 signInPhoneTextField.accessibilityIdentifier = "LoginAccessID_SignIn_phoneNumber"
 
@@ -141,7 +141,7 @@ print(forgetPhoneTextField.accessibilityIdentifier)
 // "LoginAccessID_Forget_phoneNumber"
 ```
 
-### 2. Apply in UITest target
+## 2. Apply in UITest target
 
 > **Note:** extension the protocol RawRepresentable and limited it's RawValue == String
 
@@ -158,7 +158,7 @@ SignInPage.password.element.clearAndType(text: "******")
 SignInPage.signIn.element.tap().assert(predicate: .isEnabled(true))
 ```
 
-### 2. EasyPredicate
+## 3. EasyPredicate
 > **Note:** <br>
 > EasyPredicate's RawValue is `PredicateRawValue` (a another enum to manage logic and convert NSPredicate). <br>
 > there's the often used cases I'd listed below.
@@ -185,17 +185,230 @@ let element = query.element(predicates: [.type(.button), .exists(true), .label(.
 let element = query.element(matching: NSPredicate(format: "elementType == 0 && exists == true && label BEGINSWITH 'abc'"))
 ```
 
-### 3. UITest Extensions
+## 4. UITest Extensions
 
-- RawRepresentable
-	- extension RawRepresentable where RawValue == String
-	- extension Sequence where Element: RawRepresentable, Element.RawValue == String
-- XCUIElement
-	- extension XCUIElement
-	- extension Sequence where Element: XCUIElement
-- XCTestCase
-- XCUIElementQuery
+### 3.1 extension String
 
+```swift
+/*
+ Note: string value can be a RawRepresentable and String at the same time
+ for example:
+ `let element: XCUIElement = "SomeString".element`
+ */
+extension String: RawRepresentable {
+    public var rawValue: String { return self }
+    public init?(rawValue: String) {
+        self = rawValue
+    }
+}
+```
+<br>
+
+### 3.2 extension RawRepresentable
+
+<details>
+  <summary> extension RawRepresentable where RawValue == String </summary>
+
+```swift
+/*
+ Get the `XCUIElement` from RawRepresentable's RawValue which also been used as accessibilityIdentifier
+ */
+public extension RawRepresentable where RawValue == String {
+    var element: XCUIElement {}
+    var query: XCUIElementQuery {}
+    var count: Int {}
+    subscript(i: Int) -> XCUIElement {}   
+    func queryFor(identifier: Self) -> XCUIElementQuery {}
+}
+```
+</details>
+
+<details>
+  <summary> extension Sequence where Element: RawRepresentable, Element.RawValue == String </summary>
+
+```swift
+public extension Sequence where Element: RawRepresentable, Element.RawValue == String {
+    
+    /// get the elements which match with identifiers and predicates limited in timeout
+    ///
+    /// - Parameters:
+    ///   - subpredicates: predicates as the match rules
+    ///   - logic: relation of predicates
+    ///   - timeout: if timeout == 0, return the elements immediately otherwise retry until timeout
+    /// - Returns: get the elements
+    func anyElements(subpredicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: Int) -> [XCUIElement] {}
+    
+    /// get the first element was matched predicate
+    func anyElements(predicate: EasyPredicate) -> XCUIElement? {}
+}
+```
+</details>
+<br>
+
+### 3.3 extension XCUIElement
+
+<details>
+  <summary> extension XCUIElement (Base) </summary>
+
+```swift
+// MARK: - Base
+public extension XCUIElement {
+    
+    @discardableResult
+    func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {}
+    @discardableResult
+    func waitUntil(predicate: EasyPredicate, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {}
+    @discardableResult
+    func waitUntilExists(timeout: TimeInterval = 10) -> XCUIElement {}
+    @discardableResult
+    func wait(_ s: UInt32 = 1) -> XCUIElement {}
+    
+    // MARK: - assert
+    func assert(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement {}
+    func assert(predicate: EasyPredicate) -> XCUIElement {}
+    @discardableResult
+    func waitUntilExistsAssert(timeout: TimeInterval = 10) -> XCUIElement {}
+}
+```
+</details>
+
+<details>
+  <summary> extension XCUIElement </summary>
+
+```swift
+// MARK: - Extension
+public extension XCUIElement {
+    
+    /// Wait until it's available and then type a text into it.
+    @discardableResult
+    func tapAndType(text: String, timeout: TimeInterval = 10) -> XCUIElement {}
+    
+    /// Wait until it's available and clear the text, then type a text into it.
+    @discardableResult
+    func clearAndType(text: String, timeout: TimeInterval = 10) -> XCUIElement {}
+    
+    @discardableResult
+    func hidenKeyboard(inApp: XCUIApplication) -> XCUIElement {}
+    
+    @discardableResult
+    func setSwitch(on: Bool, timeout: TimeInterval = 10) -> XCUIElement  {}
+    
+    @discardableResult
+    func forceTap(timeout: TimeInterval = 10) -> XCUIElement {}
+    
+    @discardableResult
+    func tapIfExists(timeout: TimeInterval = 10) -> XCUIElement {}
+}
+```
+</details>
+
+<details>
+  <summary> extension Sequence where Element: XCUIElement </summary>
+
+```swift
+extension Sequence where Element: XCUIElement {
+    
+    /// get the elements which match with identifiers and predicates limited in timeout
+    ///
+    /// - Parameters:
+    ///   - subpredicates: predicates as the match rules
+    ///   - logic: relation of predicates
+    ///   - timeout: if timeout == 0, return the elements immediately otherwise retry until timeout
+    /// - Returns: get the elements
+    func anyElements(subpredicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: Int) -> [Element] {}
+    
+    /// get the first element was matched predicate
+    func anyElements(predicate: EasyPredicate) -> Element? {}
+}
+```
+</details>
+
+<br>
+
+### 3.4 extension XCUIElementQuery
+
+<details>
+  <summary> extension XCUIElementQuery </summary>
+
+```swift
+extension XCUIElementQuery {
+    
+    func matching(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElementQuery {
+        let subpredicates = predicates.map { $0.rawValue.toPredicate }
+        return matching(NSCompoundPredicate(type: logic, subpredicates: subpredicates))
+    }
+    
+    func element(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement {
+        let subpredicates = predicates.map { $0.rawValue.toPredicate }
+        return element(matching: NSCompoundPredicate(type: logic, subpredicates: subpredicates))
+    }
+    
+    func element(predicate: EasyPredicate) -> XCUIElement {
+        return element(predicates: [predicate], logic: .and)
+    }
+}
+```
+</details>
+<br>
+
+### 3.5 extension XCTestCase
+
+<details>
+  <summary> extension XCTestCase (runtime) </summary>
+
+```swift
+/**
+ associated object
+ */
+public extension XCTestCase {
+    
+    private struct XCTestCaseAssociatedKey {
+        static var app = 0
+    }
+    
+    var app: XCUIApplication {
+        set {
+            objc_setAssociatedObject(self, &XCTestCaseAssociatedKey.app, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+        }
+        get {
+            let _app = objc_getAssociatedObject(self, &XCTestCaseAssociatedKey.app) as? XCUIApplication
+            guard let app = _app else { return XCUIApplication().then { self.app = $0 } }
+            return app
+        }
+    }
+}
+```
+</details>
+
+<details>
+  <summary> extension XCTestCase </summary>
+
+```swift
+
+public extension XCTestCase {
+    
+    // MARK: - methods
+    func isSimulator() -> Bool {}
+    func takeScreenshot(activity: XCTActivity, name: String = "Screenshot") {}
+    func takeScreenshot(groupName: String = "--- Screenshot ---", name: String = "Screenshot") {}
+    func group(text: String = "Group", closure: (_ activity: XCTActivity) -> ()) {}
+    func hideAlertsIfNeeded() {}
+    func setAirplane(_ value: Bool) {}
+    func deleteMyAppIfNeed() {}
+    
+    /// Try to force launch the application. This structure tries to ovecome the issues described at https://forums.developer.apple.com/thread/15780
+    func tryLaunch<T: RawRepresentable>(arguments: [T], count counter: Int = 10, wait: UInt32 = 2) where T.RawValue == String {}
+    
+    func tryLaunch(count counter: Int = 10) {}
+    
+    func killAppAndRelaunch() {}
+    
+    /// Try to force closing the application
+    func tryTearDown(wait: UInt32 = 2) {}
+}
+```
+</details>
+<br>
 
 ## Author
 

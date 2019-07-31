@@ -20,7 +20,7 @@
 	</a>
 </p>
 
-> **Einstein** integrates the business logic across the Project and UITest through AccessibilityIdentified. And on UITest, useing EasyPredict and Extensions to better support test code writing
+> **Einstein** integrates the business logic across the Project and UITest through [AccessibilityIdentifier](https://github.com/ZhipingYang/Einstein/blob/master/Class/share/AccessibilityIdentifier.swift). And on UITest, useing [EasyPredict](https://github.com/ZhipingYang/Einstein/blob/master/Class/UITest/EasyPredicate.swift) and [Extensions](https://github.com/ZhipingYang/Einstein/tree/master/Class/UITest/extension) to better support UITest code writing
 
 ### Comparative sample
 
@@ -31,7 +31,7 @@ in `XCTestCase`, type the phone number to login
 LoginAccessID.SignIn.phoneNumber.element.waitUntilExists().clearAndType(text: "MyPhoneNumber")
 
 // without Einstein
-let element = app.buttons["Login_SignIn_phoneNumber"]
+let element = app.buttons["LoginAccessID_SignIn_phoneNumber"]
 let predicate = NSPredicate(format: "exists == true")
 let promise = self.expectation(for: predicate, evaluatedWith: element, handler: nil)
 XCTWaiter().wait(for: [promise], timeout: timeout)
@@ -82,14 +82,19 @@ end
 
 ## 1. AccessibilityIdentifier
 
-> **Note:** all the UIKit's accessibilityIdentifier is a preperty of the protocol `UIAccessibilityIdentification` and all enum's rawValue is default to follow `RawRepresentable`
+> **Note:** <br>
+> all the UIKit's accessibilityIdentifier is a preperty of the protocol `UIAccessibilityIdentification` and all enum's rawValue is default to follow `RawRepresentable`
 
+<details>
+  <summary> Steps </summary>
+  
 - 1.1 Define the enums
 	- set rawValue in String
 	- append PrettyRawRepresentable if need
 - 1.2 set UIKit's accessibilityIdentifier by enums's rawValue
 	- method1: infix operator
 	- method2: UIAccessibilityIdentification's extension
+</details>
 
 ### 1.1 Define the enums
 
@@ -143,7 +148,8 @@ print(forgetPhoneTextField.accessibilityIdentifier)
 
 ## 2. Apply in UITest target
 
-> **Note:** extension the protocol RawRepresentable and limited it's RawValue == String
+> **Note:** <br>
+> extension the protocol RawRepresentable and limited it's RawValue == String
 
 ```swift
 typealias SignInPage = LoginAccessID.SignIn
@@ -155,7 +161,7 @@ SignInPage.phoneNumber.element.waitUntilExists().clearAndType(text: "myPhoneNumb
 SignInPage.password.element.clearAndType(text: "******")
 
 // start login
-SignInPage.signIn.element.tap().assert(predicate: .isEnabled(true))
+SignInPage.signIn.element.assert(predicate: .isEnabled(true)).tap()
 ```
 
 ## 3. EasyPredicate
@@ -175,6 +181,8 @@ public enum EasyPredicate: RawRepresentable {
     case other(_ ragular: String)
 }
 ```
+[see more: EasyPredicate](https://github.com/ZhipingYang/Einstein/blob/master/Class/UITest/EasyPredicate.swift#L101)
+
 > Although `NSPredicate` is powerfull but the developer interface is not good enough, We can try to convert the hard code style into the object-oriented style as below
 
 ```swift

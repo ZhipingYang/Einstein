@@ -83,17 +83,17 @@ end
 
 > **Note:** <br>
 > all the UIKit's accessibilityIdentifier is a preperty of the protocol `UIAccessibilityIdentification` and all enum's rawValue is default to follow `RawRepresentable`
+><blockquote>
 
-<details>
-  <summary> Steps </summary>
-  
+<details><summary> Expand for steps details </summary>
+
 - 1.1 Define the enums
 	- set rawValue in String
 	- append PrettyRawRepresentable if need
 - 1.2 set UIKit's accessibilityIdentifier by enums's rawValue
 	- method1: infix operator
 	- method2: UIAccessibilityIdentification's extension
-</details>
+</details></blockquote>
 
 ### 1.1 Define the enums
 
@@ -166,7 +166,9 @@ SignInPage.signIn.element.assert(predicate: .isEnabled(true)).tap()
 ## 3. EasyPredicate
 > **Note:** <br>
 > EasyPredicate's RawValue is `PredicateRawValue` (a another enum to manage logic and convert NSPredicate). <br>
-> there's the often used cases I'd listed below.
+><blockquote>
+
+<details><summary> Expand for EasyPredicate's cases </summary>
 
 ```swift
 public enum EasyPredicate: RawRepresentable {   
@@ -180,9 +182,17 @@ public enum EasyPredicate: RawRepresentable {
     case other(_ ragular: String)
 }
 ```
-[see more: EasyPredicate](https://github.com/ZhipingYang/Einstein/blob/master/Class/UITest/EasyPredicate.swift#L101)
+</details></blockquote>
 
-> Although `NSPredicate` is powerfull but the developer interface is not good enough, We can try to convert the hard code style into the object-oriented style as below
+Although `NSPredicate` is powerfull but the developer interface is not good enough, We can try to convert the hard code style into the object-oriented style. and this is what EasyPredicate do
+
+```swift
+// use EasyPredicate
+let element = query.element(predicates: [.type(.button), .exists(true), .label(.beginsWith, "abc")])
+
+// use NSPredicate
+let element = query.element(matching: NSPredicate(format: "elementType == 0 && exists == true && label BEGINSWITH 'abc'"))
+```
 
 ```swift
 // use EasyPredicate
@@ -214,7 +224,7 @@ extension String: RawRepresentable {
 ### 3.2 extension RawRepresentable
 
 <details>
-  <summary> extension RawRepresentable where RawValue == String </summary>
+  <summary> Expand for RawRepresentable extension </summary>
 
 ```swift
 /*
@@ -231,7 +241,7 @@ public extension RawRepresentable where RawValue == String {
 </details>
 
 <details>
-  <summary> extension Sequence where Element: RawRepresentable, Element.RawValue == String </summary>
+  <summary> Expand for Sequence<RawRepresentable, Element.RawValue == String> </summary>
 
 ```swift
 public extension Sequence where Element: RawRepresentable, Element.RawValue == String {
@@ -255,7 +265,7 @@ public extension Sequence where Element: RawRepresentable, Element.RawValue == S
 ### 3.3 extension XCUIElement
 
 <details>
-  <summary> extension XCUIElement (Base) </summary>
+  <summary> Expand for XCUIElement (Base) </summary>
 
 ```swift
 // MARK: - Base
@@ -280,7 +290,7 @@ public extension XCUIElement {
 </details>
 
 <details>
-  <summary> extension XCUIElement </summary>
+  <summary> Expand for XCUIElement extensioin </summary>
 
 ```swift
 // MARK: - Extension
@@ -310,7 +320,7 @@ public extension XCUIElement {
 </details>
 
 <details>
-  <summary> extension Sequence where Element: XCUIElement </summary>
+  <summary> Expand for Sequence<XCUIElement> extension </summary>
 
 ```swift
 extension Sequence where Element: XCUIElement {
@@ -335,7 +345,7 @@ extension Sequence where Element: XCUIElement {
 ### 3.4 extension XCUIElementQuery
 
 <details>
-  <summary> extension XCUIElementQuery </summary>
+  <summary> Expand for XCUIElementQuery extension </summary>
 
 ```swift
 extension XCUIElementQuery {
@@ -361,7 +371,7 @@ extension XCUIElementQuery {
 ### 3.5 extension XCTestCase
 
 <details>
-  <summary> extension XCTestCase (runtime) </summary>
+  <summary> Expand for XCTestCase (runtime) </summary>
 
 ```swift
 /**
@@ -388,7 +398,7 @@ public extension XCTestCase {
 </details>
 
 <details>
-  <summary> extension XCTestCase </summary>
+  <summary> Expand for XCTestCase extension </summary>
 
 ```swift
 

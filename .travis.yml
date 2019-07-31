@@ -1,6 +1,10 @@
 osx_image: xcode10.2
 language: objective-c
 
+branches:
+  only:
+  - master
+  
 # Build with tests
 script:
 - pod repo update

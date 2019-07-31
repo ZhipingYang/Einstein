@@ -7,24 +7,31 @@
 //
 
 import UIKit
+import WebKit
+import Einstein
+import Then
 
 class WKWebViewController: UIViewController {
-
+    
+    lazy var webview = WKWebView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        view.addSubview(webview.then {
+            $0 >>> AccessibilityDemoID.Web.wkWebView
+        })
+        
+        NSLayoutConstraint.activate([
+            webview.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            webview.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            webview.topAnchor.constraint(equalTo: view.topAnchor),
+            webview.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let url = URL(string: "https://www.baidu.com") else { return }
+        webview.load(URLRequest(url: url))
     }
-    */
-
 }

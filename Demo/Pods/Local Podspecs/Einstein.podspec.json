@@ -1,8 +1,8 @@
 {
   "name": "Einstein",
   "version": "0.1.0",
-  "summary": "UITest helper",
-  "description": "Einstein integrates the business logic across the Project and UITest through AccessibilityIdentified. And on UITest, useing EasyPredict and Extensions to better support test code writing.",
+  "summary": "Einstein integrates the project and UItest through AccessibilityIdentified, and It supports chain function to make test coding understand easier and more concise",
+  "description": "This library have two parts,\nthe one supports assign AccessibilityIdentified to the UIElements easier and concise, \nanother one gets the elements by AccessibilityIdentified to writing uitest code in chain function way.\nhere we define EasyPredicate to avoid writing hard code when we use NSPredicate. \nin this way, EasyPredicate is more like OOP which we are familiar to use it.",
   "homepage": "https://github.com/ZhipingYang/Einstein",
   "license": {
     "type": "MIT",

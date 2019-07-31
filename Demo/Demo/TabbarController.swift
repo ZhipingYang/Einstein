@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import UITestHelper
+import Einstein
 
 class TabbarController: UITabBarController {
 

@@ -5,14 +5,14 @@ target 'Demo' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  pod 'UITestHelper/Share', :path => '../'
+  pod 'Einstein/Share', :path => '../'
 
   target 'DemoTests' do
-    pod 'UITestHelper', :path => '../'
+    pod 'Einstein', :path => '../'
   end
 
   target 'DemoUITests' do
-    pod 'UITestHelper', :path => '../'
+    pod 'Einstein', :path => '../'
   end
 
 end

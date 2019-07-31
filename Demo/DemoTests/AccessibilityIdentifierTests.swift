@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import UITestHelper
+import Einstein
 
 struct AccessibilityTestID {}
 extension AccessibilityTestID {

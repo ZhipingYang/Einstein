@@ -5,32 +5,32 @@
 
 <br>
 <p align="center">
-	<a href="http://cocoapods.org/pods/VerticalTree">
-		<image alt="Version" src="https://img.shields.io/cocoapods/v/VerticalTree.svg?style=flat">
+	<a href="http://cocoapods.org/pods/Einstein">
+		<image alt="Version" src="https://img.shields.io/cocoapods/v/Einstein.svg?style=flat">
 	</a>
 	<image alt="CI Status" src="https://img.shields.io/badge/Swift-5.0-orange.svg">
-	<a href="http://cocoapods.org/pods/VerticalTree">
-		<image alt="License" src="https://img.shields.io/cocoapods/l/VerticalTree.svg?style=flat">
+	<a href="http://cocoapods.org/pods/Einstein">
+		<image alt="License" src="https://img.shields.io/cocoapods/l/Einstein.svg?style=flat">
 	</a>
-	<a href="http://cocoapods.org/pods/VerticalTree">
-		<image alt="Platform" src="https://img.shields.io/cocoapods/p/VerticalTree.svg?style=flat">
+	<a href="http://cocoapods.org/pods/Einstein">
+		<image alt="Platform" src="https://img.shields.io/cocoapods/p/Einstein.svg?style=flat">
 	</a>
-	<a href="https://travis-ci.org/ZhipingYang/VerticalTree">
-		<image alt="CI Status" src="http://img.shields.io/travis/ZhipingYang/VerticalTree.svg?style=flat">
+	<a href="https://travis-ci.org/ZhipingYang/Einstein">
+		<image alt="CI Status" src="http://img.shields.io/travis/ZhipingYang/Einstein.svg?style=flat">
 	</a>
 </p>
 
-> **UITestHelper** integrates the business logic across the Project and UITest through AccessibilityIdentified. And on UITest, useing EasyPredict and Extensions to better support test code writing
+> **Einstein** integrates the business logic across the Project and UITest through AccessibilityIdentified. And on UITest, useing EasyPredict and Extensions to better support test code writing
 
 ### Comparative sample
 
 in `XCTestCase`, type the phone number to login
 
 ```swift
-// use UITestHelper
+// use Einstein
 LoginAccessID.SignIn.phoneNumber.element.waitUntilExists().clearAndType(text: "MyPhoneNumber")
 
-// without UITestHelper
+// without Einstein
 let element = app.buttons["Login_SignIn_phoneNumber"]
 let predicate = NSPredicate(format: "exists == true")
 let promise = self.expectation(for: predicate, evaluatedWith: element, handler: nil)
@@ -44,7 +44,7 @@ element.typeText("MyPhoneNumber")
 ### File structures
 
 ```
-─┬─ UITestHelper -> `Then`
+─┬─ Einstein -> `Then`
  ├─┬─ Share: -> `UIKit`
  │ └─── AccessibilityIdentifier.swift
  └─┬─ UITest: -> `UIKit` & `XCTest`
@@ -65,11 +65,11 @@ element.typeText("MyPhoneNumber")
 target 'XXXProject' do
 
   # in project target
-  pod 'UITestHelper/Share' 
+  pod 'Einstein/Share' 
   
   target 'XXXProjectUITests' do
     # in UITest target
-    pod 'UITestHelper' 
+    pod 'Einstein' 
   end
 end
 ```
@@ -120,7 +120,7 @@ str1 -> "phoneNumber"
 str2 -> "phoneNumber" 
 str3 -> "LoginAccessID_Forget_phoneNumber"
 ```
-[see more: PrettyRawRepresentable](https://github.com/ZhipingYang/UITestHelper/blob/master/Class/share/AccessibilityIdentifier.swift#L45)
+[see more: PrettyRawRepresentable](https://github.com/ZhipingYang/Einstein/blob/master/Class/share/AccessibilityIdentifier.swift#L45)
 
 #### 1.2 set UIKit's accessibilityIdentifier by enums's rawValue
 
@@ -203,5 +203,5 @@ XcodeYang, xcodeyang@gmail.com
 
 ## License
 
-UITestHelper is available under the MIT license. See the LICENSE file for more info.
+Einstein is available under the MIT license. See the LICENSE file for more info.
 

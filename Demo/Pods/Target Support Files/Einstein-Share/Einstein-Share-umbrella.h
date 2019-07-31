@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double UITestHelperVersionNumber;
-FOUNDATION_EXPORT const unsigned char UITestHelperVersionString[];
+FOUNDATION_EXPORT double EinsteinVersionNumber;
+FOUNDATION_EXPORT const unsigned char EinsteinVersionString[];
 

@@ -1,16 +1,16 @@
 Pod::Spec.new do |s|
-  s.name             = 'UITestHelper'
+  s.name             = 'Einstein'
   s.version          = '0.1.0'
   s.summary          = 'UITest helper'
   s.description      = <<-DESC
-  UITest extension and solution
+  Einstein integrates the business logic across the Project and UITest through AccessibilityIdentified. And on UITest, useing EasyPredict and Extensions to better support test code writing.
                        DESC
 
-  s.homepage         = 'https://github.com/ZhipingYang/UITestHelper'
+  s.homepage         = 'https://github.com/ZhipingYang/Einstein'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Daniel Yang' => 'xcodeyang@gmail.com' }
   s.platform         = :ios, '9.0'
-  s.source           = { :git => 'https://github.com/ZhipingYang/UITestHelper.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/ZhipingYang/Einstein.git', :tag => s.version.to_s }
   s.requires_arc     = true
   s.swift_version = '5.0'
   s.ios.deployment_target = '9.0'

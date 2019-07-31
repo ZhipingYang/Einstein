@@ -1,30 +1,30 @@
 PODS:
+  - Einstein (0.1.0):
+    - Einstein/Share (= 0.1.0)
+    - Einstein/UITest (= 0.1.0)
+    - Then
+  - Einstein/Share (0.1.0):
+    - Then
+  - Einstein/UITest (0.1.0):
+    - Then
   - Then (2.5.0)
-  - UITestHelper (0.1.0):
-    - Then
-    - UITestHelper/Share (= 0.1.0)
-    - UITestHelper/UITest (= 0.1.0)
-  - UITestHelper/Share (0.1.0):
-    - Then
-  - UITestHelper/UITest (0.1.0):
-    - Then
 
 DEPENDENCIES:
-  - UITestHelper (from `../`)
-  - UITestHelper/Share (from `../`)
+  - Einstein (from `../`)
+  - Einstein/Share (from `../`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Then
 
 EXTERNAL SOURCES:
-  UITestHelper:
+  Einstein:
     :path: "../"
 
 SPEC CHECKSUMS:
+  Einstein: 405d099fc82868a75f7316ad21bbd09838deb908
   Then: 0157115e883545c77967b452fe74a1d25fb796e1
-  UITestHelper: 98e3e29c3c64ac927c640e0c32ead70af44732fe
 
-PODFILE CHECKSUM: eaaf0abf5412826f83d9f218d8a7ef6ee3f4cc69
+PODFILE CHECKSUM: 8e3663bb301dcf5b9dfee97547779c7f5f8fb3bd
 
 COCOAPODS: 1.7.5

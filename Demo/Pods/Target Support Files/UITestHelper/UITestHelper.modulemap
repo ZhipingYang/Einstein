@@ -1,6 +1,0 @@
-framework module UITestHelper {
-  umbrella header "UITestHelper-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -7,7 +7,7 @@
 //
 
 //import XCTest
-//import UITestHelper
+//import Einstein
 //
 //class DemoUITests: XCTestCase {
 //

@@ -1,11 +1,11 @@
 # Acknowledgements
 This application makes use of the following third party libraries:
 
-## Then
+## Einstein
 
-The MIT License (MIT)
+MIT License
 
-Copyright (c) 2015 Suyeol Jeon (xoul.kr)
+Copyright (c) 2019 XcodeYang
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,11 +26,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-## UITestHelper
+## Then
 
-MIT License
+The MIT License (MIT)
 
-Copyright (c) 2019 XcodeYang
+Copyright (c) 2015 Suyeol Jeon (xoul.kr)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,0 +1,6 @@
+framework module Einstein {
+  umbrella header "Einstein-Share-umbrella.h"
+
+  export *
+  module * { export * }
+}

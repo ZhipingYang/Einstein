@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import UITestHelper
+import Einstein
 
 struct AccessibilityDemoID {
     

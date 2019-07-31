@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import UITestHelper
+import Einstein
 
 /// mock XCUIElement to test EasyPredicate
 @objcMembers class EasyPredicateTestItem: NSObject {

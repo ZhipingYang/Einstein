@@ -1,3 +1,3 @@
 ${PODS_ROOT}/Target Support Files/Pods-Demo-DemoUITests/Pods-Demo-DemoUITests-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Einstein/Einstein.framework
 ${BUILT_PRODUCTS_DIR}/Then/Then.framework
-${BUILT_PRODUCTS_DIR}/UITestHelper/UITestHelper.framework

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Einstein'
-  s.version          = '0.1.1'
+  s.version          = '0.1.2'
   s.summary          = 'Einstein integrates the project and UItest through AccessibilityIdentified, and It supports chain function to make test coding understand easier and more concise'
   s.description      = <<-DESC
 This library have two parts,
@@ -30,6 +30,7 @@ in this way, EasyPredicate is more like OOP which we are familiar to use it.
       test.ios.framework = "UIKit", "XCTest"
       test.dependency 'Then'
       test.ios.deployment_target = '9.0'
+      test.pod_target_xcconfig = { 'ENABLE_BITCODE' => 'NO' }
   end
 
 end

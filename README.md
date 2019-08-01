@@ -199,17 +199,9 @@ let element = query.element(predicates: [.type(.button), .exists(true), .label(.
 let element = query.element(matching: NSPredicate(format: "elementType == 0 && exists == true && label BEGINSWITH 'abc'"))
 ```
 
-```swift
-// use EasyPredicate
-let element = query.element(predicates: [.type(.button), .exists(true), .label(.beginsWith, "abc")])
-
-// use NSPredicate
-let element = query.element(matching: NSPredicate(format: "elementType == 0 && exists == true && label BEGINSWITH 'abc'"))
-```
-
 ## 4. UITest Extensions
 
-### 3.1 extension String
+### 4.1 extension String
 
 ```swift
 /*
@@ -226,7 +218,7 @@ extension String: RawRepresentable {
 ```
 <br>
 
-### 3.2 extension RawRepresentable
+### 4.2 extension RawRepresentable
 
 <details open>
   <summary> Expand for Sequence where Element: RawRepresentable </summary>
@@ -267,7 +259,7 @@ public extension RawRepresentable where RawValue == String {
 </details>
 <br>
 
-### 3.3 extension XCUIElement
+### 4.3 extension XCUIElement
 
 <details open>
   <summary> Expand for XCUIElement (Base) </summary>
@@ -325,7 +317,7 @@ public extension XCUIElement {
 </details>
 
 <details>
-  <summary> Expand for Sequence<XCUIElement> extension </summary>
+  <summary> Expand for Sequence: XCUIElement <XCUIElement> extension </summary>
 
 ```swift
 extension Sequence where Element: XCUIElement {
@@ -383,11 +375,9 @@ extension XCUIElementQuery {
  associated object
  */
 public extension XCTestCase {
-    
-    private struct XCTestCaseAssociatedKey {
-        static var app = 0
+    private struct XCTestCaseAssociatedKey { 
+    	static var app = 0 
     }
-    
     var app: XCUIApplication {
         set {
             objc_setAssociatedObject(self, &XCTestCaseAssociatedKey.app, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)

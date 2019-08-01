@@ -5,14 +5,14 @@ target 'Demo' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  pod 'Einstein/Share', :path => '../'
+  pod 'Einstein/Identifier', :path => '../'
 
   target 'DemoTests' do
-    pod 'Einstein', :path => '../'
+    pod 'Einstein/Identifier', :path => '../'
   end
 
   target 'DemoUITests' do
-    pod 'Einstein', :path => '../'
+    pod 'Einstein/UITest', :path => '../'
   end
 
 end

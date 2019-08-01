@@ -4,4 +4,4 @@ echo "current path:"
 pwd
 
 cd ../
-pod lib lint --verbose
+pod lib lint --verbose --allow-warnings

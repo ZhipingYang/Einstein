@@ -43,10 +43,11 @@ element.typeText("MyPhoneNumber")
 ### File structures
 
 ```
-─┬─ Einstein -> `Then`
- ├─┬─ Share: -> `UIKit`
+─┬─ Einstein
+ ├─┬─ Identifier: -> `UIKit`
  │ └─── AccessibilityIdentifier.swift
- └─┬─ UITest: -> `UIKit` & `XCTest`
+ │
+ └─┬─ UITest: -> `UIKit` & `XCTest` & `Then`
    ├─┬─ Model
    │ └─── EasyPredicate.swift
    └─┬─ Extensions
@@ -64,11 +65,11 @@ element.typeText("MyPhoneNumber")
 target 'XXXProject' do
 
   # in project target
-  pod 'Einstein/Share' 
+  pod 'Einstein/Identifier' 
   
   target 'XXXProjectUITests' do
     # in UITest target
-    pod 'Einstein' 
+    pod 'Einstein/UITest'
   end
 end
 ```
@@ -228,24 +229,7 @@ extension String: RawRepresentable {
 ### 3.2 extension RawRepresentable
 
 <details open>
-  <summary> Expand for RawRepresentable extension </summary>
-
-```swift
-/*
- Get the `XCUIElement` from RawRepresentable's RawValue which also been used as accessibilityIdentifier
- */
-public extension RawRepresentable where RawValue == String {
-    var element: XCUIElement {}
-    var query: XCUIElementQuery {}
-    var count: Int {}
-    subscript(i: Int) -> XCUIElement {}   
-    func queryFor(identifier: Self) -> XCUIElementQuery {}
-}
-```
-</details>
-
-<details>
-  <summary> Expand for Sequence<RawRepresentable, Element.RawValue == String> </summary>
+  <summary> Expand for Sequence where Element: RawRepresentable </summary>
 
 ```swift
 public extension Sequence where Element: RawRepresentable, Element.RawValue == String {
@@ -261,6 +245,23 @@ public extension Sequence where Element: RawRepresentable, Element.RawValue == S
     
     /// get the first element was matched predicate
     func anyElements(predicate: EasyPredicate) -> XCUIElement? {}
+}
+```
+</details>
+
+<details>
+  <summary> Expand for RawRepresentable extension </summary>
+
+```swift
+/*
+ Get the `XCUIElement` from RawRepresentable's RawValue which also been used as accessibilityIdentifier
+ */
+public extension RawRepresentable where RawValue == String {
+    var element: XCUIElement {}
+    var query: XCUIElementQuery {}
+    var count: Int {}
+    subscript(i: Int) -> XCUIElement {}   
+    func queryFor(identifier: Self) -> XCUIElementQuery {}
 }
 ```
 </details>

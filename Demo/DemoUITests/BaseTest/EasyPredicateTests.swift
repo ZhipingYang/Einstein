@@ -90,7 +90,7 @@ class EasyPredicateTests: XCTestCase {
 extension NSArray {
     
     fileprivate func testPredicateFilter(predicate: EasyPredicate, block: ([EasyPredicateTestItem], EasyPredicate) -> Void) {
-        guard let result = filtered(using: predicate.rawValue.toPredicate) as? [EasyPredicateTestItem] else {
+        guard let result = filtered(using: predicate.toPredicate) as? [EasyPredicateTestItem] else {
             assert(false, "element type must be EasyPredicateTestItem")
         }
         block(result, predicate)
@@ -99,8 +99,7 @@ extension NSArray {
     fileprivate func testPredicateGroupFilter(predicates: [EasyPredicate],
                                               logic: NSCompoundPredicate.LogicalType,
                                               block: ([EasyPredicateTestItem], [EasyPredicate]) -> Void) {
-        let predicate = NSCompoundPredicate(type: logic, subpredicates: predicates.map { $0.rawValue.toPredicate })
-        guard let result = filtered(using: predicate) as? [EasyPredicateTestItem] else {
+        guard let result = filtered(using: predicates.toPredicate(logic)) as? [EasyPredicateTestItem] else {
             assert(false, "element type must be EasyPredicateTestItem")
         }
         block(result, predicates)

@@ -12,13 +12,11 @@ import Then
 extension XCUIElementQuery {
     
     func matching(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElementQuery {
-        let subpredicates = predicates.map { $0.rawValue.toPredicate }
-        return matching(NSCompoundPredicate(type: logic, subpredicates: subpredicates))
+        return matching(predicates.toPredicate(logic))
     }
     
     func element(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement {
-        let subpredicates = predicates.map { $0.rawValue.toPredicate }
-        return element(matching: NSCompoundPredicate(type: logic, subpredicates: subpredicates))
+        return element(matching: predicates.toPredicate(logic))
     }
     
     func element(predicate: EasyPredicate) -> XCUIElement {

@@ -229,14 +229,14 @@ public extension Sequence where Element: RawRepresentable, Element.RawValue == S
     /// get the elements which match with identifiers and predicates limited in timeout
     ///
     /// - Parameters:
-    ///   - subpredicates: predicates as the match rules
+    ///   - predicates: predicates as the match rules
     ///   - logic: relation of predicates
     ///   - timeout: if timeout == 0, return the elements immediately otherwise retry until timeout
     /// - Returns: get the elements
-    func anyElements(subpredicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: Int) -> [XCUIElement] {}
+    func elements(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: Int) -> [XCUIElement] {}
     
     /// get the first element was matched predicate
-    func anyElements(predicate: EasyPredicate) -> XCUIElement? {}
+    func anyElement(predicate: EasyPredicate) -> XCUIElement? {}
 }
 ```
 </details>
@@ -325,14 +325,14 @@ extension Sequence where Element: XCUIElement {
     /// get the elements which match with identifiers and predicates limited in timeout
     ///
     /// - Parameters:
-    ///   - subpredicates: predicates as the match rules
+    ///   - predicates: predicates as the match rules
     ///   - logic: relation of predicates
     ///   - timeout: if timeout == 0, return the elements immediately otherwise retry until timeout
     /// - Returns: get the elements
-    func anyElements(subpredicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: Int) -> [Element] {}
+    func elements(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: Int) -> [Element] {}
     
     /// get the first element was matched predicate
-    func anyElements(predicate: EasyPredicate) -> Element? {}
+    func anyElement(predicate: EasyPredicate) -> Element? {}
 }
 ```
 </details>
@@ -348,13 +348,11 @@ extension Sequence where Element: XCUIElement {
 extension XCUIElementQuery {
     
     func matching(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElementQuery {
-        let subpredicates = predicates.map { $0.rawValue.toPredicate }
-        return matching(NSCompoundPredicate(type: logic, subpredicates: subpredicates))
+        return matching(predicates.toPredicate(logic))
     }
     
     func element(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement {
-        let subpredicates = predicates.map { $0.rawValue.toPredicate }
-        return element(matching: NSCompoundPredicate(type: logic, subpredicates: subpredicates))
+        return element(matching: predicates.toPredicate(logic))
     }
     
     func element(predicate: EasyPredicate) -> XCUIElement {

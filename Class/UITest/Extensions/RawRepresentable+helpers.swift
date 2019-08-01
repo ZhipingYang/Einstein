@@ -64,23 +64,23 @@ public extension Sequence where Element: RawRepresentable, Element.RawValue == S
     /// get the elements which match with identifiers and predicates limited in timeout
     ///
     /// - Parameters:
-    ///   - subpredicates: predicates as the match rules
+    ///   - predicates: as the match rules
     ///   - logic: relation of predicates
     ///   - timeout: if timeout == 0, return the elements immediately otherwise retry until timeout
     /// - Returns: get the elements
-    func anyElements(subpredicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: Int) -> [XCUIElement] {
-        let elements = map { $0.query.element(predicates: subpredicates, logic: logic) }
+    func elements(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: Int) -> [XCUIElement] {
+        let elements = map { $0.query.element(predicates: predicates, logic: logic) }
         if elements.count > 0 || timeout <= 0 {
             return elements
         } else {
             sleep(1)
-            return anyElements(subpredicates: subpredicates, logic: logic, timeout: timeout - 1)
+            return self.elements(predicates: predicates, logic: logic, timeout: timeout-1)
         }
     }
     
     /// get the first element was matched predicate
-    func anyElements(predicate: EasyPredicate) -> XCUIElement? {
-        return anyElements(subpredicates: [predicate], logic: .and, timeout: 0).first
+    func anyElement(predicate: EasyPredicate) -> XCUIElement? {
+        return elements(predicates: [predicate], logic: .and, timeout: 0).first
     }
 }
 

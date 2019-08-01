@@ -67,13 +67,8 @@ public enum PredicateRawValue: RawRepresentable {
     case custom(regular: String)
 }
 
-// MARK: - PredicateRawValue's extension methods
-extension PredicateRawValue: Equatable {
-    // Equatable
-    public static func ==(l: PredicateRawValue, r: PredicateRawValue) -> Bool {
-        return l.regularString == r.regularString
-    }
-    
+extension PredicateRawValue {
+    // convert to regularString
     public var regularString: String {
         switch self {
         case .bool(let key, let comparison, let value):
@@ -85,10 +80,6 @@ extension PredicateRawValue: Equatable {
         case .custom(let regular):
             return regular
         }
-    }
-    
-    public var toPredicate: NSPredicate {
-        return NSPredicate(format: regularString)
     }
 }
 
@@ -147,5 +138,22 @@ public enum EasyPredicate: RawRepresentable {
         case .other(let value):
             return .custom(regular: value)
         }
+    }
+}
+
+extension EasyPredicate: Equatable {
+    // Equatable
+    public static func ==(l: EasyPredicate, r: EasyPredicate) -> Bool {
+        return l.rawValue.regularString == r.rawValue.regularString
+    }
+    public var toPredicate: NSPredicate {
+        return NSPredicate(format: rawValue.regularString)
+    }
+}
+
+public extension Sequence where Element == EasyPredicate {
+    /// convert EasyPredicates to NSCompoundPredicate
+    func toPredicate(_ logic: NSCompoundPredicate.LogicalType) -> NSCompoundPredicate {
+        return NSCompoundPredicate(type: logic, subpredicates: map { $0.toPredicate })
     }
 }

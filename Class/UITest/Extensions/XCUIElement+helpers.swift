@@ -18,11 +18,8 @@ public extension XCUIElement {
     func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {
         if predicates.count <= 0 { fatalError("predicates cannpt be empty!") }
         
-        let subpredicates = predicates.map { $0.rawValue.toPredicate }
-        let compoundPredicate = NSCompoundPredicate(type: logic, subpredicates: subpredicates)
-        
         let test = XCTestCase().then { $0.continueAfterFailure = true }
-        let promise = test.expectation(for: compoundPredicate, evaluatedWith: self, handler: handler)
+        let promise = test.expectation(for: predicates.toPredicate(logic), evaluatedWith: self, handler: handler)
         XCTWaiter().wait(for: [promise], timeout: timeout)
         return self
     }
@@ -47,10 +44,7 @@ public extension XCUIElement {
     func assert(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement {
         if predicates.first == nil { fatalError("predicates can't be empty") }
         
-        let predicate = NSCompoundPredicate(type: logic, subpredicates: predicates.map {
-            $0.rawValue.toPredicate
-        })
-        let filteredElements = ([self] as NSArray).filtered(using: predicate)
+        let filteredElements = ([self] as NSArray).filtered(using: predicates.toPredicate(logic))
         if filteredElements.isEmpty {
             let predicateStr = predicates.map { "\n <\($0.rawValue.regularString)>" }.joined()
             assertionFailure("\(self) is not satisfied: \(predicateStr)")
@@ -136,28 +130,26 @@ extension Sequence where Element: XCUIElement {
     /// get the elements which match with identifiers and predicates limited in timeout
     ///
     /// - Parameters:
-    ///   - subpredicates: predicates as the match rules
+    ///   - predicates: predicates as the match rules
     ///   - logic: relation of predicates
     ///   - timeout: if timeout == 0, return the elements immediately otherwise retry until timeout
     /// - Returns: get the elements
-    func anyElements(subpredicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: Int) -> [Element] {
-        if subpredicates.count <= 0 { fatalError("predicates cannpt be empty!") }
+    func elements(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: Int) -> [Element] {
+        if predicates.count <= 0 { fatalError("predicates cannpt be empty!") }
         
-        let predicate = NSCompoundPredicate(type: logic, subpredicates: subpredicates.map {
-            $0.rawValue.toPredicate
-        })
-        let filteredElements = (map { $0 } as NSArray).filtered(using: predicate)
+        let array = map { $0 } as NSArray
+        let filteredElements = array.filtered(using: predicates.toPredicate(logic))
         if filteredElements.count > 0 || timeout <= 0 {
             return filteredElements as! [Element]
         } else {
             sleep(1)
-            return anyElements(subpredicates: subpredicates, logic: logic, timeout: timeout - 1)
+            return self.elements(predicates: predicates, logic: logic, timeout: timeout - 1)
         }
     }
     
     /// get the first element was matched predicate
-    func anyElements(predicate: EasyPredicate) -> Element? {
-        return anyElements(subpredicates: [predicate], logic: .and, timeout: 0).first
+    func anyElement(predicate: EasyPredicate) -> Element? {
+        return elements(predicates: [predicate], logic: .and, timeout: 0).first
     }
 }
 

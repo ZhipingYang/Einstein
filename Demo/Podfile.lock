@@ -1,17 +1,12 @@
 PODS:
-  - Einstein (0.1.0):
-    - Einstein/Share (= 0.1.0)
-    - Einstein/UITest (= 0.1.0)
-    - Then
-  - Einstein/Share (0.1.0):
-    - Then
-  - Einstein/UITest (0.1.0):
+  - Einstein/Identifier (0.1.1)
+  - Einstein/UITest (0.1.1):
     - Then
   - Then (2.5.0)
 
 DEPENDENCIES:
-  - Einstein (from `../`)
-  - Einstein/Share (from `../`)
+  - Einstein/Identifier (from `../`)
+  - Einstein/UITest (from `../`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -22,9 +17,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Einstein: f28a6bc789b96b4c9ee1d21f954d559cd7807dd3
+  Einstein: 9ef6ad122176206bb22ce199a4cfdf1a4b399d59
   Then: 0157115e883545c77967b452fe74a1d25fb796e1
 
-PODFILE CHECKSUM: 8e3663bb301dcf5b9dfee97547779c7f5f8fb3bd
+PODFILE CHECKSUM: 190fb12b2514947b10ac529d31ca55cd675949a2
 
 COCOAPODS: 1.7.5

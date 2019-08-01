@@ -9,7 +9,6 @@
 import UIKit
 import WebKit
 import Einstein
-import Then
 
 class WKWebViewController: UIViewController {
     
@@ -17,9 +16,8 @@ class WKWebViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(webview.then {
-            $0 >>> AccessibilityDemoID.Web.wkWebView
-        })
+        view.addSubview(webview)
+        webview >>> AccessibilityDemoID.Web.wkWebView
         
         NSLayoutConstraint.activate([
             webview.leadingAnchor.constraint(equalTo: view.leadingAnchor),

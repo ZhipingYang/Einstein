@@ -77,6 +77,7 @@ end
 # Using
 
 - AccessibilityIdentifier
+	- Import
 	- project target
 	- UITest target
 - EasyPredicate
@@ -152,9 +153,19 @@ print(forgetPhoneTextField.accessibilityIdentifier)
 ## 2. Apply in UITest target
 
 > **Note:** <br>
-> extension the protocol RawRepresentable and limited it's RawValue == String
+> Firstly
+> Import the defined enums file in UITest
+> 
+> - Method 1: Set it's `target membership` as true both in XXXProject and XXXUITest
+> - Method 2: Import project files in UITest with @testable [Link: how to set](https://stackoverflow.com/questions/32008403/no-such-module-when-using-testable-in-xcode-unit-tests)
+> 
+> ```swift
+> @testable import XXXPreject
+> ```
 
 ```swift
+// extension the protocol RawRepresentable and it's RawValue == String
+
 typealias SignInPage = LoginAccessID.SignIn
 
 // type the phone number

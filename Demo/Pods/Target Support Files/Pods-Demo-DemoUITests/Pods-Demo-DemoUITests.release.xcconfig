@@ -1,7 +1,7 @@
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-FRAMEWORK_SEARCH_PATHS = $(inherited) "$(PLATFORM_DIR)/Developer/Library/Frameworks" "${PODS_CONFIGURATION_BUILD_DIR}/Einstein-Identifier-UITest" "${PODS_CONFIGURATION_BUILD_DIR}/Then"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$(PLATFORM_DIR)/Developer/Library/Frameworks" "${PODS_CONFIGURATION_BUILD_DIR}/Einstein" "${PODS_CONFIGURATION_BUILD_DIR}/Then"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Einstein-Identifier-UITest/Einstein.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/Then/Then.framework/Headers"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Einstein/Einstein.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/Then/Then.framework/Headers"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
 OTHER_LDFLAGS = $(inherited) -framework "Einstein" -framework "Then" -framework "UIKit" -framework "XCTest"
 OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS

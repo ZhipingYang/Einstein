@@ -7,38 +7,48 @@
 //
 
 import XCTest
-
-@testable import Demo
+import Einstein
 
 class DemoUITests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        //        continueAfterFailure = true
-        //        group(text: "Delete app before app launch") { _ in
-        //            self.deleteMyAppIfNeed()
-        //        }
+//        continueAfterFailure = true
+//        group(text: "Delete app before app launch") { _ in
+//            self.deleteMyAppIfNeed()
+//        }
         app.launch()
     }
     
     override func tearDown() {
-        //        group(text: "Delete App") { _ in
-        //            XCUIApplication().terminate()
-        //            self.deleteMyAppIfNeed()
-        //        }
+//        group(text: "Delete App") { _ in
+//            XCUIApplication().terminate()
+//            self.deleteMyAppIfNeed()
+//        }
         super.tearDown()
     }
     
     func testExample() {
-
-        AccessibilityDemoID.TabItem.second.element.assertBreak(predicate: .isHittable(true))?.tap()
-        AccessibilityDemoID.TabItem.first.element.assertBreak(predicate: .isHittable(true))?.tap()
         
-        AccessibilityDemoID.Interface.button.element.assertBreak(predicate: .isHittable(true))?.tap()
-        AccessibilityDemoID.Interface.segment.element.assertBreak(predicate: .isHittable(true))?.tap()
-        AccessibilityDemoID.Interface.slider.element.assertBreak(predicate: .isHittable(true))?.tap()
-        AccessibilityDemoID.Interface.switch.element.assertBreak(predicate: .isHittable(true))?.setSwitch(on: false)
-        AccessibilityDemoID.Interface.switch.element.assertBreak(predicate: .isHittable(true))?.setSwitch(on: true)
+        typealias InterfacePage = AccessibilityDemoID.Interface
+        
+        AccessibilityDemoID.TabItem.second.element.tap()
+        AccessibilityDemoID.BarItem.Push.element.assert(predicate: .exists(false))
+        
+        AccessibilityDemoID.TabItem.first.element.tap()
+        AccessibilityDemoID.BarItem.Push.element.assert(predicate: .exists(true))
+        
+        InterfacePage.button.element.tap()
+        InterfacePage.buttonLabel.element.assert(predicate: .label(.equals, "clicked"))
+        
+        InterfacePage.segment.element.childElement(predicate:.label(.equals, "Second"))?.tap()
+        InterfacePage.segmentLabel.element.assert(predicate: .label(.equals, "1"))
+        
+        InterfacePage.slider.element.assertBreak(predicate: .isHittable(true))?.press(forDuration: 0.3, thenDragTo: InterfacePage.sliderLabel.element)
+        InterfacePage.sliderLabel.element.assert(predicate: .label(.equals, "0.0"))
+        
+        InterfacePage.switch.element.setSwitch(on: false)
+        InterfacePage.switchLabel.element.assert(predicate: .label(.equals, "off"))
     }
 }
 

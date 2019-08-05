@@ -94,6 +94,13 @@ public extension XCUIElement {
 // MARK: - Extension
 public extension XCUIElement {
     
+    /// search child element by predicate
+    @discardableResult
+    func childElement(predicate: EasyPredicate) -> XCUIElement? {
+        let query = children(matching: .any).matching(predicates: [predicate])
+        return query.count>0 ? query.firstMatch : nil
+    }
+
     /// Wait until it's available and then type a text into it.
     @discardableResult
     func tapAndType(text: String, timeout: TimeInterval = 10) -> XCUIElement {

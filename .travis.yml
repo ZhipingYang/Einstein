@@ -15,4 +15,4 @@ script:
 - pod lib lint --allow-warnings
 - cd Demo
 - xcodebuild clean
-- xcodebuild -workspace Demo.xcworkspace -sdk iphonesimulator test
+- xcodebuild test

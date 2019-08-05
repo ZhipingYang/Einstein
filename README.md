@@ -54,7 +54,8 @@ if result == XCTWaiter.Result.completed {
  │
  └─┬─ UITest: -> `Einstein/Identifier` & `XCTest` & `Then`
    ├─┬─ Model
-   │ └─── EasyPredicate.swift
+   │ ├─── EasyPredicate.swift
+   │ └─── Springboard.swift
    └─┬─ Extensions
      ├─── RawRepresentable+helpers.swift
      ├─── PrettyRawRepresentable+helpers.swift
@@ -283,33 +284,84 @@ public extension RawRepresentable where RawValue == String {
   <summary> Expand for XCUIElement (Base) </summary>
 
 ```swift
-// MARK: - Base
-public extension XCUIElement {
+extension PredicateBaseExtensionProtocol where Self == T {
+
+    /// create a new preicate with EasyPredicates and LogicalType to judge is it satisfied on self
+    ///
+    /// - Parameters:
+    ///   - predicates: predicates rules
+    ///   - logic: predicates relative
+    /// - Returns: tuple of result and self
+    @discardableResult
+    public func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> (result: XCTWaiter.Result, element: T) {
+        if predicates.count <= 0 { fatalError("predicates cannpt be empty!") }
+        
+        let test = XCTestCase().then { $0.continueAfterFailure = true }
+        let promise = test.expectation(for: predicates.toPredicate(logic), evaluatedWith: self, handler: handler)
+        let result = XCTWaiter().wait(for: [promise], timeout: timeout)
+        return (result, self)
+    }
     
+    /// assert by new preicate with EasyPredicates and LogicalType, if assert is passed then return self or return nil
+    ///
+    /// - Parameters:
+    ///   - predicates: rules
+    ///   - logic: predicates relative
+    /// - Returns: self or nil
     @discardableResult
-    func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {}
-    @discardableResult
-    func waitUntil(predicate: EasyPredicate, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> XCUIElement {}
-    @discardableResult
-    func waitUntilExists(timeout: TimeInterval = 10) -> XCUIElement {}
-    @discardableResult
-    func wait(_ s: UInt32 = 1) -> XCUIElement {}
-    
-    // MARK: - assert
-    func assert(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement {}
-    func assert(predicate: EasyPredicate) -> XCUIElement {}
-    @discardableResult
-    func waitUntilExistsAssert(timeout: TimeInterval = 10) -> XCUIElement {}
+    public func assertBreak(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> T? {
+        if predicates.first == nil { fatalError("❌ predicates can't be empty") }
+        
+        let filteredElements = ([self] as NSArray).filtered(using: predicates.toPredicate(logic))
+        if filteredElements.isEmpty {
+            let predicateStr = predicates.map { "\n <\($0.rawValue.regularString)>" }.joined()
+            assertionFailure("❌ \(self) is not satisfied logic:\(logic) about rules: \(predicateStr)")
+        }
+        return filteredElements.isEmpty ? nil : self
+    }
 }
+
+extension XCUIElement: PredicateBaseExtensionProtocol { public typealias T = XCUIElement }
 ```
 </details>
 
 <details>
-  <summary> Expand for XCUIElement extensioin </summary>
+  <summary> Expand for XCUIElement base extensioin </summary>
+
+```swift
+
+// MARK: - wait
+@discardableResult
+func waitUntil(predicate: EasyPredicate, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> (result: XCTWaiter.Result, element: XCUIElement) {}
+
+@discardableResult
+func waitUntilExists(timeout: TimeInterval = 10) -> (result: XCTWaiter.Result, element: XCUIElement) {}
+
+@discardableResult
+func wait(_ s: UInt32 = 1) -> XCUIElement {}
+
+// MARK: - assert
+@discardableResult
+func assertBreak(predicate: EasyPredicate) -> XCUIElement? {}
+
+@discardableResult
+func assert(predicate: EasyPredicate) -> XCUIElement {}
+
+@discardableResult
+func waitUntilExistsAssert(timeout: TimeInterval = 10) -> XCUIElement {}
+```
+</details>
+
+<details>
+  <summary> Expand for XCUIElement custom extensioin </summary>
 
 ```swift
 // MARK: - Extension
 public extension XCUIElement {
+    
+    /// search child element by predicate
+    @discardableResult
+    func childElement(predicate: EasyPredicate) -> XCUIElement? {}
     
     /// Wait until it's available and then type a text into it.
     @discardableResult

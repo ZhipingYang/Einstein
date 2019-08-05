@@ -145,17 +145,19 @@ public extension XCTestCase {
     }
     
     func deleteMyAppIfNeed() {
-        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard").then {
-            $0.activate()
-        }
-        let appName = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String
-        let icons = springboard.icons.matching(identifier: appName ?? "Demo")
-        for index in 0..<icons.count {
-            let icon = icons.firstMatch
-            if index == 0 { icon.waitUntilExistsAssert().press(forDuration: 4) }
-            icon.buttons["DeleteButton"].tapIfExists(timeout: 1)
-            springboard.alerts.buttons["Delete"].tapIfExists(timeout: 1)
-        }
+        Springboard.deleteMyAppIfNeed()
+//        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard").then {
+//            $0.activate()
+//        }
+//        let icons = springboard.icons.matching(predicates: [.label(.equals, "Demo")])
+//        print(icons)
+//        print(springboard.icons)
+//        for index in 0..<icons.count {
+//            let icon = icons.firstMatch
+//            if index == 0 { icon.waitUntilExistsAssert().press(forDuration: 4) }
+//            icon.buttons["DeleteButton"].tapIfExists(timeout: 1)
+//            springboard.alerts.buttons["Delete"].tapIfExists(timeout: 1)
+//        }
     }
 }
 

@@ -54,7 +54,7 @@ extension PredicateBaseExtensionProtocol where Self == T {
 
 extension XCUIElement: PredicateBaseExtensionProtocol { public typealias T = XCUIElement }
 
-// MARK: - Base
+// MARK: - BaseExtension
 public extension XCUIElement {
     
     // MARK: - wait
@@ -91,7 +91,7 @@ public extension XCUIElement {
     }
 }
 
-// MARK: - Extension
+// MARK: - Custom Extension
 public extension XCUIElement {
     
     /// search child element by predicate
@@ -188,4 +188,3 @@ extension Sequence where Element: XCUIElement {
         return elements(predicates: [predicate], logic: .and, timeout: 0).first
     }
 }
-

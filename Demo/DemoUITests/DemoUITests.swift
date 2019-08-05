@@ -13,18 +13,18 @@ class DemoUITests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-//        continueAfterFailure = true
-//        group(text: "Delete app before app launch") { _ in
-//            self.deleteMyAppIfNeed()
-//        }
+        continueAfterFailure = true
+        group(text: "Delete app before app launch") { _ in
+            Springboard.deleteMyAppIfNeed()
+        }
         app.launch()
     }
     
     override func tearDown() {
-//        group(text: "Delete App") { _ in
-//            XCUIApplication().terminate()
-//            self.deleteMyAppIfNeed()
-//        }
+        group(text: "Delete App") { _ in
+            XCUIApplication().terminate()
+            Springboard.deleteMyAppIfNeed()
+        }
         super.tearDown()
     }
     

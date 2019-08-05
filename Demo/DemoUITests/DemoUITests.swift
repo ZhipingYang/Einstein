@@ -8,6 +8,8 @@
 
 import XCTest
 
+@testable import Demo
+
 class DemoUITests: XCTestCase {
     
     override func setUp() {
@@ -28,7 +30,7 @@ class DemoUITests: XCTestCase {
     }
     
     func testExample() {
-        
+
         AccessibilityDemoID.TabItem.second.element.assertBreak(predicate: .isHittable(true))?.tap()
         AccessibilityDemoID.TabItem.first.element.assertBreak(predicate: .isHittable(true))?.tap()
         
@@ -37,12 +39,12 @@ class DemoUITests: XCTestCase {
         AccessibilityDemoID.Interface.slider.element.assertBreak(predicate: .isHittable(true))?.tap()
         AccessibilityDemoID.Interface.switch.element.assertBreak(predicate: .isHittable(true))?.setSwitch(on: false)
         AccessibilityDemoID.Interface.switch.element.assertBreak(predicate: .isHittable(true))?.setSwitch(on: true)
-        AccessibilityDemoID.Interface.stepper.element.assertBreak(predicate: .isHittable(true))?.tap()
+//        AccessibilityDemoID.Interface.stepper.element.assertBreak(predicate: .isHittable(true))?.tap()
         
-        AccessibilityDemoID.Show.progress.element.tap()
-        AccessibilityDemoID.Show.activity.element.tap()
-        AccessibilityDemoID.Show.pageControl.element.tap()
-        AccessibilityDemoID.Show.imageView.element.tap()
+//        AccessibilityDemoID.Show.progress.element.tap()
+//        AccessibilityDemoID.Show.activity.element.tap()
+//        AccessibilityDemoID.Show.pageControl.element.tap()
+//        AccessibilityDemoID.Show.imageView.element.tap()
     }
 }
 

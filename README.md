@@ -26,18 +26,23 @@
 in `XCTestCase`, type the phone number to login
 
 ```swift
-// use Einstein
-LoginAccessID.SignIn.phoneNumber.element.waitUntilExists().clearAndType(text: "MyPhoneNumber")
+// ❤️ use Einstein
+let element = LoginAccessID.SignIn.phoneNumber.element
+element.assertBreak(predicate: .exists(true))?.clearAndType(text: "MyPhoneNumber")
 
-// without Einstein
+// 💔 without Einstein
 let element = app.buttons["LoginAccessID_SignIn_phoneNumber"]
 let predicate = NSPredicate(format: "exists == true")
 let promise = self.expectation(for: predicate, evaluatedWith: element, handler: nil)
-XCTWaiter().wait(for: [promise], timeout: timeout)
-let stringValue = (value as? String) ?? ""
-let deleteString = stringValue.map { _ in XCUIKeyboardKey.delete.rawValue }.joined()
-element.typeText(deleteString)
-element.typeText("MyPhoneNumber")
+let result = XCTWaiter().wait(for: [promise], timeout: 10)
+if result == XCTWaiter.Result.completed {
+    let stringValue = (element.value as? String) ?? ""
+    let deleteString = stringValue.map { _ in XCUIKeyboardKey.delete.rawValue }.joined()
+    element.typeText(deleteString)
+    element.typeText("MyPhoneNumber")
+} else {
+    assertionFailure("LoginAccessID_SignIn_phoneNumber element is't existe")
+}
 ```
 
 ### File structures
@@ -47,11 +52,12 @@ element.typeText("MyPhoneNumber")
  ├─┬─ Identifier: -> `UIKit`
  │ └─── AccessibilityIdentifier.swift
  │
- └─┬─ UITest: -> `UIKit` & `XCTest` & `Then`
+ └─┬─ UITest: -> `Einstein/Identifier` & `XCTest` & `Then`
    ├─┬─ Model
    │ └─── EasyPredicate.swift
    └─┬─ Extensions
      ├─── RawRepresentable+helpers.swift
+     ├─── PrettyRawRepresentable+helpers.swift
      ├─── XCTestCase+helpers.swift
      ├─── XCUIElement+helpers.swift
      └─── XCUIElementQuery+helpers.swift
@@ -69,7 +75,7 @@ target 'XXXProject' do
   
   target 'XXXProjectUITests' do
     # in UITest target
-    pod 'Einstein/UITest'
+    pod 'Einstein'
   end
 end
 ```
@@ -77,9 +83,9 @@ end
 # Using
 
 - AccessibilityIdentifier
-	- Import
 	- project target
 	- UITest target
+	- Apply in UITest
 - EasyPredicate
 - Extensions
 
@@ -98,6 +104,7 @@ end
 - 1.2 set UIKit's accessibilityIdentifier by enums's rawValue
 	- method1: infix operator
 	- method2: UIAccessibilityIdentification's extension
+- 1.3 Apply in UITest target
 </details></blockquote>
 
 ### 1.1 Define the enums
@@ -137,8 +144,8 @@ str3 -> "LoginAccessID_Forget_phoneNumber"
 // system way
 signInPhoneTextField.accessibilityIdentifier = "LoginAccessID_SignIn_phoneNumber"
 
-// method1: define infix operator >>>
-signInPhoneTextField >>> LoginAccessID.SignIn.phoneNumber
+// method1: define infix operator <<<
+signInPhoneTextField <<< LoginAccessID.SignIn.phoneNumber
 
 // method2: extension the protocol UIAccessibilityIdentification
 forgetPhoneTextField.accessibilityID(LoginAccessID.Forget.phoneNumber)
@@ -150,7 +157,7 @@ print(forgetPhoneTextField.accessibilityIdentifier)
 // "LoginAccessID_Forget_phoneNumber"
 ```
 
-## 2. Apply in UITest target
+### 1.3. Apply in UITest target
 
 > **Note:** <br>
 > Firstly
@@ -178,7 +185,7 @@ SignInPage.password.element.clearAndType(text: "******")
 SignInPage.signIn.element.assert(predicate: .isEnabled(true)).tap()
 ```
 
-## 3. EasyPredicate
+## 2. EasyPredicate
 > **Note:** <br>
 > EasyPredicate's RawValue is `PredicateRawValue` (a another enum to manage logic and convert NSPredicate). <br>
 ><blockquote>
@@ -210,9 +217,9 @@ let element = query.element(predicates: [.type(.button), .exists(true), .label(.
 let element = query.element(matching: NSPredicate(format: "elementType == 0 && exists == true && label BEGINSWITH 'abc'"))
 ```
 
-## 4. UITest Extensions
+## 3. UITest Extensions
 
-### 4.1 extension String
+### 3.1 extension String
 
 ```swift
 /*
@@ -229,7 +236,7 @@ extension String: RawRepresentable {
 ```
 <br>
 
-### 4.2 extension RawRepresentable
+### 3.2 extension RawRepresentable
 
 <details open>
   <summary> Expand for Sequence where Element: RawRepresentable </summary>
@@ -270,7 +277,7 @@ public extension RawRepresentable where RawValue == String {
 </details>
 <br>
 
-### 4.3 extension XCUIElement
+### 3.3 extension XCUIElement
 
 <details open>
   <summary> Expand for XCUIElement (Base) </summary>
@@ -429,7 +436,6 @@ public extension XCTestCase {
 }
 ```
 </details>
-<br>
 
 ## Author
 

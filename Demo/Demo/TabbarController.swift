@@ -15,8 +15,8 @@ class TabbarController: UITabBarController {
         super.viewDidLoad()
         viewControllers?.forEach { $0.tabBarItem.isAccessibilityElement = true }
         
-//        viewControllers?.first?.tabBarItem >>> AccessibilityDemoID.TabItem.first
-//        viewControllers?.last?.tabBarItem >>> AccessibilityDemoID.TabItem.second
+//        viewControllers?.first?.tabBarItem <<< AccessibilityDemoID.TabItem.first
+//        viewControllers?.last?.tabBarItem <<< AccessibilityDemoID.TabItem.second
         
         viewControllers?.first?.tabBarItem.accessibilityLabel = AccessibilityDemoID.TabItem.first.prettyRawValue
         viewControllers?.last?.tabBarItem.accessibilityLabel = AccessibilityDemoID.TabItem.second.prettyRawValue

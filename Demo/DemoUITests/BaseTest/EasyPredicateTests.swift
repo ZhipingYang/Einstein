@@ -30,13 +30,13 @@ class EasyPredicateTests: XCTestCase {
         .isEnabled(false),
         .isHittable(false),
         .isSelected(false),
-        .label(.equals, "abcdefg"),
+        .label(.equals, "DanielYang"),
         .label(.notEqual, ""),
-        .label(.beginsWith, "ab"),
-        .label(.endsWith, "fg"),
-        .label(.contains, "cde"),
+        .label(.beginsWith, "Daniel"),
+        .label(.endsWith, "Yang"),
+        .label(.contains, "lY"),
         .label(.other("!="), ""),
-        .identifier("identifier"),
+        .identifier("xcodeyang"),
         .type(.window)
     ]
     
@@ -46,8 +46,8 @@ class EasyPredicateTests: XCTestCase {
         $0.isEnabled = false
         $0.isHittable = false
         $0.isSelected = false
-        $0.label = "abcdefg"
-        $0.identifier = "identifier"
+        $0.label = "DanielYang"
+        $0.identifier = "xcodeyang"
         $0.elementType = .window
     }
     
@@ -65,11 +65,11 @@ class EasyPredicateTests: XCTestCase {
             group(text: "🙏: EasyPredicate -> \(predicate.rawValue.regularString)", closure: { _ in
                 array.testPredicateFilter(predicate: predicate, block: { (ps, p) in
                     assert(ps.count == 1)
-                    assert(ps.first?.label == "abcdefg")
+                    assert(ps.first?.label == "DanielYang")
                 })
                 array.testPredicateGroupFilter(predicates: [predicate], logic: .and, block: { (ps, p) in
                     assert(ps.count == 1)
-                    assert(ps.first?.label == "abcdefg")
+                    assert(ps.first?.label == "DanielYang")
                 })
                 array.testPredicateGroupFilter(predicates: [predicate], logic: .not, block: { (ps, p) in
                     assert(ps.count == 1)

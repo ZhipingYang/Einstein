@@ -9,13 +9,22 @@
 import XCTest
 import Then
 
+public protocol PredicateBaseExtensionProtocol {
+    associatedtype T
+    func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: TimeInterval, handler: XCTNSPredicateExpectation.Handler?) -> (result: XCTWaiter.Result, element: T)
+    func assertBreak(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType) -> T?
+}
 
-// MARK: - Base
-public extension XCUIElement {
-    
-    // MARK: - wait
+extension PredicateBaseExtensionProtocol where Self == T {
+
+    /// create a new preicate with EasyPredicates and LogicalType to judge is it satisfied on self
+    ///
+    /// - Parameters:
+    ///   - predicates: predicates rules
+    ///   - logic: predicates relative
+    /// - Returns: tuple of result and self
     @discardableResult
-    func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> (result: XCTWaiter.Result, element: XCUIElement) {
+    public func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> (result: XCTWaiter.Result, element: T) {
         if predicates.count <= 0 { fatalError("predicates cannpt be empty!") }
         
         let test = XCTestCase().then { $0.continueAfterFailure = true }
@@ -24,6 +33,31 @@ public extension XCUIElement {
         return (result, self)
     }
     
+    /// assert by new preicate with EasyPredicates and LogicalType, if assert is passed then return self or return nil
+    ///
+    /// - Parameters:
+    ///   - predicates: rules
+    ///   - logic: predicates relative
+    /// - Returns: self or nil
+    @discardableResult
+    public func assertBreak(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> T? {
+        if predicates.first == nil { fatalError("❌ predicates can't be empty") }
+        
+        let filteredElements = ([self] as NSArray).filtered(using: predicates.toPredicate(logic))
+        if filteredElements.isEmpty {
+            let predicateStr = predicates.map { "\n <\($0.rawValue.regularString)>" }.joined()
+            assertionFailure("❌ \(self) is not satisfied logic:\(logic) about rules: \(predicateStr)")
+        }
+        return filteredElements.isEmpty ? nil : self
+    }
+}
+
+extension XCUIElement: PredicateBaseExtensionProtocol { public typealias T = XCUIElement }
+
+// MARK: - Base
+public extension XCUIElement {
+    
+    // MARK: - wait
     @discardableResult
     func waitUntil(predicate: EasyPredicate, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> (result: XCTWaiter.Result, element: XCUIElement) {
         return waitUntil(predicates: [predicate], logic: .and, timeout: timeout, handler: handler)
@@ -41,24 +75,6 @@ public extension XCUIElement {
     }
     
     // MARK: - assert
-    /// asset by EasyPredicate
-    ///
-    /// - Parameters:
-    ///   - predicates: rules
-    ///   - logic: logic
-    /// - Returns: if assert is passed then return self otherwise return nil
-    @discardableResult
-    func assertBreak(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement? {
-        if predicates.first == nil { fatalError("❌ predicates can't be empty") }
-        
-        let filteredElements = ([self] as NSArray).filtered(using: predicates.toPredicate(logic))
-        if filteredElements.isEmpty {
-            let predicateStr = predicates.map { "\n <\($0.rawValue.regularString)>" }.joined()
-            assertionFailure("❌ \(self) is not satisfied logic:\(logic) about rules: \(predicateStr)")
-        }
-        return filteredElements.isEmpty ? nil : self
-    }
-    
     @discardableResult
     func assertBreak(predicate: EasyPredicate) -> XCUIElement? {
         return assertBreak(predicates: [predicate])

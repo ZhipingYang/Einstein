@@ -9,5 +9,6 @@ branches:
 script:
 - pod repo update
 - pod lib lint --allow-warnings
-- xcodebuild -workspace Demo/Demo.xcworkspace -scheme DemoTests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6' test
-- xcodebuild -workspace Demo/Demo.xcworkspace -scheme DemoUITests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6' test
+- cd Demo
+- xcodebuild clean
+- xcodebuild -workspace Demo.xcworkspace -scheme Demo -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6' test

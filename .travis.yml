@@ -11,8 +11,8 @@ branches:
 # Build with tests
 script:
 - pod repo update
-- pod install
 - pod lib lint --allow-warnings
 - cd Demo
+- pod install
 - xcodebuild clean
 - xcodebuild test

@@ -30,5 +30,4 @@ script:
 
   - cd Demo
   - pod install
-  - xcodebuild clean
-  - xcodebuild test -workspace SDWebImage.xcworkspace -scheme 'Demo' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6' -configuration Debug | xcpretty -c
+  - xcodebuild clean test -workspace Demo.xcworkspace -scheme 'Demo' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6' -configuration Debug | xcpretty -c

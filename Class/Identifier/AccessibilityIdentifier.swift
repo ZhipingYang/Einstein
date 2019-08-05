@@ -62,15 +62,15 @@ public extension PrettyRawRepresentable {
  method 1
  
  use case:
- settingButton >>> AccessibilityID.Home1.setting // "HomeSetting1"
- settingButton >>> AccessibilityID.Home2.setting // "AccessibilityID_Home2_setting"
- settingButton >>> AccessibilityID.Home3.setting // "HomeSetting3"
+ settingButton <<< AccessibilityID.Home1.setting // "HomeSetting1"
+ settingButton <<< AccessibilityID.Home2.setting // "AccessibilityID_Home2_setting"
+ settingButton <<< AccessibilityID.Home3.setting // "HomeSetting3"
  */
-infix operator >>>
-public func >>> <T: RawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) where T.RawValue == String {
+infix operator <<<
+public func <<< <T: RawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) where T.RawValue == String {
     lhs?.accessibilityIdentifier = rhs.rawValue
 }
-public func >>> <T: PrettyRawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) {
+public func <<< <T: PrettyRawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) {
     lhs?.accessibilityIdentifier = rhs.prettyRawValue
 }
 

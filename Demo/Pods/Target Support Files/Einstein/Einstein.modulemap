@@ -1,5 +1,5 @@
 framework module Einstein {
-  umbrella header "Einstein-Identifier-UITest-umbrella.h"
+  umbrella header "Einstein-umbrella.h"
 
   export *
   module * { export * }

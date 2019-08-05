@@ -17,7 +17,7 @@ class WKWebViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(webview)
-        webview >>> AccessibilityDemoID.Web.wkWebView
+        webview <<< AccessibilityDemoID.Web.wkWebView
         
         NSLayoutConstraint.activate([
             webview.leadingAnchor.constraint(equalTo: view.leadingAnchor),

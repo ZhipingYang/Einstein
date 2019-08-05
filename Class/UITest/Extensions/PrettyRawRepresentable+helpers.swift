@@ -8,24 +8,12 @@
 
 import XCTest
 
-/*
- MARK: - String extension
- Note: string value can be a RawRepresentable and String at the same time
- for example:
- `let element: XCUIElement = "SomeString".element`
- */
-extension String: RawRepresentable {
-    public var rawValue: String { return self }
-    public init?(rawValue: String) {
-        self = rawValue
-    }
-}
 
 /*
- MARK: - RawRepresentable extension
- Get the `XCUIElement` from RawRepresentable's RawValue which also been used as accessibilityIdentifier
+ MARK: - PrettyRawRepresentable extension
+ Get the `XCUIElement` from PrettyRawRepresentable's prettyRawValue which also been used as accessibilityIdentifier
  */
-public extension RawRepresentable where RawValue == String {
+public extension PrettyRawRepresentable {
     
     var element: XCUIElement {
         // store query to aviod getter be called again
@@ -52,13 +40,12 @@ public extension RawRepresentable where RawValue == String {
     }
     
     func queryFor(identifier: Self) -> XCUIElementQuery {
-        return XCUIApplication().descendants(matching: .any).matching(identifier: identifier.rawValue)
+        return XCUIApplication().descendants(matching: .any).matching(identifier: identifier.prettyRawValue)
     }
 }
 
-
-// MARK: - RawRepresentables extension
-public extension Sequence where Element: RawRepresentable, Element.RawValue == String {
+// MARK: - PrettyRawRepresentable extension
+public extension Sequence where Element: PrettyRawRepresentable {
     
     /// get the elements which match with identifiers and predicates limited in timeout
     ///
@@ -82,5 +69,3 @@ public extension Sequence where Element: RawRepresentable, Element.RawValue == S
         return elements(predicates: [predicate], logic: .and, timeout: 0).first
     }
 }
-
-

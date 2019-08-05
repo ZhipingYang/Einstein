@@ -318,6 +318,9 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Az3-82-4Bq">
                                                     <rect key="frame" x="348" y="15" width="46" height="30"/>
                                                     <state key="normal" title="Button"/>
+                                                    <connections>
+                                                        <action selector="buttonAction:" destination="7ho-pb-Q8s" eventType="touchUpInside" id="1bh-Rr-hpn"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -347,6 +350,9 @@
                                                         <segment title="First"/>
                                                         <segment title="Second"/>
                                                     </segments>
+                                                    <connections>
+                                                        <action selector="segmentAction:" destination="7ho-pb-Q8s" eventType="valueChanged" id="4QI-2B-TRS"/>
+                                                    </connections>
                                                 </segmentedControl>
                                             </subviews>
                                             <constraints>
@@ -375,6 +381,9 @@
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="132" id="tpC-Ge-rfY"/>
                                                     </constraints>
+                                                    <connections>
+                                                        <action selector="sliderAction:" destination="7ho-pb-Q8s" eventType="valueChanged" id="xgG-Uf-5fG"/>
+                                                    </connections>
                                                 </slider>
                                             </subviews>
                                             <constraints>
@@ -400,6 +409,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uno-7p-HA9">
                                                     <rect key="frame" x="345" y="14.5" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="switchAction:" destination="7ho-pb-Q8s" eventType="valueChanged" id="Mxd-yG-EKv"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -425,6 +437,9 @@
                                                 </label>
                                                 <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="AQ3-qR-6VG">
                                                     <rect key="frame" x="300" y="15.5" width="94" height="29"/>
+                                                    <connections>
+                                                        <action selector="stepperAction:" destination="7ho-pb-Q8s" eventType="valueChanged" id="gpX-PM-CUg"/>
+                                                    </connections>
                                                 </stepper>
                                             </subviews>
                                             <constraints>

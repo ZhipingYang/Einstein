@@ -23,15 +23,15 @@ class SecondViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        presnetItem >>> AccessibilityDemoID.BarItem.present
+        presnetItem <<< AccessibilityDemoID.BarItem.present
         
-        textfield >>> AccessibilityDemoID.Input.textfield
-        textfieldLabel >>> AccessibilityDemoID.Input.textfieldLabel
+        textfield <<< AccessibilityDemoID.Input.textfield
+        textfieldLabel <<< AccessibilityDemoID.Input.textfieldLabel
         
-        textView >>> AccessibilityDemoID.Input.textView
-        textViewLabel >>> AccessibilityDemoID.Input.textViewLabel
+        textView <<< AccessibilityDemoID.Input.textView
+        textViewLabel <<< AccessibilityDemoID.Input.textViewLabel
         
-        uiwebView >>> AccessibilityDemoID.Web.uiWebView
-        wkwebView >>> AccessibilityDemoID.Web.wkWebView
+        uiwebView <<< AccessibilityDemoID.Web.uiWebView
+        wkwebView <<< AccessibilityDemoID.Web.wkWebView
     }
 }

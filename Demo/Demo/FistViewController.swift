@@ -46,46 +46,73 @@ class FistViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        pushItem >>> AccessibilityDemoID.BarItem.Push
+        pushItem <<< AccessibilityDemoID.BarItem.Push
 
-        buttonLabel >>> AccessibilityDemoID.Interface.buttonLabel
-        button >>> AccessibilityDemoID.Interface.button
+        buttonLabel <<< AccessibilityDemoID.Interface.buttonLabel
+        button <<< AccessibilityDemoID.Interface.button
         
-        segmentLabel >>> AccessibilityDemoID.Interface.segmentLabel
-        segment >>> AccessibilityDemoID.Interface.segment
+        segmentLabel <<< AccessibilityDemoID.Interface.segmentLabel
+        segment <<< AccessibilityDemoID.Interface.segment
         
-        sliderLabel >>> AccessibilityDemoID.Interface.sliderLabel
-        slider >>> AccessibilityDemoID.Interface.slider
+        sliderLabel <<< AccessibilityDemoID.Interface.sliderLabel
+        slider <<< AccessibilityDemoID.Interface.slider
         
-        switchLabel >>> AccessibilityDemoID.Interface.switchLabel
-        `switch` >>> AccessibilityDemoID.Interface.switch
+        switchLabel <<< AccessibilityDemoID.Interface.switchLabel
+        `switch` <<< AccessibilityDemoID.Interface.switch
 
-        stepperLabel >>> AccessibilityDemoID.Interface.stepperLabel
-        stepper >>> AccessibilityDemoID.Interface.stepper
+        stepperLabel <<< AccessibilityDemoID.Interface.stepperLabel
+        stepper <<< AccessibilityDemoID.Interface.stepper
         
-        progressLabel >>> AccessibilityDemoID.Show.progressLabel
-        progress >>> AccessibilityDemoID.Show.progress
+        progressLabel <<< AccessibilityDemoID.Show.progressLabel
+        progress <<< AccessibilityDemoID.Show.progress
         
-        activityLabel >>> AccessibilityDemoID.Show.activityLabel
-//        activity.accessibiliiden >>> AccessibilityDemoID.Show.activity
+        activityLabel <<< AccessibilityDemoID.Show.activityLabel
+//        activity.accessibiliiden <<< AccessibilityDemoID.Show.activity
         
-        pageControlLabel  >>> AccessibilityDemoID.Show.pageControlLabel
-        pageControl >>> AccessibilityDemoID.Show.pageControl
+        pageControlLabel  <<< AccessibilityDemoID.Show.pageControlLabel
+        pageControl <<< AccessibilityDemoID.Show.pageControl
         
-        datePicker >>> AccessibilityDemoID.Big.datePicker
-        picker >>> AccessibilityDemoID.Big.pickerView
+        datePicker <<< AccessibilityDemoID.Big.datePicker
         
+        picker <<< AccessibilityDemoID.Big.pickerView
+        picker.delegate = self
+        picker.dataSource = self
+    }
+
+    @IBAction func buttonAction(_ sender: UIButton) {
+        buttonLabel.text = "clicked"
+    }
+
+    @IBAction func segmentAction(_ sender: UISegmentedControl) {
+        segmentLabel.text = "\(sender.selectedSegmentIndex)"
+    }
+
+    @IBAction func sliderAction(_ sender: UISlider) {
+        sliderLabel.text = "\(sender.value)"
+    }
+
+    @IBAction func switchAction(_ sender: UISwitch) {
+        switchLabel.text = sender.isOn ? "on ": "off"
+    }
+
+    @IBAction func stepperAction(_ sender: UIStepper) {
+        stepperLabel.text = "\(sender.value)"
     }
     
+}
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+extension FistViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
     }
-    */
-
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 5
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return "\(component) - \(row)"
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+    }
 }

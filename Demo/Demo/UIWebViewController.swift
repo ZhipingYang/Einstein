@@ -15,7 +15,7 @@ class UIWebViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        webView >>> AccessibilityDemoID.Web.uiWebView
+        webView <<< AccessibilityDemoID.Web.uiWebView
     }
     
     override func viewWillAppear(_ animated: Bool) {

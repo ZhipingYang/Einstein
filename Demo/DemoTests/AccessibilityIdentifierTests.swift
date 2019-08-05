@@ -37,7 +37,7 @@ class AccessibilityIdentifierTests: XCTestCase {
     func testViewExample() {
         XCTContext.runActivity(named: "🙏: AccessibilityIdentifierTests -> View") { _ in
             let view1 = UIView()
-            view1 >>> AccessibilityTestID.Home2.setting
+            view1 <<< AccessibilityTestID.Home2.setting
             assert(view1.accessibilityIdentifier == "AccessibilityTestID_Home2_setting")
             
             let view2 = UIView()
@@ -45,7 +45,7 @@ class AccessibilityIdentifierTests: XCTestCase {
             assert(view2.accessibilityIdentifier == "AccessibilityTestID_Home2_setting")
             
             let view3 = UIView()
-            view3 >>> AccessibilityTestID.Home3.setting
+            view3 <<< AccessibilityTestID.Home3.setting
             assert(view3.accessibilityIdentifier == "HomeSetting3")
             
             let view4 = UIView()

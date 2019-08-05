@@ -8,10 +8,10 @@
 
 import XCTest
 
-class Springboard {
+public class Springboard {
     static let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
     
-    class func deleteMyAppIfNeed() {
+    public class func deleteMyAppIfNeed() {
         sleep(1)
         springboard.activate()
         

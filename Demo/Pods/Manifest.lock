@@ -1,9 +1,9 @@
 PODS:
-  - Einstein (0.1.2):
-    - Einstein/Identifier (= 0.1.2)
-    - Einstein/UITest (= 0.1.2)
-  - Einstein/Identifier (0.1.2)
-  - Einstein/UITest (0.1.2):
+  - Einstein (0.2.0):
+    - Einstein/Identifier (= 0.2.0)
+    - Einstein/UITest (= 0.2.0)
+  - Einstein/Identifier (0.2.0)
+  - Einstein/UITest (0.2.0):
     - Einstein/Identifier
     - Then
   - Then (2.5.0)
@@ -21,7 +21,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Einstein: 24ba0ca1ccb2ef93d88e4d577354a87fc5fc6097
+  Einstein: 5b7011b113838b7806db08021a41d4371456d58c
   Then: 0157115e883545c77967b452fe74a1d25fb796e1
 
 PODFILE CHECKSUM: c90dc00d0eeedd8e83ea22e96971795f79c948d5

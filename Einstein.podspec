@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Einstein'
-  s.version          = '0.1.2'
+  s.version          = '0.2.0'
   s.summary          = 'Einstein integrates the project and UItest through AccessibilityIdentified, and It supports chain function to make test coding understand easier and more concise'
   s.description      = <<-DESC
 This library have two parts,

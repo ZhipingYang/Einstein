@@ -1,0 +1,6 @@
+framework module Einstein {
+  umbrella header "Einstein-Identifier-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -5,8 +5,11 @@
 //  Created by Daniel Yang on 2019/6/28.
 //  Copyright © 2019 Daniel Yang. All rights reserved.
 //
-
-import UIKit
+#if os(macOS)
+    import AppKit
+#else
+    import UIKit
+#endif
 
 //
 /*
@@ -67,12 +70,23 @@ public extension PrettyRawRepresentable {
  settingButton <<< AccessibilityID.Home3.setting // "HomeSetting3"
  */
 infix operator <<<
+#if os(macOS)
+public func <<< <T: RawRepresentable>(lhs: NSAccessibilityProtocol?, rhs: T) where T.RawValue == String {
+    lhs?.setAccessibilityIdentifier(rhs.rawValue)
+}
+public func <<< <T: PrettyRawRepresentable>(lhs: NSAccessibilityProtocol?, rhs: T) {
+    lhs?.setAccessibilityIdentifier(rhs.prettyRawValue)
+}
+#else
 public func <<< <T: RawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) where T.RawValue == String {
     lhs?.accessibilityIdentifier = rhs.rawValue
 }
 public func <<< <T: PrettyRawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) {
     lhs?.accessibilityIdentifier = rhs.prettyRawValue
 }
+#endif
+
+
 
 /*
  method 2
@@ -80,6 +94,16 @@ public func <<< <T: PrettyRawRepresentable>(lhs: UIAccessibilityIdentification?,
  use case:
  settingButton.accessibilityID(AccessibilityID.Home1.setting) // "HomeSetting1"
  */
+#if os(macOS)
+public extension NSAccessibilityProtocol {
+    func accessibilityID<T: RawRepresentable>(_ r: T) where T.RawValue == String {
+        self.setAccessibilityIdentifier(r.rawValue)
+    }
+    func accessibilityID<T: PrettyRawRepresentable>(_ r: T) {
+        self.setAccessibilityIdentifier(r.prettyRawValue)
+    }
+}
+#else
 public extension UIAccessibilityIdentification {
     func accessibilityID<T: RawRepresentable>(_ r: T) where T.RawValue == String {
         self.accessibilityIdentifier = r.rawValue
@@ -88,4 +112,4 @@ public extension UIAccessibilityIdentification {
         self.accessibilityIdentifier = r.prettyRawValue
     }
 }
-
+#endif

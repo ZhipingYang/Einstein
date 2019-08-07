@@ -1,0 +1,18 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'MacDemo' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  pod 'Einstein/Identifier', :path => '../'
+
+  target 'MacDemoTests' do
+    pod 'Einstein/Identifier', :path => '../'
+  end
+
+  target 'MacDemoUITests' do
+    pod 'Einstein', :path => '../'
+  end
+
+end

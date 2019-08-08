@@ -3,5 +3,4 @@ cd $SCRIPT_DIR
 echo "current path:"
 pwd
 
-cd ../Demo
 pod install

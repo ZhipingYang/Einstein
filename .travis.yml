@@ -30,3 +30,5 @@ script:
   - cd Demo
   - pod install
   - xcodebuild clean test -workspace Demo.xcworkspace -scheme 'Demo' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone XS' -configuration Debug | xcpretty -c
+  - cd ../MacDemo
+  - xcodebuild clean test -workspace MacDemo.xcworkspace -scheme 'MacDemo' -destination 'platform=macOS,arch=x86_64' -configuration Debug -UseModernBuildSystem=NO CODE_SIGNING_ALLOWED=NO | xcpretty -c

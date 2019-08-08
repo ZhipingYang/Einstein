@@ -19,31 +19,35 @@
 	</a>
 </p>
 
-> **Einstein** integrates the business logic across the Project and UITest through [AccessibilityIdentifier](https://github.com/ZhipingYang/Einstein/blob/master/Class/share/AccessibilityIdentifier.swift). And on UITest, useing [EasyPredict](https://github.com/ZhipingYang/Einstein/blob/master/Class/UITest/EasyPredicate.swift) and [Extensions](https://github.com/ZhipingYang/Einstein/tree/master/Class/UITest/extension) to better support UITest code writing
+> **Einstein** integrates the business logic across the Project and UITest through [AccessibilityIdentifier](https://github.com/ZhipingYang/Einstein/blob/master/Class/share/AccessibilityIdentifier.swift). And on UITest, using [EasyPredict](https://github.com/ZhipingYang/Einstein/blob/master/Class/UITest/EasyPredicate.swift) and [Extensions](https://github.com/ZhipingYang/Einstein/tree/master/Class/UITest/extension) to better support UITest code writing
 
 ### Comparative sample
 
 in `XCTestCase`, type the phone number to login
 
-```swift
-// ❤️ use Einstein
-let element = LoginAccessID.SignIn.phoneNumber.element
-element.assertBreak(predicate: .exists(true))?.clearAndType(text: "MyPhoneNumber")
-
-// 💔 without Einstein
-let element = app.buttons["LoginAccessID_SignIn_phoneNumber"]
-let predicate = NSPredicate(format: "exists == true")
-let promise = self.expectation(for: predicate, evaluatedWith: element, handler: nil)
-let result = XCTWaiter().wait(for: [promise], timeout: 10)
-if result == XCTWaiter.Result.completed {
-    let stringValue = (element.value as? String) ?? ""
-    let deleteString = stringValue.map { _ in XCUIKeyboardKey.delete.rawValue }.joined()
-    element.typeText(deleteString)
-    element.typeText("MyPhoneNumber")
-} else {
-    assertionFailure("LoginAccessID_SignIn_phoneNumber element is't existe")
-}
-```
+> 👍 Use Einstein ↓
+>
+> ```swift
+> LoginAccessID.SignIn.phoneNumber.element
+>	.assertBreak(predicate: .exists(true))?
+>	.clearAndType(text: "MyPhoneNumber")
+> ```
+> 😵 without Einstein ↓
+> 
+> ```swift 
+> let element = app.buttons["LoginAccessID_SignIn_phoneNumber"]
+> let predicate = NSPredicate(format: "exists == true")
+> let promise = self.expectation(for: predicate, evaluatedWith: element, handler: nil)
+> let result = XCTWaiter().wait(for: [promise], timeout: 10)
+> if result == XCTWaiter.Result.completed {
+>     let stringValue = (element.value as? String) ?? ""
+>     let deleteString = stringValue.map { _ in XCUIKeyboardKey.delete.rawValue }.joined()
+>     element.typeText(deleteString)
+>     element.typeText("MyPhoneNumber")
+> } else {
+>     assertionFailure("LoginAccessID_SignIn_phoneNumber element is't existe")
+> }
+> ```
 
 ### File structures
 
@@ -84,7 +88,7 @@ end
 # Using
 
 - AccessibilityIdentifier
-	- project target
+	- Project target
 	- UITest target
 	- Apply in UITest
 - EasyPredicate
@@ -133,9 +137,9 @@ let str1 = LoginAccessID.SignIn.phoneNumber
 let str2 = LoginAccessID.SignUp.phoneNumber
 let str3 = LoginAccessID.Forget.phoneNumber // had add PrettyRawRepresentable
 
-str1 -> "phoneNumber"
-str2 -> "phoneNumber" 
-str3 -> "LoginAccessID_Forget_phoneNumber"
+str1 == "phoneNumber"
+str2 == "phoneNumber" 
+str3 == "LoginAccessID_Forget_phoneNumber"
 ```
 [see more: PrettyRawRepresentable](https://github.com/ZhipingYang/Einstein/blob/master/Class/share/AccessibilityIdentifier.swift#L45)
 
@@ -145,14 +149,8 @@ str3 -> "LoginAccessID_Forget_phoneNumber"
 // system way
 signInPhoneTextField.accessibilityIdentifier = "LoginAccessID_SignIn_phoneNumber"
 
-// method1: define infix operator <<<
-signInPhoneTextField <<< LoginAccessID.SignIn.phoneNumber
-
-// method2: extension the protocol UIAccessibilityIdentification
-forgetPhoneTextField.accessibilityID(LoginAccessID.Forget.phoneNumber)
-
-print(signInPhoneTextField.accessibilityIdentifier)
-// "phoneNumber"
+// define infix operator <<<
+forgetPhoneTextField <<< LoginAccessID.Forget.phoneNumber
 
 print(forgetPhoneTextField.accessibilityIdentifier)
 // "LoginAccessID_Forget_phoneNumber"
@@ -208,7 +206,7 @@ public enum EasyPredicate: RawRepresentable {
 ```
 </details></blockquote>
 
-Although `NSPredicate` is powerfull but the developer interface is not good enough, We can try to convert the hard code style into the object-oriented style. and this is what EasyPredicate do
+Although `NSPredicate` is powerful, the developer program interface is not good enough, we can try to convert the hard code style into the object-oriented style. and this is what EasyPredicate do
 
 ```swift
 // use EasyPredicate

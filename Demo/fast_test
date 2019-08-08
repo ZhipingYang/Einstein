@@ -3,6 +3,5 @@ cd $SCRIPT_DIR
 echo "current path:"
 pwd
 
-cd ../Demo
 xcodebuild -workspace Demo.xcworkspace -scheme DemoTests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6' test
 xcodebuild -workspace Demo.xcworkspace -scheme DemoUITests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6' test

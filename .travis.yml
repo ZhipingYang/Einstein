@@ -12,37 +12,43 @@ cache: cocoapods
 podfile: Podfile
 
 before_install:
-    - gem install cocoapods --no-document --quiet
-    - gem install xcpretty --no-document --quiet
-    - pod --version
-    - pod repo update --silent
-    - xcpretty --version
-    - xcodebuild -version
-    - xcodebuild -showsdks
+  - gem install cocoapods --no-document --quiet
+  - gem install xcpretty --no-document --quiet
+  - pod --version
+  - pod repo update --silent
+  - xcpretty --version
+  - xcodebuild -version
+  - xcodebuild -showsdks
+
+stages:
+  - lint
+  - test
+  - deploy
 
 jobs:
   include:
-    - stage: Lint
+    - stage: lint
       name: "Einstein pod lint"
-      script: 
+      script:
         - pod lib lint --allow-warnings
-    - stage: Clean
-      script: 
+    - stage: test
+      name: "clean"
+      script:
         - rm -rf ~/Library/Developer/Xcode/DerivedData/
-    - stage: iOS_Test
-      script: 
-        - cd Demo        
+      name: "test on iOS"
+      script:
+        - cd Demo
         - pod install
         - xcodebuild clean test -workspace Demo.xcworkspace -scheme 'Demo' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone XS' -configuration Debug | xcpretty -c
-    - stage: MacOS_Test
-      script: 
+      name: "test on MacOS"
+      script:
         - cd ../MacDemo
         - pod install
         - xcodebuild clean test -workspace Demo.xcworkspace -scheme 'Demo' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone XS' -configuration Debug | xcpretty -c
     - stage: deploy
       provider: script
       script: ./scripts/push.sh
-      on: 
+      on:
         tags: true
 
 

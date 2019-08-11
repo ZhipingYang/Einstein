@@ -31,20 +31,24 @@ jobs:
       name: "Einstein pod lint"
       script:
         - pod lib lint --allow-warnings
+
     - stage: test
       name: "clean"
       script:
         - rm -rf ~/Library/Developer/Xcode/DerivedData/
-      name: "test on iOS"
-      script:
+
+      - script:
         - cd Demo
         - pod install
         - xcodebuild clean test -workspace Demo.xcworkspace -scheme 'Demo' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone XS' -configuration Debug | xcpretty -c
-      name: "test on MacOS"
-      script:
+        name: "test on iOS"
+        
+      - script:
         - cd ../MacDemo
         - pod install
         - xcodebuild clean test -workspace Demo.xcworkspace -scheme 'Demo' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone XS' -configuration Debug | xcpretty -c
+        name: "test on MacOS"
+
     - stage: deploy
       provider: script
       script: ./scripts/push.sh

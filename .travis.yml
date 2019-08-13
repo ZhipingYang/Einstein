@@ -12,7 +12,7 @@ branches:
 cache: cocoapods
 
 before_install:
-  - gem install cocoapods --no-document --quiet
+  - gem install cocoapods -v '~> 1.7.0' --no-document --quiet
   - gem install xcpretty --no-document --quiet
   - pod --version
   - pod repo update --silent
@@ -37,7 +37,7 @@ jobs:
         - xcodebuild clean test -workspace Demo.xcworkspace -scheme 'Demo' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone XS' -configuration Debug | xcpretty -c
     
     - stage: deploy
-      if: tag IS present AND branch = master
+      if: tag IS present
       before_script:
         - echo 'current tag -> $TRAVIS_TAG'
         - sed -i '' "s/s.version = '0.0.1'/s.version = '$TRAVIS_TAG'/g" Einstein.podspec

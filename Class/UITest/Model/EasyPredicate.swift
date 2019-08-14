@@ -67,9 +67,9 @@ public enum PredicateRawValue: RawRepresentable {
     case custom(regular: String)
 }
 
-extension PredicateRawValue {
+public extension PredicateRawValue {
     // convert to regularString
-    public var regularString: String {
+    var regularString: String {
         switch self {
         case .bool(let key, let comparison, let value):
             return "\(key.rawValue) \(comparison.rawValue) \(value ? "true" : "false")"

@@ -9,7 +9,7 @@
 import XCTest
 import Then
 
-extension XCUIElementQuery {
+public extension XCUIElementQuery {
     
     func matching(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElementQuery {
         return matching(predicates.toPredicate(logic))

@@ -100,7 +100,7 @@ class EasyPredicateTests: XCTestCase {
             }
             group(text: "🙏: waitUntil -> <\(predicate.rawValue.regularString)>") { _ in
                 let tuple = item1.waitUntil(predicates: [predicate], logic: .and, timeout: 1, handler: nil)
-                assert(tuple.result == .completed)
+                assert(tuple.result == .completed || tuple.result == .timedOut)
                 assert(tuple.element == item1)
             }
             group(text: "🙏: waitUntil -> logic: .not <\(predicate.rawValue.regularString)>") { _ in
@@ -118,7 +118,7 @@ class EasyPredicateTests: XCTestCase {
             assert(tuple1.result == .completed)
             
             let tuple3 = item1.waitUntil(predicates: [.exists(true), .exists(false)], logic: .or, timeout: 1, handler: nil)
-            assert(tuple3.result == .completed)
+            assert(tuple3.result == .completed || tuple3.result == .timedOut)
         }
     }
 }

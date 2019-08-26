@@ -15,7 +15,7 @@ class DemoUITests: XCTestCase {
         super.setUp()
         continueAfterFailure = true
         group(text: "Delete app before app launch") { _ in
-            Springboard.deleteMyAppIfNeed()
+            Springboard.deleteAppIfNeed("Demo")
         }
         app.launch()
     }
@@ -23,7 +23,7 @@ class DemoUITests: XCTestCase {
     override func tearDown() {
         group(text: "Delete App") { _ in
             XCUIApplication().terminate()
-            Springboard.deleteMyAppIfNeed()
+            Springboard.deleteAppIfNeed("Demo")
         }
         super.tearDown()
     }

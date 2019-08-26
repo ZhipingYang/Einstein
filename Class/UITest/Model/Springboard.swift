@@ -11,12 +11,12 @@ import XCTest
 public class Springboard {
     static let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
     
-    public class func deleteMyAppIfNeed() {
+    public class func deleteAppIfNeed(_ appName: String) {
         sleep(1)
         springboard.activate()
         
         sleep(1)
-        let icons = springboard.icons.matching(predicates: [.label(.equals, "Demo")])
+        let icons = springboard.icons.matching(predicates: [.label(.equals, appName)])
         
         for index in 0..<icons.count {
             let icon = icons.firstMatch

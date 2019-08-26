@@ -9,7 +9,7 @@
 import XCTest
 import Einstein
 
-/// mock XCUIElement to test EasyPredicate
+/// mock XCUIElement to test EasyPredicate, key1: @objcMembers, key2: NSObject
 @objcMembers private class EasyPredicateTestItem: NSObject {
     var exists: Bool = true
     var isEnabled: Bool = true

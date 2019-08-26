@@ -15,7 +15,7 @@ public protocol PredicateBaseExtensionProtocol {
     func assertBreak(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType) -> T?
 }
 
-extension PredicateBaseExtensionProtocol where Self == T {
+public extension PredicateBaseExtensionProtocol where Self == T {
 
     /// create a new preicate with EasyPredicates and LogicalType to judge is it satisfied on self
     ///
@@ -24,7 +24,7 @@ extension PredicateBaseExtensionProtocol where Self == T {
     ///   - logic: predicates relative
     /// - Returns: tuple of result and self
     @discardableResult
-    public func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> (result: XCTWaiter.Result, element: T) {
+    func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> (result: XCTWaiter.Result, element: T) {
         if predicates.count <= 0 { fatalError("predicates cannpt be empty!") }
         
         let test = XCTestCase().then { $0.continueAfterFailure = true }
@@ -40,7 +40,7 @@ extension PredicateBaseExtensionProtocol where Self == T {
     ///   - logic: predicates relative
     /// - Returns: self or nil
     @discardableResult
-    public func assertBreak(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> T? {
+    func assertBreak(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> T? {
         if predicates.first == nil { fatalError("❌ predicates can't be empty") }
         
         let filteredElements = ([self] as NSArray).filtered(using: predicates.toPredicate(logic))
@@ -161,7 +161,7 @@ public extension XCUIElement {
     }
 }
 
-extension Sequence where Element: XCUIElement {
+public extension Sequence where Element: XCUIElement {
     
     /// get the elements which match with identifiers and predicates limited in timeout
     ///

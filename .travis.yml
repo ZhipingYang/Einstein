@@ -46,6 +46,7 @@ jobs:
         - pod trunk push --verbose --allow-warnings | ruby -e 'ARGF.each{ print "." }'
 
     - stage: Documentation
+      if: tag IS present
       install: gem install jazzy --no-document --quiet
       script:
         - cd ./Jazzy

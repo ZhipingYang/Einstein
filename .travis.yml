@@ -46,9 +46,11 @@ jobs:
         - pod trunk push --verbose --allow-warnings | ruby -e 'ARGF.each{ print "." }'
 
     - stage: Documentation
-      install: gem install jazzy
+      install: gem install jazzy --no-document --quiet
       script:
         - cd ./Jazzy
+        - jazzy
+        - cd ./docs
         - git init
         - git config user.name "xcodeyang"
         - git config user.email "xcodeyang@gmail.com"

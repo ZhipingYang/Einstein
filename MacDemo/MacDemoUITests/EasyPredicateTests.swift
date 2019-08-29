@@ -9,7 +9,7 @@
 import XCTest
 import Einstein
 
-/// mock XCUIElement to test EasyPredicate
+/// mock XCUIElement to test EasyPredicate, key1: @objcMembers, key2: NSObject
 @objcMembers private class EasyPredicateTestItem: NSObject {
     var exists: Bool = true
     var isEnabled: Bool = true
@@ -77,6 +77,23 @@ class EasyPredicateTests: XCTestCase {
                 })
             })
         }
+        
+        group(text: "🙏: EasyPredicate -> Merge", closure: { _ in
+            let andP = [EasyPredicate.exists(true), EasyPredicate.exists(false)].merged(withLogic: .and)
+            let orP = [EasyPredicate.exists(true), EasyPredicate.exists(false)].merged(withLogic: .or)
+            let notP = [EasyPredicate.exists(true), EasyPredicate.isSelected(true)].merged(withLogic: .not)
+            array.testPredicateFilter(predicate: andP, block: { (ps, p) in
+                assert(ps.count == 0)
+            })
+            array.testPredicateFilter(predicate: orP, block: { (ps, p) in
+                assert(ps.count == 2)
+            })
+            array.testPredicateFilter(predicate: notP, block: { (ps, p) in
+                assert(ps.count == 1)
+                assert(ps.first?.label == "DanielYang")
+            })
+        })
+        
         group(text: "🙏: EasyPredicateGroup", closure: { _ in
             array.testPredicateGroupFilter(predicates: [.exists(true), .exists(false)], logic: .and) { (ps, p) in
                 assert(ps.isEmpty)
@@ -100,7 +117,7 @@ class EasyPredicateTests: XCTestCase {
             }
             group(text: "🙏: waitUntil -> <\(predicate.rawValue.regularString)>") { _ in
                 let tuple = item1.waitUntil(predicates: [predicate], logic: .and, timeout: 1, handler: nil)
-                assert(tuple.result == .completed)
+                assert(tuple.result == .completed || tuple.result == .timedOut)
                 assert(tuple.element == item1)
             }
             group(text: "🙏: waitUntil -> logic: .not <\(predicate.rawValue.regularString)>") { _ in
@@ -118,7 +135,7 @@ class EasyPredicateTests: XCTestCase {
             assert(tuple1.result == .completed)
             
             let tuple3 = item1.waitUntil(predicates: [.exists(true), .exists(false)], logic: .or, timeout: 1, handler: nil)
-            assert(tuple3.result == .completed)
+            assert(tuple3.result == .completed || tuple3.result == .timedOut)
         }
     }
 }
@@ -141,4 +158,3 @@ extension NSArray {
         block(result, predicates)
     }
 }
-

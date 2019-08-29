@@ -68,7 +68,7 @@ public enum PredicateRawValue: RawRepresentable {
 }
 
 public extension PredicateRawValue {
-    // convert to regularString
+    /// convert to regularString
     var regularString: String {
         switch self {
         case .bool(let key, let comparison, let value):
@@ -83,7 +83,7 @@ public extension PredicateRawValue {
     }
 }
 
-/*
+/**
  MARK: - EasyPredicate
  
  Although `NSPredicate` is powerfull but the developer interface is not good enough,
@@ -146,6 +146,8 @@ extension EasyPredicate: Equatable {
     public static func ==(l: EasyPredicate, r: EasyPredicate) -> Bool {
         return l.rawValue.regularString == r.rawValue.regularString
     }
+    
+    /// convert to NSPredicate
     public var toPredicate: NSPredicate {
         return NSPredicate(format: rawValue.regularString)
     }
@@ -155,5 +157,29 @@ public extension Sequence where Element == EasyPredicate {
     /// convert EasyPredicates to NSCompoundPredicate
     func toPredicate(_ logic: NSCompoundPredicate.LogicalType) -> NSCompoundPredicate {
         return NSCompoundPredicate(type: logic, subpredicates: map { $0.toPredicate })
+    }
+    
+    /// merged all EasyPredicate as one
+    ///
+    /// - Parameter logic: all EasyPredicate relate rule
+    /// - Returns: new EasyPredicate
+    func merged(withLogic logic: NSCompoundPredicate.LogicalType = .and) -> EasyPredicate {
+        let regulars = map { "(\($0.rawValue.regularString))" }
+        let _logic = (logic == .not) ? .and : logic
+        var result = regulars.joined(separator: _logic.regularString)
+        if logic == .not { result = "!(\(result))" }
+        return EasyPredicate.other(result)
+    }
+}
+
+extension NSCompoundPredicate.LogicalType {
+    /// relate string in regular string
+    var regularString: String {
+        switch self {
+        case .and: return " AND "
+        case .or: return " OR "
+        case .not: return " NOT "
+        @unknown default: fatalError()
+        }
     }
 }

@@ -11,15 +11,16 @@
     import UIKit
 #endif
 
-//
-/*
+/**
  MARK: - pretty RawRepresentable as a keypath string of object
  
- NOTE: the priority level
- DefineRawValue > FollowPrettyProtocolButNotDefineRawValue > NoProtocolAndNoDefine
+ **NOTE:** the priority level
+ 
+ `DefineRawValue > FollowPrettyProtocolButNotDefineRawValue > NoProtocolAndNoDefine`
  
  check the result as follow case:
  
+ ```
  struct AccessibilityID {
     enum Home1: String {
         case setting = "HomeSetting1"
@@ -43,7 +44,7 @@
  
  let path3 = AccessibilityID.Home3.setting.prettyRawValue
  // "HomeSetting3"
-
+ ```
  */
 public protocol PrettyRawRepresentable: RawRepresentable where RawValue == String {
     var prettyRawValue: RawValue { get }
@@ -71,16 +72,40 @@ public extension PrettyRawRepresentable {
  */
 infix operator <<<
 #if os(macOS)
+
+/// set AccessibilityIdentifier on UI elements
+///
+/// - Parameters:
+///   - lhs: UI element
+///   - rhs: AccessibilityIdentifier's value
 public func <<< <T: RawRepresentable>(lhs: NSAccessibilityProtocol?, rhs: T) where T.RawValue == String {
     lhs?.setAccessibilityIdentifier(rhs.rawValue)
 }
+
+/// set AccessibilityIdentifier pretty path value on UI elements
+///
+/// - Parameters:
+///   - lhs: UI element
+///   - rhs: AccessibilityIdentifier's value
 public func <<< <T: PrettyRawRepresentable>(lhs: NSAccessibilityProtocol?, rhs: T) {
     lhs?.setAccessibilityIdentifier(rhs.prettyRawValue)
 }
 #else
+
+/// set AccessibilityIdentifier on UI elements
+///
+/// - Parameters:
+///   - lhs: UI element
+///   - rhs: AccessibilityIdentifier's value
 public func <<< <T: RawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) where T.RawValue == String {
     lhs?.accessibilityIdentifier = rhs.rawValue
 }
+
+/// set AccessibilityIdentifier pretty path value on UI elements
+///
+/// - Parameters:
+///   - lhs: UI element
+///   - rhs: AccessibilityIdentifier's value
 public func <<< <T: PrettyRawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) {
     lhs?.accessibilityIdentifier = rhs.prettyRawValue
 }

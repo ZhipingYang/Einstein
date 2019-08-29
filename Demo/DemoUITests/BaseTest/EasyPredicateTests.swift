@@ -77,6 +77,23 @@ class EasyPredicateTests: XCTestCase {
                 })
             })
         }
+        
+        group(text: "🙏: EasyPredicate -> Merge", closure: { _ in
+            let andP = [EasyPredicate.exists(true), EasyPredicate.exists(false)].merged(withLogic: .and)
+            let orP = [EasyPredicate.exists(true), EasyPredicate.exists(false)].merged(withLogic: .or)
+            let notP = [EasyPredicate.exists(true), EasyPredicate.isSelected(true)].merged(withLogic: .not)
+            array.testPredicateFilter(predicate: andP, block: { (ps, p) in
+                assert(ps.count == 0)
+            })
+            array.testPredicateFilter(predicate: orP, block: { (ps, p) in
+                assert(ps.count == 2)
+            })
+            array.testPredicateFilter(predicate: notP, block: { (ps, p) in
+                assert(ps.count == 1)
+                assert(ps.first?.label == "DanielYang")
+            })
+        })
+
         group(text: "🙏: EasyPredicateGroup", closure: { _ in
             array.testPredicateGroupFilter(predicates: [.exists(true), .exists(false)], logic: .and) { (ps, p) in
                 assert(ps.isEmpty)

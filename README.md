@@ -20,7 +20,7 @@
 	</a>
 </p>
 
-> **Einstein** integrates the business logic across the Project and UITest through [AccessibilityIdentifier](https://github.com/ZhipingYang/Einstein/blob/master/Class/share/AccessibilityIdentifier.swift). And on UITest, using [EasyPredict](https://github.com/ZhipingYang/Einstein/blob/master/Class/UITest/EasyPredicate.swift) and [Extensions](https://github.com/ZhipingYang/Einstein/tree/master/Class/UITest/extension) to better support UITest code writing
+> **Einstein** integrates the business logic across the Project and UITest through [AccessibilityIdentifier](https://github.com/ZhipingYang/Einstein/blob/master/Class/Identifier/AccessibilityIdentifier.swift). And on UITest, using [EasyPredict](https://github.com/ZhipingYang/Einstein/blob/master/Class/UITest/Model/EasyPredicate.swift) and [Extensions](https://github.com/ZhipingYang/Einstein/tree/master/Class/UITest/Extensions) to better support UITest code writing
 
 ### Comparative sample
 
@@ -211,11 +211,24 @@ Although `NSPredicate` is powerful, the developer program interface is not good 
 
 ```swift
 // use EasyPredicate
-let element = query.element(predicates: [.type(.button), .exists(true), .label(.beginsWith, "abc")])
+let targetElement = query.filter(predicate: .label(.beginsWith, "abc")).element
 
 // use NSPredicate
-let element = query.element(matching: NSPredicate(format: "elementType == 0 && exists == true && label BEGINSWITH 'abc'"))
+let predicate = NSPredicate(format: "label BEGINSWITH 'abc'")
+let targetElement = query.element(matching: predicate).element
 ```
+
+EasyPredicate Merge
+
+```swift
+// "elementType == 0 && exists == true && label BEGINSWITH 'abc'"
+let predicate: EasyPredicate = [.type(.button), .exists(true), .label(.beginsWith, "abc")].merged()
+
+// "elementType == 0 || exists == true || label BEGINSWITH 'abc'"
+let predicate: EasyPredicate = [.type(.button), .exists(true), .label(.beginsWith, "abc")].merged(withLogic: .or)
+
+```
+
 
 ## 3. UITest Extensions
 
@@ -283,7 +296,7 @@ public extension RawRepresentable where RawValue == String {
   <summary> Expand for XCUIElement (Base) </summary>
 
 ```swift
-extension PredicateBaseExtensionProtocol where Self == T {
+public extension PredicateBaseExtensionProtocol where Self == T {
 
     /// create a new preicate with EasyPredicates and LogicalType to judge is it satisfied on self
     ///
@@ -292,7 +305,7 @@ extension PredicateBaseExtensionProtocol where Self == T {
     ///   - logic: predicates relative
     /// - Returns: tuple of result and self
     @discardableResult
-    public func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> (result: XCTWaiter.Result, element: T) {
+    func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and, timeout: TimeInterval = 10, handler: XCTNSPredicateExpectation.Handler? = nil) -> (result: XCTWaiter.Result, element: T) {
         if predicates.count <= 0 { fatalError("predicates cannpt be empty!") }
         
         let test = XCTestCase().then { $0.continueAfterFailure = true }
@@ -308,7 +321,7 @@ extension PredicateBaseExtensionProtocol where Self == T {
     ///   - logic: predicates relative
     /// - Returns: self or nil
     @discardableResult
-    public func assertBreak(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> T? {
+    func assertBreak(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> T? {
         if predicates.first == nil { fatalError("❌ predicates can't be empty") }
         
         let filteredElements = ([self] as NSArray).filtered(using: predicates.toPredicate(logic))
@@ -319,8 +332,6 @@ extension PredicateBaseExtensionProtocol where Self == T {
         return filteredElements.isEmpty ? nil : self
     }
 }
-
-extension XCUIElement: PredicateBaseExtensionProtocol { public typealias T = XCUIElement }
 ```
 </details>
 
@@ -348,6 +359,9 @@ func assert(predicate: EasyPredicate) -> XCUIElement {}
 
 @discardableResult
 func waitUntilExistsAssert(timeout: TimeInterval = 10) -> XCUIElement {}
+
+@discardableResult
+func assert(predicate: EasyPredicate, timeout: TimeInterval = 10) -> XCUIElement {}
 ```
 </details>
 
@@ -414,21 +428,36 @@ extension Sequence where Element: XCUIElement {
   <summary> Expand for XCUIElementQuery extension </summary>
 
 ```swift
-extension XCUIElementQuery {
+public extension XCUIElementQuery {
     
-    func matching(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElementQuery {
-        return matching(predicates.toPredicate(logic))
-    }
+    /// get ElementQuery of all child elements and child's child elements and so on
+    ///
+    /// - Parameters:
+    ///   - predicates: EasyPredicate' rules
+    ///   - logic: rules relate
+    /// - Returns: ElementQuery
+    func childrenFilter(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElementQuery {}
     
-    func element(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement {
-        return element(matching: predicates.toPredicate(logic))
-    }
+    /// get target element of all child elements and child's child elements and so on
+    ///
+    /// - Parameter predicate: EasyPredicate' rules
+    /// - Returns: result target
+    func childrenFirst(predicate: EasyPredicate) -> XCUIElement {}
     
-    func element(predicate: EasyPredicate) -> XCUIElement {
-        return element(predicates: [predicate], logic: .and)
-    }
+    /// filter the query by rules to create new query
+    ///
+    /// - Parameter predicate: EasyPredicate' rules
+    /// - Returns: ElementQuery
+    func filter(predicate: EasyPredicate) -> XCUIElementQuery {}
+    
+    /// filter the target element by rules to create new query
+    ///
+    /// - Parameter predicate: EasyPredicate' rules
+    /// - Returns: the target XCUIElement
+    func first(predicate: EasyPredicate) -> XCUIElement {}
 }
 ```
+
 </details>
 <br>
 

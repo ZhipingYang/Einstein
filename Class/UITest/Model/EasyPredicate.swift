@@ -156,4 +156,23 @@ public extension Sequence where Element == EasyPredicate {
     func toPredicate(_ logic: NSCompoundPredicate.LogicalType) -> NSCompoundPredicate {
         return NSCompoundPredicate(type: logic, subpredicates: map { $0.toPredicate })
     }
+    
+    func merged(withLogic logic: NSCompoundPredicate.LogicalType = .and) -> EasyPredicate {
+        let regulars = map { "(\($0.rawValue.regularString))" }
+        let _logic = (logic == .not) ? .and : logic
+        var result = regulars.joined(separator: _logic.regularString)
+        if logic == .not { result = "!(\(result))" }
+        return EasyPredicate.other(result)
+    }
+}
+
+extension NSCompoundPredicate.LogicalType {
+    var regularString: String {
+        switch self {
+        case .and: return " AND "
+        case .or: return " OR "
+        case .not: return " NOT "
+        @unknown default: fatalError()
+        }
+    }
 }

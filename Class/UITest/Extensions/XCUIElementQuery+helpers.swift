@@ -11,16 +11,20 @@ import Then
 
 public extension XCUIElementQuery {
     
-    func matching(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElementQuery {
+    func childrenFilter(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElementQuery {
         return matching(predicates.toPredicate(logic))
     }
     
-    func element(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement {
-        return element(matching: predicates.toPredicate(logic))
+    func childrenFirst(predicate: EasyPredicate) -> XCUIElement {
+        return element(matching: predicate.toPredicate)
     }
     
-    func element(predicate: EasyPredicate) -> XCUIElement {
-        return element(predicates: [predicate], logic: .and)
+    func filter(predicate: EasyPredicate) -> XCUIElementQuery {
+        return containing(predicate.toPredicate)
+    }
+    
+    func first(predicate: EasyPredicate) -> XCUIElement {
+        return filter(predicate: predicate).firstMatch
     }
 }
 

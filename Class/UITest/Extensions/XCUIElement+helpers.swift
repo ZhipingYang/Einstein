@@ -89,6 +89,11 @@ public extension XCUIElement {
     func waitUntilExistsAssert(timeout: TimeInterval = 10) -> XCUIElement {
         return waitUntil(predicate: .exists(true), timeout: timeout).element.assert(predicate: .exists(true))
     }
+    
+    @discardableResult
+    func assert(predicate: EasyPredicate, timeout: TimeInterval = 10) -> XCUIElement {
+        return waitUntil(predicate: predicate, timeout: timeout).element.assert(predicate: predicate)
+    }
 }
 
 // MARK: - Custom Extension
@@ -97,10 +102,10 @@ public extension XCUIElement {
     /// search child element by predicate
     @discardableResult
     func childElement(predicate: EasyPredicate) -> XCUIElement? {
-        let query = children(matching: .any).matching(predicates: [predicate])
+        let query = children(matching: .any).filter(predicate: predicate)
         return query.count>0 ? query.firstMatch : nil
     }
-
+    
     /// Wait until it's available and then type a text into it.
     @discardableResult
     func tapAndType(text: String, timeout: TimeInterval = 10) -> XCUIElement {
@@ -126,8 +131,8 @@ public extension XCUIElement {
     }
     
     @discardableResult
-    func hidenKeyboard(inApp: XCUIApplication) -> XCUIElement {
-        inApp.keyboards.buttons["Hide keyboard"].tapIfExists()
+    func hidenKeyboard(inApp: XCUIApplication? = nil) -> XCUIElement {
+        (inApp ?? XCUIApplication()).keyboards.buttons["Hide keyboard"].tapIfExists()
         sleep(1)
         return self
     }

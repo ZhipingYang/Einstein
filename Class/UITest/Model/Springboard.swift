@@ -16,7 +16,7 @@ public class Springboard {
         springboard.activate()
         
         sleep(1)
-        let icons = springboard.icons.matching(predicates: [.label(.equals, appName)])
+        let icons = springboard.icons.filter(predicate: .label(.equals, appName))
         
         for index in 0..<icons.count {
             let icon = icons.firstMatch

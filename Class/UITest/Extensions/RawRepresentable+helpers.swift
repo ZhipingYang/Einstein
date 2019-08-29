@@ -68,7 +68,7 @@ public extension Sequence where Element: RawRepresentable, Element.RawValue == S
     ///   - timeout: if timeout == 0, return the elements immediately otherwise retry until timeout
     /// - Returns: get the elements
     func elements(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: Int) -> [XCUIElement] {
-        let elements = map { $0.query.element(predicates: predicates, logic: logic) }
+        let elements = map { $0.query.first(predicate: predicates.merged(withLogic: logic)) }
         if elements.count > 0 || timeout <= 0 {
             return elements
         } else {

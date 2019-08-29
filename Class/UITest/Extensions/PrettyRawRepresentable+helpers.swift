@@ -15,6 +15,7 @@ import XCTest
  */
 public extension PrettyRawRepresentable {
     
+    /// get the element from app's ui hierarchy with prettyRawValue
     var element: XCUIElement {
         // store query to aviod getter be called again
         let qry = query
@@ -24,14 +25,19 @@ public extension PrettyRawRepresentable {
         return qry.firstMatch
     }
     
+    /// query elements from prettyRawValue
     var query: XCUIElementQuery {
         return queryFor(identifier: self)
     }
     
+    /// count of prettyRawValue identifier
     var count: Int {
         return query.count
     }
     
+    /// Specify the element with the subscript
+    ///
+    /// - Parameter i: index
     subscript(i: Int) -> XCUIElement {
         if i < 0 || i >= query.count {
             fatalError("Index \(i) falls out of range [0..\(query.count - 1)")
@@ -39,6 +45,10 @@ public extension PrettyRawRepresentable {
         return query.allElementsBoundByIndex[i]
     }
     
+    /// get the query from app's ui hierarchy with prettyRawValue
+    ///
+    /// - Parameter identifier: rawValue to convert to ID for search
+    /// - Returns: query result
     func queryFor(identifier: Self) -> XCUIElementQuery {
         return XCUIApplication().descendants(matching: .any).matching(identifier: identifier.prettyRawValue)
     }

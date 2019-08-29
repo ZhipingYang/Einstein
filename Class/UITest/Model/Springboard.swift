@@ -11,6 +11,9 @@ import XCTest
 public class Springboard {
     static let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
     
+    /// delete App
+    ///
+    /// - Parameter appName: will be deleted app name
     public class func deleteAppIfNeed(_ appName: String) {
         sleep(1)
         springboard.activate()

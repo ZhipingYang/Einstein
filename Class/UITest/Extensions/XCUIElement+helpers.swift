@@ -9,6 +9,7 @@
 import XCTest
 import Then
 
+/// Basic method protocol
 public protocol PredicateBaseExtensionProtocol {
     associatedtype T
     func waitUntil(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: TimeInterval, handler: XCTNSPredicateExpectation.Handler?) -> (result: XCTWaiter.Result, element: T)
@@ -69,6 +70,11 @@ public extension XCUIElement {
     }
     
     @discardableResult
+    func waitUntilExistsAssert(timeout: TimeInterval = 10) -> XCUIElement {
+        return waitUntil(predicate: .exists(true), timeout: timeout).element.assert(predicate: .exists(true))
+    }
+
+    @discardableResult
     func wait(_ s: UInt32 = 1) -> XCUIElement {
         sleep(s)
         return self
@@ -83,11 +89,6 @@ public extension XCUIElement {
     @discardableResult
     func assert(predicate: EasyPredicate) -> XCUIElement {
         return assertBreak(predicates: [predicate]) ?? self
-    }
-    
-    @discardableResult
-    func waitUntilExistsAssert(timeout: TimeInterval = 10) -> XCUIElement {
-        return waitUntil(predicate: .exists(true), timeout: timeout).element.assert(predicate: .exists(true))
     }
     
     @discardableResult
@@ -130,6 +131,9 @@ public extension XCUIElement {
         return self
     }
     
+    /// hiden Keyboard, especial when you finished typ text to go next step
+    ///
+    /// - Returns: self
     @discardableResult
     func hidenKeyboard(inApp: XCUIApplication? = nil) -> XCUIElement {
         (inApp ?? XCUIApplication()).keyboards.buttons["Hide keyboard"].tapIfExists()
@@ -137,6 +141,13 @@ public extension XCUIElement {
         return self
     }
     
+    /// set switch on or off
+    /// if is not `switch` element, then assert fail
+    ///
+    /// - Parameters:
+    ///   - on: on or off
+    ///   - timeout: wait Until Exists
+    /// - Returns: self
     @discardableResult
     func setSwitch(on: Bool, timeout: TimeInterval = 10) -> XCUIElement  {
         waitUntilExists(timeout: timeout)
@@ -150,6 +161,10 @@ public extension XCUIElement {
         return self
     }
     
+    /// some elemnt is exists but can not tap
+    ///
+    /// - Parameter timeout: wait Until enable
+    /// - Returns: self
     @discardableResult
     func forceTap(timeout: TimeInterval = 10) -> XCUIElement {
         return waitUntil(predicate: .isEnabled(true), timeout: timeout).element.then {
@@ -158,6 +173,10 @@ public extension XCUIElement {
         }
     }
     
+    /// tap If Exists
+    ///
+    /// - Parameter timeout: wait Until enable
+    /// - Returns: self
     @discardableResult
     func tapIfExists(timeout: TimeInterval = 10) -> XCUIElement {
         return waitUntilExists(timeout: timeout).element.then {

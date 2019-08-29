@@ -18,6 +18,7 @@ public extension XCTestCase {
         static var app = 0
     }
     
+    /// stored an associated app in XCTestCase‘s instance
     var app: XCUIApplication {
         set {
             objc_setAssociatedObject(self, &XCTestCaseAssociatedKey.app, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
@@ -70,6 +71,7 @@ public extension XCTestCase {
         }
     }
     
+    /// kill App And Relaunch
     func killAppAndRelaunch() {
         group(text: "Kill App and Relaunch") { _ in
             sleep(2)
@@ -96,6 +98,11 @@ public extension XCTestCase {
         return TARGET_OS_SIMULATOR != 0
     }
     
+    /// take a Screenshot
+    ///
+    /// - Parameters:
+    ///   - activity: XCTContext.runActivity
+    ///   - name: the name of attachment
     func takeScreenshot(activity: XCTActivity, name: String = "Screenshot") {
         activity.add(XCTAttachment(screenshot: XCUIScreen.main.screenshot()).then {
             $0.name = name
@@ -103,14 +110,25 @@ public extension XCTestCase {
         })
     }
     
+    /// defalut a Screenshot
+    ///
+    /// - Parameters:
+    ///   - groupName: groupName description
+    ///   - name: attachment name
     func takeScreenshot(groupName: String = "--- Screenshot ---", name: String = "Screenshot") {
         group(text: groupName) { takeScreenshot(activity: $0, name: name) }
     }
     
+    /// swifty UITest syntactic sugar
+    ///
+    /// - Parameters:
+    ///   - text: group text description
+    ///   - closure: group content code
     func group(text: String = "Group", closure: (_ activity: XCTActivity) -> ()) {
         XCTContext.runActivity(named: text) { closure($0) }
     }
     
+    /// hide the system's and app's alerts
     func hideAlertsIfNeeded() {
         let systemAlerts = XCUIApplication(bundleIdentifier: "com.apple.springboard").alerts
         let alerts = systemAlerts.count<=0 ? app.alerts : systemAlerts
@@ -135,6 +153,10 @@ public extension XCTestCase {
         }
     }
     
+    #if os(iOS)
+    /// only apply real iOS machine
+    ///
+    /// - Parameter value: trigger airplane
     func setAirplane(_ value: Bool) {
         if isSimulator() { fatalError("There are no airplane mode in simulator") }
         
@@ -143,5 +165,6 @@ public extension XCTestCase {
         settingsApp.tables.cells["Airplane Mode"].children(matching: .switch).firstMatch.setSwitch(on: true)
         app.activate()
     }
+    #endif
 }
 

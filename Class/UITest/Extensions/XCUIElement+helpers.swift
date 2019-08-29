@@ -136,7 +136,7 @@ public extension XCUIElement {
     /// - Returns: self
     @discardableResult
     func hidenKeyboard(inApp: XCUIApplication? = nil) -> XCUIElement {
-        (inApp ?? XCUIApplication()).keyboards.buttons["Hide keyboard"].tapIfExists()
+        (inApp ?? XCUIApplication()).keyboards.buttons["Hide keyboard"].tapIfExists(timeout: 1)
         sleep(1)
         return self
     }

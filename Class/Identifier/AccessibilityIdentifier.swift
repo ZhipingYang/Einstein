@@ -113,11 +113,11 @@ public func <<< <T: PrettyRawRepresentable>(lhs: UIAccessibilityIdentification?,
 
 
 
-/*
- method 2
- 
- use case:
+/**
+ **use case:**
+ ```
  settingButton.accessibilityID(AccessibilityID.Home1.setting) // "HomeSetting1"
+ ```
  */
 #if os(macOS)
 public extension NSAccessibilityProtocol {

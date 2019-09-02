@@ -8,9 +8,7 @@
 
 import XCTest
 
-
-/*
- MARK: - PrettyRawRepresentable extension
+/** 
  Get the `XCUIElement` from PrettyRawRepresentable's prettyRawValue which also been used as accessibilityIdentifier
  */
 public extension PrettyRawRepresentable {
@@ -65,7 +63,7 @@ public extension Sequence where Element: PrettyRawRepresentable {
     ///   - timeout: if timeout == 0, return the elements immediately otherwise retry until timeout
     /// - Returns: get the elements
     func elements(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: Int) -> [XCUIElement] {
-        let elements = map { $0.query.first(predicate: predicates.merged(withLogic: logic)) }
+        let elements = map { $0.query.element(predicates: predicates, logic: logic) }
         if elements.count > 0 || timeout <= 0 {
             return elements
         } else {

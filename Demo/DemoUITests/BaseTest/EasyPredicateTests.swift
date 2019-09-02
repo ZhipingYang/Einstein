@@ -62,7 +62,7 @@ class EasyPredicateTests: XCTestCase {
         let array = [item0, item1] as NSArray
         
         testPredicates.forEach { predicate in
-            group(text: "🙏: EasyPredicate -> \(predicate.rawValue.regularString)", closure: { _ in
+            group(text: "🙏: EasyPredicate -> \(predicate.rawValue.rawValue)", closure: { _ in
                 array.testPredicateFilter(predicate: predicate, block: { (ps, p) in
                     assert(ps.count == 1)
                     assert(ps.first?.label == "DanielYang")
@@ -122,18 +122,18 @@ class EasyPredicateTests: XCTestCase {
         testPredicates.forEach { predicate in
             let trueBlock = { return true }
             let falseBlock = { return false }
-            group(text: "🙏: waitUntil -> falseBlock <\(predicate.rawValue.regularString)>") { _ in
+            group(text: "🙏: waitUntil -> falseBlock <\(predicate.regularString)>") { _ in
                 let tuple = item0.waitUntil(predicates: [predicate], logic: .and, timeout: 0.1, handler: falseBlock)
                 assert(tuple.result == .timedOut)
                 let tuple1 = item1.waitUntil(predicates: [predicate], logic: .and, timeout: 0.1, handler: falseBlock)
                 assert(tuple1.result == .timedOut)
             }
-            group(text: "🙏: waitUntil -> <\(predicate.rawValue.regularString)>") { _ in
+            group(text: "🙏: waitUntil -> <\(predicate.regularString)>") { _ in
                 let tuple = item1.waitUntil(predicates: [predicate], logic: .and, timeout: 1, handler: nil)
                 assert(tuple.result == .completed || tuple.result == .timedOut)
                 assert(tuple.element == item1)
             }
-            group(text: "🙏: waitUntil -> logic: .not <\(predicate.rawValue.regularString)>") { _ in
+            group(text: "🙏: waitUntil -> logic: .not <\(predicate.regularString)>") { _ in
                 let tuple = item1.waitUntil(predicates: [predicate], logic: .not, timeout: 0.1, handler: trueBlock)
                 assert(tuple.result == .timedOut)
                 assert(tuple.element == item1)

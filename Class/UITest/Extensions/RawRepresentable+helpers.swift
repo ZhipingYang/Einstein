@@ -8,9 +8,9 @@
 
 import XCTest
 
-/*
- MARK: - String extension
+/**
  Note: string value can be a RawRepresentable and String at the same time
+ 
  for example:
  `let element: XCUIElement = "SomeString".element`
  */
@@ -21,8 +21,7 @@ extension String: RawRepresentable {
     }
 }
 
-/*
- MARK: - RawRepresentable extension
+/** 
  Get the `XCUIElement` from RawRepresentable's RawValue which also been used as accessibilityIdentifier
  */
 public extension RawRepresentable where RawValue == String {
@@ -78,7 +77,7 @@ public extension Sequence where Element: RawRepresentable, Element.RawValue == S
     ///   - timeout: if timeout == 0, return the elements immediately otherwise retry until timeout
     /// - Returns: get the elements
     func elements(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType, timeout: Int) -> [XCUIElement] {
-        let elements = map { $0.query.first(predicate: predicates.merged(withLogic: logic)) }
+        let elements = map { $0.query.element(predicate: predicates.merged(withLogic: logic)) }
         if elements.count > 0 || timeout <= 0 {
             return elements
         } else {

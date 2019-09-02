@@ -375,9 +375,27 @@ func assert(predicate: EasyPredicate, timeout: TimeInterval = 10) -> XCUIElement
 // MARK: - Extension
 public extension XCUIElement {
     
-    /// search child element by predicate
+    /// get the results in the descendants which matching the EasyPredicates
+    ///
+    /// - Parameters:
+    ///   - predicates: EasyPredicate's rules
+    ///   - logic: rule's relate
+    /// - Returns: result target
     @discardableResult
-    func childElement(predicate: EasyPredicate) -> XCUIElement? {}
+    func descendants(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElementQuery {}
+    @discardableResult
+    func descendants(predicate: EasyPredicate) -> XCUIElementQuery {}
+    
+    /// Returns a query for direct children of the element matching with EasyPredicates
+    ///
+    /// - Parameters:
+    ///   - predicates: EasyPredicate rules
+    ///   - logic: rules relate
+    /// - Returns: result query
+    @discardableResult
+    func children(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElementQuery {}
+    @discardableResult
+    func children(predicate: EasyPredicate) -> XCUIElementQuery {}
     
     /// Wait until it's available and then type a text into it.
     @discardableResult
@@ -432,32 +450,53 @@ extension Sequence where Element: XCUIElement {
 
 ```swift
 public extension XCUIElementQuery {
+    /// safe to get index
+    ///
+    /// - Parameter index: index
+    /// - Returns: optional element
+    func element(safeIndex index: Int) -> XCUIElement? {    }
     
-    /// get ElementQuery of all child elements and child's child elements and so on
+    /// asset empty of query
+    ///
+    /// - Parameter empty: bool value
+    /// - Returns: optional query self
+    func assertEmpty(empty: Bool = false) -> XCUIElementQuery? {    }
+
+    /// get the results which matching the EasyPredicates
     ///
     /// - Parameters:
-    ///   - predicates: EasyPredicate' rules
+    ///   - predicates: EasyPredicate's rules
     ///   - logic: rules relate
     /// - Returns: ElementQuery
-    func childrenFilter(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElementQuery {}
+    func matching(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElementQuery {    }
+    func matching(predicate: EasyPredicate) -> XCUIElementQuery {    }
     
-    /// get target element of all child elements and child's child elements and so on
+    /// get the taget element which matching the EasyPredicates
     ///
-    /// - Parameter predicate: EasyPredicate' rules
+    /// - Parameters:
+    ///   - predicates: EasyPredicate's rules
+    ///   - logic: rule's relate
     /// - Returns: result target
-    func childrenFirst(predicate: EasyPredicate) -> XCUIElement {}
-    
+    func element(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElement {    }
+    func element(predicate: EasyPredicate) -> XCUIElement {    }
+
+    /// get the results in the query's descendants which matching the EasyPredicates
+    ///
+    /// - Parameters:
+    ///   - predicates: EasyPredicate's rules
+    ///   - logic: rule's relate
+    /// - Returns: result target
+    func descendants(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElementQuery {    }
+    func descendants(predicate: EasyPredicate) -> XCUIElementQuery {    }
+
     /// filter the query by rules to create new query
     ///
-    /// - Parameter predicate: EasyPredicate' rules
-    /// - Returns: ElementQuery
-    func filter(predicate: EasyPredicate) -> XCUIElementQuery {}
-    
-    /// filter the target element by rules to create new query
-    ///
-    /// - Parameter predicate: EasyPredicate' rules
-    /// - Returns: the target XCUIElement
-    func first(predicate: EasyPredicate) -> XCUIElement {}
+    /// - Parameters:
+    ///   - predicates: EasyPredicate's rules
+    ///   - logic: rule's relate
+    /// - Returns: result target
+    func containing(predicates: [EasyPredicate], logic: NSCompoundPredicate.LogicalType = .and) -> XCUIElementQuery {    }
+    func containing(predicate: EasyPredicate) -> XCUIElementQuery {    }
 }
 ```
 

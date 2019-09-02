@@ -79,16 +79,29 @@ class EasyPredicateTests: XCTestCase {
         }
         
         group(text: "🙏: EasyPredicate -> Merge", closure: { _ in
-            let andP = [EasyPredicate.exists(true), EasyPredicate.exists(false)].merged(withLogic: .and)
-            let orP = [EasyPredicate.exists(true), EasyPredicate.exists(false)].merged(withLogic: .or)
-            let notP = [EasyPredicate.exists(true), EasyPredicate.isSelected(true)].merged(withLogic: .not)
-            array.testPredicateFilter(predicate: andP, block: { (ps, p) in
+            let pet = EasyPredicate.exists(true)
+            let pef = EasyPredicate.exists(false)
+            let pit = EasyPredicate.isSelected(true)
+            
+            array.testPredicateFilter(predicate: [pet, pef].merged(), block: { (ps, p) in
                 assert(ps.count == 0)
             })
-            array.testPredicateFilter(predicate: orP, block: { (ps, p) in
+            array.testPredicateFilter(predicate: pet.and(pef), block: { (ps, p) in
+                assert(ps.count == 0)
+            })
+            
+            array.testPredicateFilter(predicate: [pet, pef].merged(withLogic: .or), block: { (ps, p) in
                 assert(ps.count == 2)
             })
-            array.testPredicateFilter(predicate: notP, block: { (ps, p) in
+            array.testPredicateFilter(predicate: pet.or(pef), block: { (ps, p) in
+                assert(ps.count == 2)
+            })
+
+            array.testPredicateFilter(predicate: [pet, pit].merged(withLogic: .not), block: { (ps, p) in
+                assert(ps.count == 1)
+                assert(ps.first?.label == "DanielYang")
+            })
+            array.testPredicateFilter(predicate: pet.not.and(pit.not), block: { (ps, p) in
                 assert(ps.count == 1)
                 assert(ps.first?.label == "DanielYang")
             })

@@ -17,7 +17,7 @@ public protocol PredicateBaseExtensionProtocol {
 }
 
 public extension PredicateBaseExtensionProtocol where Self == T {
-
+    
     /// create a new preicate with EasyPredicates and LogicalType to judge is it satisfied on self
     ///
     /// - Parameters:
@@ -73,7 +73,7 @@ public extension XCUIElement {
     func waitUntilExistsAssert(timeout: TimeInterval = 10) -> XCUIElement {
         return waitUntil(predicate: .exists(true), timeout: timeout).element.assert(predicate: .exists(true))
     }
-
+    
     @discardableResult
     func wait(_ s: UInt32 = 1) -> XCUIElement {
         sleep(s)
@@ -127,7 +127,7 @@ public extension XCUIElement {
         let deleteString = stringValue.map { _ in XCUIKeyboardKey.delete.rawValue }.joined()
         typeText(deleteString)
         typeText(text)
-        
+        sleep(1)
         return self
     }
     
@@ -136,7 +136,7 @@ public extension XCUIElement {
     /// - Returns: self
     @discardableResult
     func hidenKeyboard(inApp: XCUIApplication? = nil) -> XCUIElement {
-        (inApp ?? XCUIApplication()).keyboards.buttons["Hide keyboard"].tapIfExists(timeout: 1)
+        (inApp ?? XCUIApplication()).keyboards.buttons["Hide keyboard"].tapIfExists(timeout: 0)
         sleep(1)
         return self
     }

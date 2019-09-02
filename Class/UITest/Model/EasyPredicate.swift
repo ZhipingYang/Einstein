@@ -151,6 +151,27 @@ extension EasyPredicate: Equatable {
     public var toPredicate: NSPredicate {
         return NSPredicate(format: rawValue.regularString)
     }
+    
+    /// merge two predicate semantics, taking their intersection
+    ///
+    /// - Parameter p: another easy predicate
+    /// - Returns: new predicate
+    public func and(_ p: EasyPredicate) -> EasyPredicate {
+        return [self, p].merged(withLogic: .and)
+    }
+    
+    /// merge two predicate semantics, taking their union
+    ///
+    /// - Parameter p: another easy predicate
+    /// - Returns: new predicate
+    public func or(_ p: EasyPredicate) -> EasyPredicate {
+        return [self, p].merged(withLogic: .or)
+    }
+
+    /// reverse the semantics of predicates
+    public var not: EasyPredicate {
+        return EasyPredicate.other("!(\(rawValue.regularString))")
+    }
 }
 
 public extension Sequence where Element == EasyPredicate {
@@ -173,8 +194,8 @@ public extension Sequence where Element == EasyPredicate {
 }
 
 extension NSCompoundPredicate.LogicalType {
-    /// relate string in regular string
-    var regularString: String {
+    /// convert LogicalType as regular string
+    fileprivate var regularString: String {
         switch self {
         case .and: return " AND "
         case .or: return " OR "

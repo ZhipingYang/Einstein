@@ -62,7 +62,7 @@ class EasyPredicateTests: XCTestCase {
         let array = [item0, item1] as NSArray
         
         testPredicates.forEach { predicate in
-            group(text: "🙏: EasyPredicate -> \(predicate.rawValue.regularString)", closure: { _ in
+            group(text: "🙏: EasyPredicate -> \(predicate.rawValue.rawValue)", closure: { _ in
                 array.testPredicateFilter(predicate: predicate, block: { (ps, p) in
                     assert(ps.count == 1)
                     assert(ps.first?.label == "DanielYang")
@@ -79,16 +79,29 @@ class EasyPredicateTests: XCTestCase {
         }
         
         group(text: "🙏: EasyPredicate -> Merge", closure: { _ in
-            let andP = [EasyPredicate.exists(true), EasyPredicate.exists(false)].merged(withLogic: .and)
-            let orP = [EasyPredicate.exists(true), EasyPredicate.exists(false)].merged(withLogic: .or)
-            let notP = [EasyPredicate.exists(true), EasyPredicate.isSelected(true)].merged(withLogic: .not)
-            array.testPredicateFilter(predicate: andP, block: { (ps, p) in
+            let pet = EasyPredicate.exists(true)
+            let pef = EasyPredicate.exists(false)
+            let pit = EasyPredicate.isSelected(true)
+            
+            array.testPredicateFilter(predicate: [pet, pef].merged(), block: { (ps, p) in
                 assert(ps.count == 0)
             })
-            array.testPredicateFilter(predicate: orP, block: { (ps, p) in
+            array.testPredicateFilter(predicate: pet.and(pef), block: { (ps, p) in
+                assert(ps.count == 0)
+            })
+            
+            array.testPredicateFilter(predicate: [pet, pef].merged(withLogic: .or), block: { (ps, p) in
                 assert(ps.count == 2)
             })
-            array.testPredicateFilter(predicate: notP, block: { (ps, p) in
+            array.testPredicateFilter(predicate: pet.or(pef), block: { (ps, p) in
+                assert(ps.count == 2)
+            })
+
+            array.testPredicateFilter(predicate: [pet, pit].merged(withLogic: .not), block: { (ps, p) in
+                assert(ps.count == 1)
+                assert(ps.first?.label == "DanielYang")
+            })
+            array.testPredicateFilter(predicate: pet.not.and(pit.not), block: { (ps, p) in
                 assert(ps.count == 1)
                 assert(ps.first?.label == "DanielYang")
             })
@@ -109,18 +122,18 @@ class EasyPredicateTests: XCTestCase {
         testPredicates.forEach { predicate in
             let trueBlock = { return true }
             let falseBlock = { return false }
-            group(text: "🙏: waitUntil -> falseBlock <\(predicate.rawValue.regularString)>") { _ in
+            group(text: "🙏: waitUntil -> falseBlock <\(predicate.regularString)>") { _ in
                 let tuple = item0.waitUntil(predicates: [predicate], logic: .and, timeout: 0.1, handler: falseBlock)
                 assert(tuple.result == .timedOut)
                 let tuple1 = item1.waitUntil(predicates: [predicate], logic: .and, timeout: 0.1, handler: falseBlock)
                 assert(tuple1.result == .timedOut)
             }
-            group(text: "🙏: waitUntil -> <\(predicate.rawValue.regularString)>") { _ in
+            group(text: "🙏: waitUntil -> <\(predicate.regularString)>") { _ in
                 let tuple = item1.waitUntil(predicates: [predicate], logic: .and, timeout: 1, handler: nil)
                 assert(tuple.result == .completed || tuple.result == .timedOut)
                 assert(tuple.element == item1)
             }
-            group(text: "🙏: waitUntil -> logic: .not <\(predicate.rawValue.regularString)>") { _ in
+            group(text: "🙏: waitUntil -> logic: .not <\(predicate.regularString)>") { _ in
                 let tuple = item1.waitUntil(predicates: [predicate], logic: .not, timeout: 0.1, handler: trueBlock)
                 assert(tuple.result == .timedOut)
                 assert(tuple.element == item1)

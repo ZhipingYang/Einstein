@@ -41,7 +41,7 @@ class DemoUITests: XCTestCase {
         InterfacePage.button.element.tap()
         InterfacePage.buttonLabel.element.assert(predicate: .label(.equals, "clicked"))
         
-        InterfacePage.segment.element.childElement(predicate:.label(.equals, "Second"))?.tap()
+        InterfacePage.segment.element.children(predicate:.label(.equals, "Second")).element.tap()
         InterfacePage.segmentLabel.element.assert(predicate: .label(.equals, "1"))
         
         InterfacePage.slider.element.assertBreak(predicate: .isHittable(true))?.press(forDuration: 0.3, thenDragTo: InterfacePage.sliderLabel.element)

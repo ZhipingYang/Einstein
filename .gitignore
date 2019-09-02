@@ -5,6 +5,8 @@
 ## Build generated
 build/
 DerivedData/
+Jazzy/build/
+Jazzy/docs/
 
 ## Various settings
 *.pbxuser

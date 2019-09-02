@@ -11,6 +11,8 @@ import XCTest
 
 /// infix string of Regular expression
 public enum Comparison: RawRepresentable {
+    
+    // MARK: - Cases
     case equals
     case notEqual
     case beginsWith
@@ -20,6 +22,7 @@ public enum Comparison: RawRepresentable {
     case matches
     case other(String)
     
+    // MARK: - RawRepresentable
     public var rawValue: String {
         switch self {
         case .equals: return "="
@@ -33,6 +36,9 @@ public enum Comparison: RawRepresentable {
         }
     }
     
+    /// default as .other case
+    ///
+    /// - Parameter rawValue: regular string
     public init(rawValue: String) {
         switch rawValue {
         case "=": self = .equals
@@ -54,22 +60,27 @@ public enum PredicateKey {
     public enum type: String    { case elementType }
 }
 
-/// PredicateRawValue
+/**
+ The rawValue of **EasyPredicate**
+ */
 public enum PredicateRawValue: RawRepresentable {
-    public var rawValue: String { return regularString }
-    public init?(rawValue: String) {
-        self = .custom(regular: rawValue)
-    }
     
+    // MARK: - Cases
     case bool(key: PredicateKey.bool, comparison: Comparison, value: Bool)
     case string(key: PredicateKey.string, comparison: Comparison, value: String)
     case type(value: XCUIElement.ElementType)
     case custom(regular: String)
-}
-
-public extension PredicateRawValue {
+    
+    // MARK: - RawRepresentable
+    /// default as custom case
+    ///
+    /// - Parameter rawValue: regular string
+    public init?(rawValue: String) {
+        self = .custom(regular: rawValue)
+    }
+    
     /// convert to regularString
-    var regularString: String {
+    public var rawValue: String {
         switch self {
         case .bool(let key, let comparison, let value):
             return "\(key.rawValue) \(comparison.rawValue) \(value ? "true" : "false")"
@@ -91,6 +102,7 @@ public extension PredicateRawValue {
  */
 public enum EasyPredicate: RawRepresentable {
     
+    // MARK: - Cases
     case exists(_ exists: Bool)
     case isEnabled(_ isEnabled: Bool)
     case isHittable(_ isHittable: Bool)
@@ -100,6 +112,7 @@ public enum EasyPredicate: RawRepresentable {
     case type(_ type: XCUIElement.ElementType)
     case other(_ ragular: String)
     
+    // MARK: - RawRepresentable
     public init?(rawValue: PredicateRawValue) {
         switch rawValue {
         case .bool(let key, _, let value):
@@ -142,14 +155,49 @@ public enum EasyPredicate: RawRepresentable {
 }
 
 extension EasyPredicate: Equatable {
-    // Equatable
+
+    // MARK: - Equatable
+
+    /// Equatable prtocol
+    ///
+    /// - Parameters:
+    ///   - l: left EasyPredicate
+    ///   - r: right EasyPredicate
+    /// - Returns: is equal result
     public static func ==(l: EasyPredicate, r: EasyPredicate) -> Bool {
-        return l.rawValue.regularString == r.rawValue.regularString
+        return l.regularString == r.regularString
     }
     
     /// convert to NSPredicate
     public var toPredicate: NSPredicate {
-        return NSPredicate(format: rawValue.regularString)
+        return NSPredicate(format: regularString)
+    }
+    
+    // MARK: - Extensions
+    
+    public var regularString: String {
+        return rawValue.rawValue
+    }
+
+    /// merge two predicate semantics, taking their intersection
+    ///
+    /// - Parameter p: another easy predicate
+    /// - Returns: new predicate
+    public func and(_ p: EasyPredicate) -> EasyPredicate {
+        return [self, p].merged(withLogic: .and)
+    }
+    
+    /// merge two predicate semantics, taking their union
+    ///
+    /// - Parameter p: another easy predicate
+    /// - Returns: new predicate
+    public func or(_ p: EasyPredicate) -> EasyPredicate {
+        return [self, p].merged(withLogic: .or)
+    }
+
+    /// reverse the semantics of predicates
+    public var not: EasyPredicate {
+        return EasyPredicate.other("!(\(regularString))")
     }
 }
 
@@ -164,7 +212,7 @@ public extension Sequence where Element == EasyPredicate {
     /// - Parameter logic: all EasyPredicate relate rule
     /// - Returns: new EasyPredicate
     func merged(withLogic logic: NSCompoundPredicate.LogicalType = .and) -> EasyPredicate {
-        let regulars = map { "(\($0.rawValue.regularString))" }
+        let regulars = map { "(\($0.regularString))" }
         let _logic = (logic == .not) ? .and : logic
         var result = regulars.joined(separator: _logic.regularString)
         if logic == .not { result = "!(\(result))" }
@@ -173,8 +221,8 @@ public extension Sequence where Element == EasyPredicate {
 }
 
 extension NSCompoundPredicate.LogicalType {
-    /// relate string in regular string
-    var regularString: String {
+    /// convert LogicalType as regular string
+    fileprivate var regularString: String {
         switch self {
         case .and: return " AND "
         case .or: return " OR "

@@ -8,10 +8,14 @@
 
 import XCTest
 
+#if os(iOS)
+
+/// get the home screen of device
 public class Springboard {
+    
     static let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
     
-    /// delete App
+    /// delete Apps which matched the name until all be deleted
     ///
     /// - Parameter appName: will be deleted app name
     public class func deleteAppIfNeed(_ appName: String) {
@@ -19,7 +23,7 @@ public class Springboard {
         springboard.activate()
         
         sleep(1)
-        let icons = springboard.icons.filter(predicate: .label(.equals, appName))
+        let icons = springboard.icons.matching(predicate: .label(.equals, appName))
         
         for index in 0..<icons.count {
             let icon = icons.firstMatch
@@ -30,3 +34,5 @@ public class Springboard {
         sleep(2)
     }
 }
+
+#endif

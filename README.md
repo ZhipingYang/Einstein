@@ -5,6 +5,9 @@
 
 <br>
 <p align="center">
+	<a href="https://zhipingyang.github.io/Einstein">
+        <img alt="Documentation" src="http://img.shields.io/badge/read_the-docs-2196f3.svg">
+	</a>
 	<a href="http://cocoapods.org/pods/Einstein">
 		<image alt="Version" src="https://img.shields.io/cocoapods/v/Einstein.svg?style=flat">
 	</a>
@@ -20,7 +23,7 @@
 	</a>
 </p>
 
-> **Einstein** integrates the business logic across the Project and UITest through [AccessibilityIdentifier](https://github.com/ZhipingYang/Einstein/blob/master/Class/Identifier/AccessibilityIdentifier.swift). And on UITest, using [EasyPredict](https://github.com/ZhipingYang/Einstein/blob/master/Class/UITest/Model/EasyPredicate.swift) and [Extensions](https://github.com/ZhipingYang/Einstein/tree/master/Class/UITest/Extensions) to better support UITest code writing
+> **Einstein** is an UITest framework which integrates the business logic across the Project and UITest through [AccessibilityIdentifier](https://github.com/ZhipingYang/Einstein/blob/master/Class/Identifier/AccessibilityIdentifier.swift). And on UITest, using [EasyPredict](https://github.com/ZhipingYang/Einstein/blob/master/Class/UITest/Model/EasyPredicate.swift) and [Extensions](https://github.com/ZhipingYang/Einstein/tree/master/Class/UITest/Extensions) to better support UITest code writing
 
 ### Comparative sample
 

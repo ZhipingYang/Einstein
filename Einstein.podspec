@@ -17,25 +17,28 @@ in this way, EasyPredicate is more like OOP which we are familiar to use it.
                       DESC
 
   s.homepage = "https://github.com/ZhipingYang/#{s.name}"
+  s.documentation_url = "https://zhipingyang.github.io/#{s.name}"
+  s.social_media_url = 'https://github.com/ZhipingYang'
+  s.screenshot  = 'https://user-images.githubusercontent.com/9360037/62184933-ecbe4380-b392-11e9-82dd-802b6b2e8b82.png'
   s.license = { :type => 'MIT', :file => 'LICENSE' }
   s.author = { 'Daniel Yang' => 'xcodeyang@gmail.com' }
   s.platform = :ios, :osx
   s.ios.deployment_target = '9.0'
   s.osx.deployment_target = '10.14'
+  s.ios.framework = 'UIKit'
+  s.osx.framework = 'AppKit'
   s.requires_arc = true
-  s.swift_version = '5.0'
+  s.swift_version = ['5.0', '5.1']
   s.default_subspecs = 'Identifier', 'UITest'
 
   s.subspec 'Identifier' do |iden|
       iden.source_files = 'class/identifier/*.swift'
-      iden.ios.framework = 'UIKit'
-      iden.osx.framework = 'AppKit'
   end
 
   s.subspec 'UITest' do |test|
       test.source_files = 'class/uitest/**/*.swift'
-      test.ios.framework = 'UIKit', 'XCTest'
-      test.osx.framework = 'AppKit', 'XCTest'
+      test.ios.framework = 'XCTest'
+      test.osx.framework = 'XCTest'
       test.pod_target_xcconfig = { 'ENABLE_BITCODE' => 'NO' }
       test.dependency 'Einstein/Identifier'
       test.dependency 'Then'

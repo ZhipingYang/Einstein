@@ -1,4 +1,4 @@
-osx_image: xcode10.2
+osx_image: xcode12.4
 language: objective-c
 
 notifications:
@@ -12,7 +12,7 @@ branches:
 cache: cocoapods
 
 before_install:
-  - gem install cocoapods -v '~> 1.7.0' --no-document --quiet
+  - gem install cocoapods -v '~> 1.9.1' --no-document --quiet
   - gem install xcpretty --no-document --quiet
   - pod --version
   - pod repo update --silent

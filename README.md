@@ -17,8 +17,8 @@
 	<a href="http://cocoapods.org/pods/Einstein">
 		<image alt="Platform" src="https://img.shields.io/cocoapods/p/Einstein.svg?style=flat">
 	</a>
-	<a href="https://travis-ci.org/ZhipingYang/Einstein">
-		<image alt="CI Status" src="http://img.shields.io/travis/ZhipingYang/Einstein.svg?style=flat">
+	<a href="https://travis-ci.com/ZhipingYang/Einstein">
+		<image alt="CI Status" src="https://www.travis-ci.com/ZhipingYang/Einstein.svg?branch=master">
 	</a>
 </p>
 

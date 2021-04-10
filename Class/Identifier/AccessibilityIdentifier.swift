@@ -46,17 +46,26 @@
  // "HomeSetting3"
  ```
  */
-public protocol PrettyRawRepresentable: RawRepresentable where RawValue == String {
-    var prettyRawValue: RawValue { get }
+
+public extension String {
+    func splitWithoutFirst() -> ArraySlice<String.SubSequence> {
+        return self.split(separator: ".").dropFirst()
+    }
 }
 
-public extension PrettyRawRepresentable {
+public extension RawRepresentable where RawValue == String {
     var prettyRawValue: String {
-        let paths = String(reflecting: self).split(separator: ".").dropFirst()
+        let paths = String(reflecting: self).splitWithoutFirst()
         if String(paths.last ?? "") != rawValue {
             return rawValue
         }
         return paths.joined(separator: "_")
+    }
+}
+
+public extension RawRepresentable {
+    var prettyRawValue: String {
+        return String(reflecting: self).splitWithoutFirst().joined(separator: "_")
     }
 }
 
@@ -73,21 +82,12 @@ public extension PrettyRawRepresentable {
 infix operator <<<
 #if os(macOS)
 
-/// set AccessibilityIdentifier on UI elements
-///
-/// - Parameters:
-///   - lhs: UI element
-///   - rhs: AccessibilityIdentifier's value
-public func <<< <T: RawRepresentable>(lhs: NSAccessibilityProtocol?, rhs: T) where T.RawValue == String {
-    lhs?.setAccessibilityIdentifier(rhs.rawValue)
-}
-
 /// set AccessibilityIdentifier pretty path value on UI elements
 ///
 /// - Parameters:
 ///   - lhs: UI element
 ///   - rhs: AccessibilityIdentifier's value
-public func <<< <T: PrettyRawRepresentable>(lhs: NSAccessibilityProtocol?, rhs: T) {
+public func <<< <T: RawRepresentable>(lhs: NSAccessibilityProtocol?, rhs: T) {
     lhs?.setAccessibilityIdentifier(rhs.prettyRawValue)
 }
 #else
@@ -97,16 +97,7 @@ public func <<< <T: PrettyRawRepresentable>(lhs: NSAccessibilityProtocol?, rhs: 
 /// - Parameters:
 ///   - lhs: UI element
 ///   - rhs: AccessibilityIdentifier's value
-public func <<< <T: RawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) where T.RawValue == String {
-    lhs?.accessibilityIdentifier = rhs.rawValue
-}
-
-/// set AccessibilityIdentifier pretty path value on UI elements
-///
-/// - Parameters:
-///   - lhs: UI element
-///   - rhs: AccessibilityIdentifier's value
-public func <<< <T: PrettyRawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) {
+public func <<< <T: RawRepresentable>(lhs: UIAccessibilityIdentification?, rhs: T) {
     lhs?.accessibilityIdentifier = rhs.prettyRawValue
 }
 #endif
@@ -121,19 +112,13 @@ public func <<< <T: PrettyRawRepresentable>(lhs: UIAccessibilityIdentification?,
  */
 #if os(macOS)
 public extension NSAccessibilityProtocol {
-    func accessibilityID<T: RawRepresentable>(_ r: T) where T.RawValue == String {
-        self.setAccessibilityIdentifier(r.rawValue)
-    }
-    func accessibilityID<T: PrettyRawRepresentable>(_ r: T) {
+    func accessibilityID<T: RawRepresentable>(_ r: T) {
         self.setAccessibilityIdentifier(r.prettyRawValue)
     }
 }
 #else
 public extension UIAccessibilityIdentification {
-    func accessibilityID<T: RawRepresentable>(_ r: T) where T.RawValue == String {
-        self.accessibilityIdentifier = r.rawValue
-    }
-    func accessibilityID<T: PrettyRawRepresentable>(_ r: T) {
+    func accessibilityID<T: RawRepresentable>(_ r: T) {
         self.accessibilityIdentifier = r.prettyRawValue
     }
 }
